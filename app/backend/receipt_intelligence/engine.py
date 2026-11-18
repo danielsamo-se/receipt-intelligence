@@ -6,7 +6,10 @@ from pydantic import BaseModel, Field
 
 from .catalog import CachedResponses, Catalog
 
-Policy = Literal["FORCED", "SAFE"]
+Policy = Literal["FORCED", "SAFE", "ONE_SHOT", "TWO_STAGE"]
+PRIMARY_POLICIES = ("ONE_SHOT", "TWO_STAGE")
+POLICY_LABELS = {"ONE_SHOT":"One-shot Hierarchical", "TWO_STAGE":"Two-stage Hierarchical",
+                 "FORCED":"Naive Forced Baseline", "SAFE":"Historical SAFE · 0.85 heuristic"}
 SAFE_THRESHOLD = 0.85  # Existing frozen C2 policy threshold; not a fitted production guarantee.
 
 
@@ -51,6 +54,8 @@ class DecisionEngine:
         d.applied_rules.append(Rule(code="CACHE_ONLY", explanation="Uses real cached Jev responses. No model request is made by this application."))
         d.provenance = {"taxonomy_version": self.catalog.taxonomy["version"], "source_dataset": line.dataset,
                         "mode": "cached", "policy_reference": "pilot-30/frozen/evaluation_protocol.json"}
+        if policy in PRIMARY_POLICIES:
+            return self.followup(d,line,policy)
         if policy == "FORCED":
             evidence = self.cache.load(line, "flat")
             d.assessments.append(evidence)
@@ -112,6 +117,47 @@ class DecisionEngine:
         d.provenance["models"] = sorted({a["model"] for a in d.assessments if a.get("available")})
         return d
 
+    def followup(self, d: Decision, line, policy: Policy) -> Decision:
+        """Reproduce the frozen D/TOPDOWN follow-up's raw choices, without gates."""
+        d.provenance.update(policy_reference="followup-D-vs-TOPDOWN/frozen/protocol.json",
+                            experiment_method="D" if policy=="ONE_SHOT" else "TOPDOWN",threshold=None)
+        evidence = self.cache.load(line,"D" if policy=="ONE_SHOT" else "topdown_parent")
+        d.assessments.append(evidence)
+        if not evidence["available"]:
+            return self.unavailable(d,evidence["error"])
+        choice = evidence["choice"]
+        d.scores["selected_action_score" if policy=="ONE_SHOT" else "parent_score"] = evidence["probabilities"][choice]
+        d.applied_rules.append(Rule(code="FROZEN_RAW_CHOICE",explanation=f"{POLICY_LABELS[policy]} follows the frozen follow-up's selected actions, without a probability threshold. Scores are not calibrated correctness probabilities."))
+        if choice == "unidentifiable":
+            d.applied_rules.append(Rule(code="EXPLICIT_ABSTENTION",explanation="Jev selected unidentifiable. No taxonomy category is assigned; this is not a successful classification."))
+        elif choice == "out_of_scope":
+            d.outcome,d.review_required = "out_of_scope",False
+            d.applied_rules.append(Rule(code="SCOPE_REJECTION",explanation="Jev selected out_of_scope. This is separate routing, not a product-category success."))
+        elif policy == "ONE_SHOT":
+            if choice not in self.catalog.nodes:
+                return self.unavailable(d,"The one-shot choice is not a taxonomy node.")
+            self.assign(d,choice)
+            d.applied_rules.append(Rule(code="ONE_SHOT_RESOLUTION",explanation="A selected parent means parent-only support. A selected leaf supplies that specific classification. No broader-parent probability was inferred by aggregating leaf scores."))
+        elif choice in self.catalog.taxonomy["parents"]:
+            child = self.cache.load(line,"topdown_child")
+            d.assessments.append(child)
+            if not child["available"]:
+                return self.unavailable(d,child["error"],partial=True)
+            selected_child = child["choice"]
+            d.scores["conditional_child_score"] = child["probabilities"][selected_child]
+            if selected_child == "unspecified_child":
+                self.assign(d,choice)
+                d.applied_rules.append(Rule(code="UNSPECIFIED_CHILD",explanation="Jev selected a parent and unspecified_child. The policy retains that parent without asserting a specific child."))
+            elif selected_child in self.catalog.nodes and self.catalog.nodes[selected_child]["parent_id"]==choice:
+                self.assign(d,selected_child)
+                d.applied_rules.append(Rule(code="TOPDOWN_RAW_CHILD",explanation="The frozen policy uses the selected conditional child without the old 0.85 gate. A strong parent score does not verify the leaf; this choice remains reviewable."))
+            else:
+                return self.unavailable(d,"Cached child is inconsistent with the selected parent.",partial=True)
+        else:
+            return self.unavailable(d,"Unexpected TOPDOWN parent choice.")
+        d.provenance["models"] = sorted({a["model"] for a in d.assessments if a.get("available")})
+        return d
+
     def assign(self, decision: Decision, node_id: str) -> None:
         node = self.catalog.nodes[node_id]
         decision.node_id, decision.node_label = node_id, node["label"]
@@ -119,6 +165,17 @@ class DecisionEngine:
         decision.specificity = node["level"]
         decision.outcome = "leaf" if node["level"] == "leaf" else "parent_only"
         decision.review_required = node["level"] != "leaf"
+
+    def matched_cohort(self, line_ids) -> dict:
+        matched,excluded = [],[]
+        for line_id in line_ids:
+            decisions = [self.resolve(line_id,"evaluation-cache-check",policy) for policy in PRIMARY_POLICIES]
+            if all(d.availability=="complete" for d in decisions):
+                matched.append(line_id)
+            else:
+                excluded.append({"line_id":line_id,"unavailable_methods":[d.policy for d in decisions if d.availability!="complete"]})
+        return {"requested_count":len(matched)+len(excluded),"matched_count":len(matched),
+                "line_ids":matched,"excluded":excluded,"excluded_count":len(excluded)}
 
     @staticmethod
     def unavailable(d: Decision, message: str, partial: bool = False) -> Decision:

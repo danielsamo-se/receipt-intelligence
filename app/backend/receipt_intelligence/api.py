@@ -13,6 +13,7 @@ from .engine import DecisionEngine, Policy
 from .service import MERCHANT_ID, NOTICE, ReceiptService
 from .storage import Store
 from .replay import EventBroker, ReplayManager
+from .evaluation import matched_evaluation
 
 
 class CorrectionBody(BaseModel):
@@ -79,6 +80,7 @@ def create_app(db_path: Path | None = None, replay_interval: float = 1.0) -> Fas
         return {"merchant_id":MERCHANT_ID,"merchant_name":service.assumptions["merchant_name"],"notice":NOTICE,
                 "period_label":service.assumptions["period_label"],"taxonomy_version":catalog.taxonomy["version"],
                 "nodes":list(catalog.nodes.values()),"line_count":len(catalog.lines),
+                "primary_policies":["ONE_SHOT","TWO_STAGE"],
                 "scopes":[{"value":"pilot","label":f"Initial examples · {pilot_count}"},{"value":"holdout","label":f"Additional examples · {holdout_count}"},{"value":"all","label":f"All examples · {len(catalog.lines)}"}]}
 
     @application.get("/api/taxonomy")
@@ -186,6 +188,7 @@ def create_app(db_path: Path | None = None, replay_interval: float = 1.0) -> Fas
         return {"notice":"Exploratory synthetic evaluation — not independent merchant ground truth.",
                 "pilot":[r for r in pilot if r["method"]=="A" or r["threshold"]==.85],
                 "followup":comparison,
+                "matched_comparison":matched_evaluation(catalog,service.engine),
                 "forced_examples":[{k:d[k] for k in ("id","raw_text","ground_truth","prediction","score","outcome")} for d in decisions if d["method"]=="A" and d["outcome"] not in ("correct_leaf","correct_parent")],
                 "sources":["results/taxonomy-v2/pilot-30/threshold_summary.json","results/taxonomy-v2/followup-D-vs-TOPDOWN/combined_summary.json"],
                 "limitations":["54 synthetic examples; proposed labels are not independent merchant ground truth.","No statistical significance, production accuracy or calibration claim.","Merchant corrections are operational feedback, separate from frozen evaluation labels."]}

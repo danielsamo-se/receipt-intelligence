@@ -77,6 +77,10 @@ class CachedResponses:
         self.catalog = catalog
 
     def path(self, line: ReceiptLine, stage: str) -> Path | None:
+        if stage == "D" or stage.startswith("topdown_"):
+            sample = "original30" if line.dataset == "pilot" else "holdout24"
+            name = stage.removeprefix("topdown_")
+            return self.catalog.root / f"results/taxonomy-v2/followup-D-vs-TOPDOWN/{sample}/calls/{line.source_id}_{name}.json"
         if line.dataset == "holdout" and stage == "flat":
             return None  # No 29-option FLAT experiment exists for the additional set.
         folder = "results/taxonomy-v2/pilot-30/calls" if line.dataset == "pilot" else "results/taxonomy-v2/followup-D-vs-TOPDOWN/holdout24/calls"
@@ -102,12 +106,23 @@ class CachedResponses:
                 raise ValueError("Unexpected cached model")
             answer = response["answers"]["classification"]
             criteria = record["request"]["questions"]["classification"]["criteria"]
+            if stage == "D" or stage.startswith("topdown_"):
+                frozen = self.catalog.root / "results/taxonomy-v2/followup-D-vs-TOPDOWN/frozen"
+                question = record["request"]["questions"]["classification"]
+                if stage == "D":
+                    expected = json.loads((frozen / "D_question.json").read_text(encoding="utf-8"))
+                    valid = question == expected and set(criteria) == set(self.catalog.nodes) | {"unidentifiable","out_of_scope"}
+                else:
+                    prompts = json.loads((frozen / "TOPDOWN_prompts.json").read_text(encoding="utf-8"))
+                    valid = question == prompts["parent"] if stage == "topdown_parent" else question in prompts["children"].values()
+                if not valid:
+                    raise ValueError("Cached question does not match the frozen follow-up configuration")
             if answer["type"] != "choice" or answer["choice"] not in criteria or set(answer["probabilities"]) != set(criteria):
                 raise ValueError("Invalid or incomplete cached Choice distribution")
             for value in answer["probabilities"].values():
                 if not isinstance(value, (float, int)) or not 0 <= value <= 1:
                     raise ValueError("Invalid cached probability")
-            return {"stage": stage, "available": True, "choice": answer["choice"],
+            return {"stage": stage.removeprefix("topdown_"), "available": True, "choice": answer["choice"],
                     "probabilities": answer["probabilities"], "confidence": answer.get("confidence"),
                     "model": model, "provider": response.get("provider"), "usage": response.get("usage"),
                     "latency_seconds": record.get("latency_seconds"), "response": response,

@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 
 from .catalog import Catalog, PROJECT
-from .engine import Decision, DecisionEngine, Policy, Rule, SAFE_THRESHOLD
+from .engine import Decision, DecisionEngine, Policy, Rule, SAFE_THRESHOLD, PRIMARY_POLICIES, POLICY_LABELS
 from .product_memory import ProductMemory, normalize
 from .storage import Store
 
@@ -126,7 +126,8 @@ class ReceiptService:
         return data
 
     def build_report(self, merchant_id: str, policy: Policy, dataset: str, active: dict, revision: int,
-                     member_ids: set[str] | None = None) -> dict:
+                     member_ids: set[str] | None = None, weekly_filter: bool = False) -> dict:
+        is_replay = member_ids is not None and not weekly_filter
         totals = {key: 0 for key in ("sales_value_cents","leaf_value_cents","parent_value_cents","unresolved_value_cents","adjustment_value_cents","net_receipt_value_cents")}
         breakdown = {key: 0 for key in ("unidentifiable","out_of_scope","unavailable")}
         categories, summaries = {}, []
@@ -136,7 +137,7 @@ class ReceiptService:
             if member_ids is not None and line.id not in member_ids:
                 continue
             assumption = self.assumptions["items"][line.id]
-            quantity = 1 if member_ids is not None else assumption["weekly_quantity"]
+            quantity = 1 if is_replay else assumption["weekly_quantity"]
             d = self.decision(line.id,merchant_id,policy,active,retrieve=False)
             summary = self.compact(d,quantity,assumption["record_type"])
             summaries.append(summary)
@@ -162,8 +163,8 @@ class ReceiptService:
         assert totals["net_receipt_value_cents"] == totals["sales_value_cents"] + totals["adjustment_value_cents"]
         queue = sorted((s for s in summaries if s["review_required"] and s["record_type"] == "sale"), key=lambda s: (-s["value_cents"],s["line_id"]))
         return {"merchant_id":merchant_id,"policy":policy,"dataset":dataset,"revision":revision,"notice":NOTICE,
-                "period_label":"Replay session · one occurrence per received line" if member_ids is not None else self.assumptions["period_label"],
-                "mode":"replay" if member_ids is not None else "weekly", "totals":totals,
+                "period_label":"Replay session · one occurrence per received line" if is_replay else self.assumptions["period_label"],
+                "mode":"replay" if is_replay else "weekly", "totals":totals,
                 "unresolved_breakdown":breakdown,"categories":sorted(categories.values(),key=lambda c:-(c["leaf_value_cents"]+c["parent_value_cents"])),
                 "review_queue":queue,"lines":summaries,"line_count":len(summaries),
                 "correction_count":sum(s["outcome"]=="override" for s in summaries),
@@ -178,10 +179,26 @@ class ReceiptService:
             member_ids = set(session["line_ids"])
         else:
             revision, active = self.store.snapshot(merchant_id)
-        report = self.build_report(merchant_id,policy,dataset,active,revision,member_ids)
-        other_policy = "SAFE" if policy == "FORCED" else "FORCED"
-        other = self.build_report(merchant_id,other_policy,dataset,active,revision,member_ids)
+        cohort = None
+        if policy in PRIMARY_POLICIES:
+            requested = [line.id for line in self.catalog.lines.values() if (dataset=="all" or line.dataset==dataset)
+                         and (member_ids is None or line.id in member_ids)]
+            cohort = self.engine.matched_cohort(requested)
+            cohort["excluded_sales_value_cents"] = sum(self.catalog.line(item["line_id"]).price_cents *
+                (1 if session else self.assumptions["items"][item["line_id"]]["weekly_quantity"])
+                for item in cohort["excluded"] if self.assumptions["items"][item["line_id"]]["record_type"]=="sale")
+            # Missing paired predictions are excluded before computing either side's totals.
+            allowed = set(cohort["line_ids"])
+            member_ids = allowed
+        report = self.build_report(merchant_id,policy,dataset,active,revision,member_ids,
+                                   weekly_filter=cohort is not None and session is None)
+        other_policy = {"ONE_SHOT":"TWO_STAGE","TWO_STAGE":"ONE_SHOT","FORCED":"SAFE","SAFE":"FORCED"}[policy]
+        other = self.build_report(merchant_id,other_policy,dataset,active,revision,member_ids,
+                                  weekly_filter=cohort is not None and session is None)
         report["comparison"] = {"other_policy":other_policy,"totals":other["totals"],
+                                "cohort":cohort,"threshold":None if cohort is not None else SAFE_THRESHOLD,
                                 "changed_line_count":sum((a["node_id"],a["outcome"]) != (b["node_id"],b["outcome"]) for a,b in zip(report["lines"],other["lines"]))}
+        report["review_policy"] = {"policy":policy,"label":POLICY_LABELS[policy],
+            "criteria":"Selected policy's parent-only or verification-required merchandise lines; confirmed mappings and scope rejections are excluded. Ranked by stored synthetic sales impact."}
         report["replay"] = session
         return report

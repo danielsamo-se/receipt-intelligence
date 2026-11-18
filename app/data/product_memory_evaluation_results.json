@@ -1,0 +1,1743 @@
+{
+  "notice": "Labeled synthetic development examples, not a blind benchmark or real merchant data. Identities are stipulated only where the synthetic catalog scenario supplies them.",
+  "protocol": "Freeze these cases and retrieval settings before recording results. Compare SAFE model-only with the memory cascade. Then simulate a merchant checking the labeled catalog identity: confirm an eligible correct suggestion in the top three, never infer an identity for null labels. Reprocess identical inputs and record reuse. This scripted review is an oracle simulation, not observed human acceptance or autonomous accuracy.",
+  "policy": "SAFE at frozen 0.85 per stage",
+  "source_sha256": {
+    "app/data/product_memory_evaluation_cases.json": "bd6bd5a5b2047ac587e19e293a057e359d8c2158ad644448be875207d6aa0082",
+    "app/data/product_memory_catalog.json": "5ba1566ebe216c20191a1dd92eeed21f03af0830dfd243232abf455b8a0abc8f",
+    "app/data/embedding_model.json": "a8899a2f8a6a246eefe9710c01dc8e1ecffd9e2043380a009f1dd0dd355a0b64"
+  },
+  "embedding": {
+    "model": "intfloat/multilingual-e5-small",
+    "revision": "614241f622f53c4eeff9890bdc4f31cfecc418b3",
+    "dimensions": 384,
+    "available": true,
+    "error": null,
+    "network_access": false
+  },
+  "retrieval": {
+    "lexical_weight": 0.6,
+    "semantic_weight": 0.4,
+    "top_k": 3,
+    "automatic_similarity_reuse": false
+  },
+  "summary": {
+    "model_only": {
+      "receipts": 24,
+      "exact_product_matches": 0,
+      "incorrect_product_matches": 0,
+      "correct_leaf": 2,
+      "correct_parent": 1,
+      "incorrect_or_unsupported": 0,
+      "overclaims": 0,
+      "abstentions": 21,
+      "review_required": 22,
+      "jev_stage_bypasses": 0,
+      "actual_model_calls": 0,
+      "actual_model_calls_avoided": 0
+    },
+    "memory_before_review": {
+      "receipts": 24,
+      "exact_product_matches": 6,
+      "incorrect_product_matches": 0,
+      "correct_leaf": 8,
+      "correct_parent": 1,
+      "incorrect_or_unsupported": 0,
+      "overclaims": 0,
+      "abstentions": 15,
+      "review_required": 16,
+      "jev_stage_bypasses": 6,
+      "actual_model_calls": 0,
+      "actual_model_calls_avoided": 0
+    },
+    "memory_after_scripted_review": {
+      "receipts": 24,
+      "exact_product_matches": 12,
+      "incorrect_product_matches": 0,
+      "correct_leaf": 14,
+      "correct_parent": 1,
+      "incorrect_or_unsupported": 0,
+      "overclaims": 0,
+      "abstentions": 9,
+      "review_required": 10,
+      "jev_stage_bypasses": 12,
+      "actual_model_calls": 0,
+      "actual_model_calls_avoided": 0
+    }
+  },
+  "scripted_accepted_suggestions": 6,
+  "actual_human_accepted_suggestions": 0,
+  "existing_jev_cache_inputs": 6,
+  "unseen_inputs_without_jev_cache": 18,
+  "known_identity_top3_recall": {
+    "eligible_retrieved": 6,
+    "labeled_new_aliases": 6
+  },
+  "median_local_latency_seconds": {
+    "model_only_cache": 0.0008557999972254038,
+    "memory_first": 0.008675249991938472,
+    "memory_repeat": 0.003156250109896064
+  },
+  "cost": {
+    "jev_api_cost": 0,
+    "embedding_api_cost": 0,
+    "local_cpu_cost": null
+  },
+  "limitations": [
+    "Small synthetic development check; no production accuracy, acceptance-rate or cost-saving claim.",
+    "Only six cases have existing real Jev cache responses. The other model-only results are unavailable, not invented predictions.",
+    "Scripted review uses stipulated labels, not a human study; post-review gains demonstrate persistence and reuse, not autonomous matching.",
+    "Jev-stage bypasses would avoid fallback inference in a future live integration. Both current pipelines make zero model calls, so actual avoided calls are zero.",
+    "Cosine and lexical scores are retrieval scores, not identity probabilities. Attribute guards are intentionally conservative and incomplete."
+  ],
+  "cases": [
+    {
+      "id": "PM01",
+      "group": "known_alias",
+      "raw_text": "HARIBO SAUR POMM 175G",
+      "expected_product": "SYN-101",
+      "expected_category": "confectionery_snacks.confectionery",
+      "model_only": {
+        "node_id": null,
+        "specificity": "none",
+        "review_required": true,
+        "cache_available": false,
+        "category_result": "abstention",
+        "matched_product_id": null,
+        "match_method": null,
+        "jev_stage_bypassed": false
+      },
+      "memory_before_review": {
+        "node_id": "confectionery_snacks.confectionery",
+        "specificity": "leaf",
+        "review_required": false,
+        "cache_available": false,
+        "category_result": "correct_leaf",
+        "matched_product_id": "SYN-101",
+        "match_method": "confirmed_alias",
+        "jev_stage_bypassed": true
+      },
+      "memory_after_scripted_review": {
+        "node_id": "confectionery_snacks.confectionery",
+        "specificity": "leaf",
+        "review_required": false,
+        "cache_available": false,
+        "category_result": "correct_leaf",
+        "matched_product_id": "SYN-101",
+        "match_method": "confirmed_alias",
+        "jev_stage_bypassed": true
+      },
+      "top_suggestion": null,
+      "candidate_products": [],
+      "scripted_accepted_suggestion": false,
+      "latency_seconds": {
+        "model_only_cache": 0.000806800089776516,
+        "memory_first": 0.002902599982917309,
+        "memory_repeat": 0.002007999923080206
+      }
+    },
+    {
+      "id": "PM02",
+      "group": "known_alias",
+      "raw_text": "NM POMMES TK 750G",
+      "expected_product": "SYN-102",
+      "expected_category": "prepared_food.potato_sides",
+      "model_only": {
+        "node_id": null,
+        "specificity": "none",
+        "review_required": true,
+        "cache_available": false,
+        "category_result": "abstention",
+        "matched_product_id": null,
+        "match_method": null,
+        "jev_stage_bypassed": false
+      },
+      "memory_before_review": {
+        "node_id": "prepared_food.potato_sides",
+        "specificity": "leaf",
+        "review_required": false,
+        "cache_available": false,
+        "category_result": "correct_leaf",
+        "matched_product_id": "SYN-102",
+        "match_method": "confirmed_alias",
+        "jev_stage_bypassed": true
+      },
+      "memory_after_scripted_review": {
+        "node_id": "prepared_food.potato_sides",
+        "specificity": "leaf",
+        "review_required": false,
+        "cache_available": false,
+        "category_result": "correct_leaf",
+        "matched_product_id": "SYN-102",
+        "match_method": "confirmed_alias",
+        "jev_stage_bypassed": true
+      },
+      "top_suggestion": null,
+      "candidate_products": [],
+      "scripted_accepted_suggestion": false,
+      "latency_seconds": {
+        "model_only_cache": 0.0010004998184740543,
+        "memory_first": 0.0023221997544169426,
+        "memory_repeat": 0.002179199829697609
+      }
+    },
+    {
+      "id": "PM03",
+      "group": "known_alias",
+      "raw_text": "WMF BRATPF 24CM",
+      "expected_product": "SYN-103",
+      "expected_category": "household.kitchenware",
+      "model_only": {
+        "node_id": null,
+        "specificity": "none",
+        "review_required": true,
+        "cache_available": false,
+        "category_result": "abstention",
+        "matched_product_id": null,
+        "match_method": null,
+        "jev_stage_bypassed": false
+      },
+      "memory_before_review": {
+        "node_id": "household.kitchenware",
+        "specificity": "leaf",
+        "review_required": false,
+        "cache_available": false,
+        "category_result": "correct_leaf",
+        "matched_product_id": "SYN-103",
+        "match_method": "confirmed_alias",
+        "jev_stage_bypassed": true
+      },
+      "memory_after_scripted_review": {
+        "node_id": "household.kitchenware",
+        "specificity": "leaf",
+        "review_required": false,
+        "cache_available": false,
+        "category_result": "correct_leaf",
+        "matched_product_id": "SYN-103",
+        "match_method": "confirmed_alias",
+        "jev_stage_bypassed": true
+      },
+      "top_suggestion": null,
+      "candidate_products": [],
+      "scripted_accepted_suggestion": false,
+      "latency_seconds": {
+        "model_only_cache": 0.0008181999437510967,
+        "memory_first": 0.0023403000086545944,
+        "memory_repeat": 0.0021097999997437
+      }
+    },
+    {
+      "id": "PM04",
+      "group": "known_identifier",
+      "raw_text": "ART 123456",
+      "expected_product": "SYN-104",
+      "expected_category": "dairy_eggs.yogurt_quark",
+      "model_only": {
+        "node_id": null,
+        "specificity": "none",
+        "review_required": true,
+        "cache_available": false,
+        "category_result": "abstention",
+        "matched_product_id": null,
+        "match_method": null,
+        "jev_stage_bypassed": false
+      },
+      "memory_before_review": {
+        "node_id": "dairy_eggs.yogurt_quark",
+        "specificity": "leaf",
+        "review_required": false,
+        "cache_available": false,
+        "category_result": "correct_leaf",
+        "matched_product_id": "SYN-104",
+        "match_method": "confirmed_identifier",
+        "jev_stage_bypassed": true
+      },
+      "memory_after_scripted_review": {
+        "node_id": "dairy_eggs.yogurt_quark",
+        "specificity": "leaf",
+        "review_required": false,
+        "cache_available": false,
+        "category_result": "correct_leaf",
+        "matched_product_id": "SYN-104",
+        "match_method": "confirmed_identifier",
+        "jev_stage_bypassed": true
+      },
+      "top_suggestion": null,
+      "candidate_products": [],
+      "scripted_accepted_suggestion": false,
+      "latency_seconds": {
+        "model_only_cache": 0.0008264998905360699,
+        "memory_first": 0.0022695004008710384,
+        "memory_repeat": 0.0020236000418663025
+      }
+    },
+    {
+      "id": "PM05",
+      "group": "known_identifier",
+      "raw_text": "COLA KLASSIK 1L",
+      "expected_product": "SYN-106",
+      "expected_category": "beverages.water_soft_drinks",
+      "model_only": {
+        "node_id": null,
+        "specificity": "none",
+        "review_required": true,
+        "cache_available": false,
+        "category_result": "abstention",
+        "matched_product_id": null,
+        "match_method": null,
+        "jev_stage_bypassed": false
+      },
+      "memory_before_review": {
+        "node_id": "beverages.water_soft_drinks",
+        "specificity": "leaf",
+        "review_required": false,
+        "cache_available": false,
+        "category_result": "correct_leaf",
+        "matched_product_id": "SYN-106",
+        "match_method": "confirmed_identifier",
+        "jev_stage_bypassed": true
+      },
+      "memory_after_scripted_review": {
+        "node_id": "beverages.water_soft_drinks",
+        "specificity": "leaf",
+        "review_required": false,
+        "cache_available": false,
+        "category_result": "correct_leaf",
+        "matched_product_id": "SYN-106",
+        "match_method": "confirmed_identifier",
+        "jev_stage_bypassed": true
+      },
+      "top_suggestion": null,
+      "candidate_products": [],
+      "scripted_accepted_suggestion": false,
+      "latency_seconds": {
+        "model_only_cache": 0.0010862997733056545,
+        "memory_first": 0.0027310000732541084,
+        "memory_repeat": 0.0025217998772859573
+      }
+    },
+    {
+      "id": "PM06",
+      "group": "known_identifier",
+      "raw_text": "MILCH 3,5% 1L",
+      "expected_product": "SYN-105",
+      "expected_category": "dairy_eggs.milk_cream",
+      "model_only": {
+        "node_id": null,
+        "specificity": "none",
+        "review_required": true,
+        "cache_available": false,
+        "category_result": "abstention",
+        "matched_product_id": null,
+        "match_method": null,
+        "jev_stage_bypassed": false
+      },
+      "memory_before_review": {
+        "node_id": "dairy_eggs.milk_cream",
+        "specificity": "leaf",
+        "review_required": false,
+        "cache_available": false,
+        "category_result": "correct_leaf",
+        "matched_product_id": "SYN-105",
+        "match_method": "confirmed_identifier",
+        "jev_stage_bypassed": true
+      },
+      "memory_after_scripted_review": {
+        "node_id": "dairy_eggs.milk_cream",
+        "specificity": "leaf",
+        "review_required": false,
+        "cache_available": false,
+        "category_result": "correct_leaf",
+        "matched_product_id": "SYN-105",
+        "match_method": "confirmed_identifier",
+        "jev_stage_bypassed": true
+      },
+      "top_suggestion": null,
+      "candidate_products": [],
+      "scripted_accepted_suggestion": false,
+      "latency_seconds": {
+        "model_only_cache": 0.0008668000809848309,
+        "memory_first": 0.0026453002355992794,
+        "memory_repeat": 0.002439300063997507
+      }
+    },
+    {
+      "id": "PM07",
+      "group": "new_alias",
+      "raw_text": "HARIBO SAURE POMMES 175 G",
+      "expected_product": "SYN-101",
+      "expected_category": "confectionery_snacks.confectionery",
+      "model_only": {
+        "node_id": null,
+        "specificity": "none",
+        "review_required": true,
+        "cache_available": false,
+        "category_result": "abstention",
+        "matched_product_id": null,
+        "match_method": null,
+        "jev_stage_bypassed": false
+      },
+      "memory_before_review": {
+        "node_id": null,
+        "specificity": "none",
+        "review_required": true,
+        "cache_available": false,
+        "category_result": "abstention",
+        "matched_product_id": null,
+        "match_method": null,
+        "jev_stage_bypassed": false
+      },
+      "memory_after_scripted_review": {
+        "node_id": "confectionery_snacks.confectionery",
+        "specificity": "leaf",
+        "review_required": false,
+        "cache_available": false,
+        "category_result": "correct_leaf",
+        "matched_product_id": "SYN-101",
+        "match_method": "confirmed_alias",
+        "jev_stage_bypassed": true
+      },
+      "top_suggestion": "SYN-101",
+      "candidate_products": [
+        {
+          "id": "SYN-101",
+          "lexical": 1.0,
+          "semantic_cosine": 0.943581,
+          "eligible": true,
+          "blocked_reasons": []
+        },
+        {
+          "id": "SYN-102",
+          "lexical": 0.24123,
+          "semantic_cosine": 0.844111,
+          "eligible": false,
+          "blocked_reasons": [
+            "Explicit pack size differs from the catalog product.",
+            "Explicit description conflicts with this catalog product family.",
+            "Description names a conflicting product family or form."
+          ]
+        },
+        {
+          "id": "SYN-104",
+          "lexical": 0.06306,
+          "semantic_cosine": 0.839698,
+          "eligible": false,
+          "blocked_reasons": [
+            "Explicit pack size differs from the catalog product.",
+            "Explicit description conflicts with this catalog product family.",
+            "Distinguishing product variant is absent from the reusable alias."
+          ]
+        }
+      ],
+      "scripted_accepted_suggestion": true,
+      "latency_seconds": {
+        "model_only_cache": 0.002207899931818247,
+        "memory_first": 0.06792529998347163,
+        "memory_repeat": 0.0021644001826643944
+      }
+    },
+    {
+      "id": "PM08",
+      "group": "new_alias",
+      "raw_text": "POMMES FRITES TIEFKUEHL 750G",
+      "expected_product": "SYN-102",
+      "expected_category": "prepared_food.potato_sides",
+      "model_only": {
+        "node_id": null,
+        "specificity": "none",
+        "review_required": true,
+        "cache_available": false,
+        "category_result": "abstention",
+        "matched_product_id": null,
+        "match_method": null,
+        "jev_stage_bypassed": false
+      },
+      "memory_before_review": {
+        "node_id": null,
+        "specificity": "none",
+        "review_required": true,
+        "cache_available": false,
+        "category_result": "abstention",
+        "matched_product_id": null,
+        "match_method": null,
+        "jev_stage_bypassed": false
+      },
+      "memory_after_scripted_review": {
+        "node_id": "prepared_food.potato_sides",
+        "specificity": "leaf",
+        "review_required": false,
+        "cache_available": false,
+        "category_result": "correct_leaf",
+        "matched_product_id": "SYN-102",
+        "match_method": "confirmed_alias",
+        "jev_stage_bypassed": true
+      },
+      "top_suggestion": "SYN-102",
+      "candidate_products": [
+        {
+          "id": "SYN-102",
+          "lexical": 0.484282,
+          "semantic_cosine": 0.884817,
+          "eligible": true,
+          "blocked_reasons": []
+        },
+        {
+          "id": "SYN-101",
+          "lexical": 0.216423,
+          "semantic_cosine": 0.876241,
+          "eligible": false,
+          "blocked_reasons": [
+            "Explicit pack size differs from the catalog product.",
+            "Explicit description conflicts with this catalog product family.",
+            "Description names a conflicting product family or form.",
+            "Brand is absent from the reusable alias."
+          ]
+        },
+        {
+          "id": "SYN-104",
+          "lexical": 0.063901,
+          "semantic_cosine": 0.833175,
+          "eligible": false,
+          "blocked_reasons": [
+            "Explicit pack size differs from the catalog product.",
+            "Explicit description conflicts with this catalog product family.",
+            "Distinguishing product variant is absent from the reusable alias."
+          ]
+        }
+      ],
+      "scripted_accepted_suggestion": true,
+      "latency_seconds": {
+        "model_only_cache": 0.0011036000214517117,
+        "memory_first": 0.01035850029438734,
+        "memory_repeat": 0.0022040000185370445
+      }
+    },
+    {
+      "id": "PM09",
+      "group": "new_alias",
+      "raw_text": "BRATPFANNE WMF 24 CM",
+      "expected_product": "SYN-103",
+      "expected_category": "household.kitchenware",
+      "model_only": {
+        "node_id": null,
+        "specificity": "none",
+        "review_required": true,
+        "cache_available": false,
+        "category_result": "abstention",
+        "matched_product_id": null,
+        "match_method": null,
+        "jev_stage_bypassed": false
+      },
+      "memory_before_review": {
+        "node_id": null,
+        "specificity": "none",
+        "review_required": true,
+        "cache_available": false,
+        "category_result": "abstention",
+        "matched_product_id": null,
+        "match_method": null,
+        "jev_stage_bypassed": false
+      },
+      "memory_after_scripted_review": {
+        "node_id": "household.kitchenware",
+        "specificity": "leaf",
+        "review_required": false,
+        "cache_available": false,
+        "category_result": "correct_leaf",
+        "matched_product_id": "SYN-103",
+        "match_method": "confirmed_alias",
+        "jev_stage_bypassed": true
+      },
+      "top_suggestion": "SYN-103",
+      "candidate_products": [
+        {
+          "id": "SYN-103",
+          "lexical": 0.93,
+          "semantic_cosine": 0.934091,
+          "eligible": true,
+          "blocked_reasons": []
+        },
+        {
+          "id": "SYN-101",
+          "lexical": 0.0,
+          "semantic_cosine": 0.812464,
+          "eligible": false,
+          "blocked_reasons": [
+            "Explicit brand differs.",
+            "Explicit description conflicts with this catalog product family.",
+            "Pack size is absent; this alias could refer to multiple catalog sizes.",
+            "Brand is absent from the reusable alias."
+          ]
+        },
+        {
+          "id": "SYN-102",
+          "lexical": 0.0,
+          "semantic_cosine": 0.808049,
+          "eligible": false,
+          "blocked_reasons": [
+            "Explicit description conflicts with this catalog product family.",
+            "Pack size is absent; this alias could refer to multiple catalog sizes."
+          ]
+        }
+      ],
+      "scripted_accepted_suggestion": true,
+      "latency_seconds": {
+        "model_only_cache": 0.0007466999813914299,
+        "memory_first": 0.009111099876463413,
+        "memory_repeat": 0.0027405000291764736
+      }
+    },
+    {
+      "id": "PM10",
+      "group": "new_alias",
+      "raw_text": "ERDBEER JOGHURT NM 150 G",
+      "expected_product": "SYN-104",
+      "expected_category": "dairy_eggs.yogurt_quark",
+      "model_only": {
+        "node_id": null,
+        "specificity": "none",
+        "review_required": true,
+        "cache_available": false,
+        "category_result": "abstention",
+        "matched_product_id": null,
+        "match_method": null,
+        "jev_stage_bypassed": false
+      },
+      "memory_before_review": {
+        "node_id": null,
+        "specificity": "none",
+        "review_required": true,
+        "cache_available": false,
+        "category_result": "abstention",
+        "matched_product_id": null,
+        "match_method": null,
+        "jev_stage_bypassed": false
+      },
+      "memory_after_scripted_review": {
+        "node_id": "dairy_eggs.yogurt_quark",
+        "specificity": "leaf",
+        "review_required": false,
+        "cache_available": false,
+        "category_result": "correct_leaf",
+        "matched_product_id": "SYN-104",
+        "match_method": "confirmed_alias",
+        "jev_stage_bypassed": true
+      },
+      "top_suggestion": "SYN-104",
+      "candidate_products": [
+        {
+          "id": "SYN-104",
+          "lexical": 0.529201,
+          "semantic_cosine": 0.90006,
+          "eligible": true,
+          "blocked_reasons": []
+        },
+        {
+          "id": "SYN-102",
+          "lexical": 0.10681,
+          "semantic_cosine": 0.828602,
+          "eligible": false,
+          "blocked_reasons": [
+            "Explicit pack size differs from the catalog product.",
+            "Explicit description conflicts with this catalog product family."
+          ]
+        },
+        {
+          "id": "SYN-105",
+          "lexical": 0.097234,
+          "semantic_cosine": 0.815471,
+          "eligible": false,
+          "blocked_reasons": [
+            "Explicit pack size differs from the catalog product.",
+            "Explicit description conflicts with this catalog product family.",
+            "Distinguishing product variant is absent from the reusable alias."
+          ]
+        }
+      ],
+      "scripted_accepted_suggestion": true,
+      "latency_seconds": {
+        "model_only_cache": 0.0008004000410437584,
+        "memory_first": 0.01075479993596673,
+        "memory_repeat": 0.0022005001083016396
+      }
+    },
+    {
+      "id": "PM11",
+      "group": "new_alias",
+      "raw_text": "COLA ZERO 1000ML",
+      "expected_product": "SYN-107",
+      "expected_category": "beverages.water_soft_drinks",
+      "model_only": {
+        "node_id": null,
+        "specificity": "none",
+        "review_required": true,
+        "cache_available": false,
+        "category_result": "abstention",
+        "matched_product_id": null,
+        "match_method": null,
+        "jev_stage_bypassed": false
+      },
+      "memory_before_review": {
+        "node_id": null,
+        "specificity": "none",
+        "review_required": true,
+        "cache_available": false,
+        "category_result": "abstention",
+        "matched_product_id": null,
+        "match_method": null,
+        "jev_stage_bypassed": false
+      },
+      "memory_after_scripted_review": {
+        "node_id": "beverages.water_soft_drinks",
+        "specificity": "leaf",
+        "review_required": false,
+        "cache_available": false,
+        "category_result": "correct_leaf",
+        "matched_product_id": "SYN-107",
+        "match_method": "confirmed_alias",
+        "jev_stage_bypassed": true
+      },
+      "top_suggestion": "SYN-107",
+      "candidate_products": [
+        {
+          "id": "SYN-107",
+          "lexical": 0.530443,
+          "semantic_cosine": 0.907539,
+          "eligible": true,
+          "blocked_reasons": []
+        },
+        {
+          "id": "SYN-106",
+          "lexical": 0.221466,
+          "semantic_cosine": 0.879588,
+          "eligible": false,
+          "blocked_reasons": [
+            "Sugar-free/zero variant is not the original product.",
+            "Distinguishing product variant is absent from the reusable alias."
+          ]
+        },
+        {
+          "id": "SYN-101",
+          "lexical": 0.0,
+          "semantic_cosine": 0.840139,
+          "eligible": false,
+          "blocked_reasons": [
+            "Explicit pack size differs from the catalog product.",
+            "Explicit description conflicts with this catalog product family.",
+            "Brand is absent from the reusable alias."
+          ]
+        }
+      ],
+      "scripted_accepted_suggestion": true,
+      "latency_seconds": {
+        "model_only_cache": 0.000950399786233902,
+        "memory_first": 0.007887099869549274,
+        "memory_repeat": 0.00219929963350296
+      }
+    },
+    {
+      "id": "PM12",
+      "group": "new_alias",
+      "raw_text": "ZITRONEN BIO NETZ 0,5KG",
+      "expected_product": "SYN-108",
+      "expected_category": "produce.fruit",
+      "model_only": {
+        "node_id": null,
+        "specificity": "none",
+        "review_required": true,
+        "cache_available": false,
+        "category_result": "abstention",
+        "matched_product_id": null,
+        "match_method": null,
+        "jev_stage_bypassed": false
+      },
+      "memory_before_review": {
+        "node_id": null,
+        "specificity": "none",
+        "review_required": true,
+        "cache_available": false,
+        "category_result": "abstention",
+        "matched_product_id": null,
+        "match_method": null,
+        "jev_stage_bypassed": false
+      },
+      "memory_after_scripted_review": {
+        "node_id": "produce.fruit",
+        "specificity": "leaf",
+        "review_required": false,
+        "cache_available": false,
+        "category_result": "correct_leaf",
+        "matched_product_id": "SYN-108",
+        "match_method": "confirmed_alias",
+        "jev_stage_bypassed": true
+      },
+      "top_suggestion": "SYN-108",
+      "candidate_products": [
+        {
+          "id": "SYN-108",
+          "lexical": 0.616782,
+          "semantic_cosine": 0.909324,
+          "eligible": true,
+          "blocked_reasons": []
+        },
+        {
+          "id": "SYN-101",
+          "lexical": 0.0,
+          "semantic_cosine": 0.855243,
+          "eligible": false,
+          "blocked_reasons": [
+            "Explicit pack size differs from the catalog product.",
+            "Explicit description conflicts with this catalog product family.",
+            "Brand is absent from the reusable alias."
+          ]
+        },
+        {
+          "id": "SYN-104",
+          "lexical": 0.0,
+          "semantic_cosine": 0.851175,
+          "eligible": false,
+          "blocked_reasons": [
+            "Explicit pack size differs from the catalog product.",
+            "Explicit description conflicts with this catalog product family.",
+            "Distinguishing product variant is absent from the reusable alias."
+          ]
+        }
+      ],
+      "scripted_accepted_suggestion": true,
+      "latency_seconds": {
+        "model_only_cache": 0.0008016000501811504,
+        "memory_first": 0.00870579993352294,
+        "memory_repeat": 0.002255599945783615
+      }
+    },
+    {
+      "id": "PM13",
+      "group": "misleading",
+      "raw_text": "HARIBO POMMES FRITES TK 750G",
+      "expected_product": null,
+      "expected_category": null,
+      "model_only": {
+        "node_id": null,
+        "specificity": "none",
+        "review_required": true,
+        "cache_available": false,
+        "category_result": "abstention",
+        "matched_product_id": null,
+        "match_method": null,
+        "jev_stage_bypassed": false
+      },
+      "memory_before_review": {
+        "node_id": null,
+        "specificity": "none",
+        "review_required": true,
+        "cache_available": false,
+        "category_result": "abstention",
+        "matched_product_id": null,
+        "match_method": null,
+        "jev_stage_bypassed": false
+      },
+      "memory_after_scripted_review": {
+        "node_id": null,
+        "specificity": "none",
+        "review_required": true,
+        "cache_available": false,
+        "category_result": "abstention",
+        "matched_product_id": null,
+        "match_method": null,
+        "jev_stage_bypassed": false
+      },
+      "top_suggestion": "SYN-102",
+      "candidate_products": [
+        {
+          "id": "SYN-102",
+          "lexical": 0.616667,
+          "semantic_cosine": 0.869873,
+          "eligible": false,
+          "blocked_reasons": [
+            "Description names a conflicting product family or form."
+          ]
+        },
+        {
+          "id": "SYN-101",
+          "lexical": 0.407285,
+          "semantic_cosine": 0.901447,
+          "eligible": false,
+          "blocked_reasons": [
+            "Explicit pack size differs from the catalog product.",
+            "Description names a conflicting product family or form."
+          ]
+        },
+        {
+          "id": "SYN-104",
+          "lexical": 0.063901,
+          "semantic_cosine": 0.830108,
+          "eligible": false,
+          "blocked_reasons": [
+            "Explicit pack size differs from the catalog product.",
+            "Explicit description conflicts with this catalog product family.",
+            "Distinguishing product variant is absent from the reusable alias."
+          ]
+        }
+      ],
+      "scripted_accepted_suggestion": false,
+      "latency_seconds": {
+        "model_only_cache": 0.0007988996803760529,
+        "memory_first": 0.008315300103276968,
+        "memory_repeat": 0.003659800160676241
+      }
+    },
+    {
+      "id": "PM14",
+      "group": "misleading",
+      "raw_text": "WMF PFANNE 28CM",
+      "expected_product": null,
+      "expected_category": "household.kitchenware",
+      "model_only": {
+        "node_id": null,
+        "specificity": "none",
+        "review_required": true,
+        "cache_available": false,
+        "category_result": "abstention",
+        "matched_product_id": null,
+        "match_method": null,
+        "jev_stage_bypassed": false
+      },
+      "memory_before_review": {
+        "node_id": null,
+        "specificity": "none",
+        "review_required": true,
+        "cache_available": false,
+        "category_result": "abstention",
+        "matched_product_id": null,
+        "match_method": null,
+        "jev_stage_bypassed": false
+      },
+      "memory_after_scripted_review": {
+        "node_id": null,
+        "specificity": "none",
+        "review_required": true,
+        "cache_available": false,
+        "category_result": "abstention",
+        "matched_product_id": null,
+        "match_method": null,
+        "jev_stage_bypassed": false
+      },
+      "top_suggestion": "SYN-103",
+      "candidate_products": [
+        {
+          "id": "SYN-103",
+          "lexical": 0.454145,
+          "semantic_cosine": 0.903439,
+          "eligible": false,
+          "blocked_reasons": [
+            "Cookware diameter differs."
+          ]
+        },
+        {
+          "id": "SYN-101",
+          "lexical": 0.0,
+          "semantic_cosine": 0.837718,
+          "eligible": false,
+          "blocked_reasons": [
+            "Explicit brand differs.",
+            "Explicit description conflicts with this catalog product family.",
+            "Pack size is absent; this alias could refer to multiple catalog sizes.",
+            "Brand is absent from the reusable alias."
+          ]
+        },
+        {
+          "id": "SYN-106",
+          "lexical": 0.0,
+          "semantic_cosine": 0.821034,
+          "eligible": false,
+          "blocked_reasons": [
+            "Explicit description conflicts with this catalog product family.",
+            "Pack size is absent; this alias could refer to multiple catalog sizes.",
+            "Distinguishing product variant is absent from the reusable alias."
+          ]
+        }
+      ],
+      "scripted_accepted_suggestion": false,
+      "latency_seconds": {
+        "model_only_cache": 0.0007615000940859318,
+        "memory_first": 0.007820900063961744,
+        "memory_repeat": 0.003925800323486328
+      }
+    },
+    {
+      "id": "PM15",
+      "group": "misleading",
+      "raw_text": "ERDBEER JOG 500G",
+      "expected_product": null,
+      "expected_category": "dairy_eggs.yogurt_quark",
+      "model_only": {
+        "node_id": null,
+        "specificity": "none",
+        "review_required": true,
+        "cache_available": false,
+        "category_result": "abstention",
+        "matched_product_id": null,
+        "match_method": null,
+        "jev_stage_bypassed": false
+      },
+      "memory_before_review": {
+        "node_id": null,
+        "specificity": "none",
+        "review_required": true,
+        "cache_available": false,
+        "category_result": "abstention",
+        "matched_product_id": null,
+        "match_method": null,
+        "jev_stage_bypassed": false
+      },
+      "memory_after_scripted_review": {
+        "node_id": null,
+        "specificity": "none",
+        "review_required": true,
+        "cache_available": false,
+        "category_result": "abstention",
+        "matched_product_id": null,
+        "match_method": null,
+        "jev_stage_bypassed": false
+      },
+      "top_suggestion": "SYN-104",
+      "candidate_products": [
+        {
+          "id": "SYN-104",
+          "lexical": 0.400074,
+          "semantic_cosine": 0.87282,
+          "eligible": false,
+          "blocked_reasons": [
+            "Explicit pack size differs from the catalog product."
+          ]
+        },
+        {
+          "id": "SYN-108",
+          "lexical": 0.199241,
+          "semantic_cosine": 0.851207,
+          "eligible": false,
+          "blocked_reasons": [
+            "Explicit description conflicts with this catalog product family."
+          ]
+        },
+        {
+          "id": "SYN-102",
+          "lexical": 0.042444,
+          "semantic_cosine": 0.825822,
+          "eligible": false,
+          "blocked_reasons": [
+            "Explicit pack size differs from the catalog product.",
+            "Explicit description conflicts with this catalog product family."
+          ]
+        }
+      ],
+      "scripted_accepted_suggestion": false,
+      "latency_seconds": {
+        "model_only_cache": 0.000661100260913372,
+        "memory_first": 0.009436499793082476,
+        "memory_repeat": 0.003700499888509512
+      }
+    },
+    {
+      "id": "PM16",
+      "group": "misleading",
+      "raw_text": "MILCH FETTARM 1,5% 1L",
+      "expected_product": null,
+      "expected_category": "dairy_eggs.milk_cream",
+      "model_only": {
+        "node_id": null,
+        "specificity": "none",
+        "review_required": true,
+        "cache_available": false,
+        "category_result": "abstention",
+        "matched_product_id": null,
+        "match_method": null,
+        "jev_stage_bypassed": false
+      },
+      "memory_before_review": {
+        "node_id": null,
+        "specificity": "none",
+        "review_required": true,
+        "cache_available": false,
+        "category_result": "abstention",
+        "matched_product_id": null,
+        "match_method": null,
+        "jev_stage_bypassed": false
+      },
+      "memory_after_scripted_review": {
+        "node_id": null,
+        "specificity": "none",
+        "review_required": true,
+        "cache_available": false,
+        "category_result": "abstention",
+        "matched_product_id": null,
+        "match_method": null,
+        "jev_stage_bypassed": false
+      },
+      "top_suggestion": "SYN-105",
+      "candidate_products": [
+        {
+          "id": "SYN-105",
+          "lexical": 0.348252,
+          "semantic_cosine": 0.890606,
+          "eligible": false,
+          "blocked_reasons": [
+            "Milk variant differs from the confirmed catalog item.",
+            "Distinguishing product variant is absent from the reusable alias."
+          ]
+        },
+        {
+          "id": "SYN-107",
+          "lexical": 0.139466,
+          "semantic_cosine": 0.84844,
+          "eligible": false,
+          "blocked_reasons": [
+            "Explicit description conflicts with this catalog product family.",
+            "Distinguishing product variant is absent from the reusable alias."
+          ]
+        },
+        {
+          "id": "SYN-106",
+          "lexical": 0.124507,
+          "semantic_cosine": 0.852379,
+          "eligible": false,
+          "blocked_reasons": [
+            "Explicit description conflicts with this catalog product family.",
+            "Distinguishing product variant is absent from the reusable alias."
+          ]
+        }
+      ],
+      "scripted_accepted_suggestion": false,
+      "latency_seconds": {
+        "model_only_cache": 0.000727199949324131,
+        "memory_first": 0.008341699838638306,
+        "memory_repeat": 0.003572000190615654
+      }
+    },
+    {
+      "id": "PM17",
+      "group": "misleading",
+      "raw_text": "CC ZERO 1L",
+      "expected_product": null,
+      "expected_category": "beverages.water_soft_drinks",
+      "model_only": {
+        "node_id": null,
+        "specificity": "none",
+        "review_required": true,
+        "cache_available": false,
+        "category_result": "abstention",
+        "matched_product_id": null,
+        "match_method": null,
+        "jev_stage_bypassed": false
+      },
+      "memory_before_review": {
+        "node_id": null,
+        "specificity": "none",
+        "review_required": true,
+        "cache_available": false,
+        "category_result": "abstention",
+        "matched_product_id": null,
+        "match_method": null,
+        "jev_stage_bypassed": false
+      },
+      "memory_after_scripted_review": {
+        "node_id": null,
+        "specificity": "none",
+        "review_required": true,
+        "cache_available": false,
+        "category_result": "abstention",
+        "matched_product_id": null,
+        "match_method": null,
+        "jev_stage_bypassed": false
+      },
+      "top_suggestion": "SYN-107",
+      "candidate_products": [
+        {
+          "id": "SYN-107",
+          "lexical": 1.0,
+          "semantic_cosine": 0.926509,
+          "eligible": false,
+          "blocked_reasons": [
+            "Confirmed identifier and confirmed alias disagree; review is required.",
+            "Sugar-free/zero variant is not the original product."
+          ]
+        },
+        {
+          "id": "SYN-106",
+          "lexical": 0.386643,
+          "semantic_cosine": 0.894499,
+          "eligible": false,
+          "blocked_reasons": [
+            "Sugar-free/zero variant is not the original product.",
+            "Distinguishing product variant is absent from the reusable alias.",
+            "Confirmed identifier and confirmed alias disagree; review is required.",
+            "Sugar-free/zero variant is not the original product."
+          ]
+        },
+        {
+          "id": "SYN-105",
+          "lexical": 0.141852,
+          "semantic_cosine": 0.829946,
+          "eligible": false,
+          "blocked_reasons": [
+            "Explicit description conflicts with this catalog product family.",
+            "Distinguishing product variant is absent from the reusable alias.",
+            "Confirmed identifier and confirmed alias disagree; review is required.",
+            "Sugar-free/zero variant is not the original product."
+          ]
+        }
+      ],
+      "scripted_accepted_suggestion": false,
+      "latency_seconds": {
+        "model_only_cache": 0.0007285000756382942,
+        "memory_first": 0.009229599963873625,
+        "memory_repeat": 0.005419500172138214
+      }
+    },
+    {
+      "id": "PM18",
+      "group": "misleading",
+      "raw_text": "BIO ZITRONEN REINIGER 500ML",
+      "expected_product": null,
+      "expected_category": "household.cleaning_supplies",
+      "model_only": {
+        "node_id": null,
+        "specificity": "none",
+        "review_required": true,
+        "cache_available": false,
+        "category_result": "abstention",
+        "matched_product_id": null,
+        "match_method": null,
+        "jev_stage_bypassed": false
+      },
+      "memory_before_review": {
+        "node_id": null,
+        "specificity": "none",
+        "review_required": true,
+        "cache_available": false,
+        "category_result": "abstention",
+        "matched_product_id": null,
+        "match_method": null,
+        "jev_stage_bypassed": false
+      },
+      "memory_after_scripted_review": {
+        "node_id": null,
+        "specificity": "none",
+        "review_required": true,
+        "cache_available": false,
+        "category_result": "abstention",
+        "matched_product_id": null,
+        "match_method": null,
+        "jev_stage_bypassed": false
+      },
+      "top_suggestion": "SYN-108",
+      "candidate_products": [
+        {
+          "id": "SYN-108",
+          "lexical": 0.502099,
+          "semantic_cosine": 0.90284,
+          "eligible": false,
+          "blocked_reasons": [
+            "Explicit pack size differs from the catalog product.",
+            "Description names a conflicting product family or form."
+          ]
+        },
+        {
+          "id": "SYN-107",
+          "lexical": 0.101036,
+          "semantic_cosine": 0.810707,
+          "eligible": false,
+          "blocked_reasons": [
+            "Explicit pack size differs from the catalog product.",
+            "Explicit description conflicts with this catalog product family.",
+            "Distinguishing product variant is absent from the reusable alias."
+          ]
+        },
+        {
+          "id": "SYN-104",
+          "lexical": 0.027499,
+          "semantic_cosine": 0.819547,
+          "eligible": false,
+          "blocked_reasons": [
+            "Explicit pack size differs from the catalog product.",
+            "Explicit description conflicts with this catalog product family.",
+            "Distinguishing product variant is absent from the reusable alias."
+          ]
+        }
+      ],
+      "scripted_accepted_suggestion": false,
+      "latency_seconds": {
+        "model_only_cache": 0.0008447999134659767,
+        "memory_first": 0.008744100108742714,
+        "memory_repeat": 0.003621899988502264
+      }
+    },
+    {
+      "id": "PM19",
+      "group": "existing_cache",
+      "raw_text": "ART 004711",
+      "expected_product": null,
+      "expected_category": null,
+      "model_only": {
+        "node_id": null,
+        "specificity": "none",
+        "review_required": true,
+        "cache_available": true,
+        "category_result": "abstention",
+        "matched_product_id": null,
+        "match_method": null,
+        "jev_stage_bypassed": false
+      },
+      "memory_before_review": {
+        "node_id": null,
+        "specificity": "none",
+        "review_required": true,
+        "cache_available": true,
+        "category_result": "abstention",
+        "matched_product_id": null,
+        "match_method": null,
+        "jev_stage_bypassed": false
+      },
+      "memory_after_scripted_review": {
+        "node_id": null,
+        "specificity": "none",
+        "review_required": true,
+        "cache_available": true,
+        "category_result": "abstention",
+        "matched_product_id": null,
+        "match_method": null,
+        "jev_stage_bypassed": false
+      },
+      "top_suggestion": "SYN-104",
+      "candidate_products": [
+        {
+          "id": "SYN-104",
+          "lexical": 0.045185,
+          "semantic_cosine": 0.784519,
+          "eligible": false,
+          "blocked_reasons": [
+            "Description does not justify a reusable product identity.",
+            "Pack size is absent; this alias could refer to multiple catalog sizes.",
+            "Distinguishing product variant is absent from the reusable alias."
+          ]
+        },
+        {
+          "id": "SYN-106",
+          "lexical": 0.0,
+          "semantic_cosine": 0.804634,
+          "eligible": false,
+          "blocked_reasons": [
+            "Description does not justify a reusable product identity.",
+            "Pack size is absent; this alias could refer to multiple catalog sizes.",
+            "Distinguishing product variant is absent from the reusable alias."
+          ]
+        },
+        {
+          "id": "SYN-101",
+          "lexical": 0.0,
+          "semantic_cosine": 0.801286,
+          "eligible": false,
+          "blocked_reasons": [
+            "Description does not justify a reusable product identity.",
+            "Pack size is absent; this alias could refer to multiple catalog sizes.",
+            "Brand is absent from the reusable alias."
+          ]
+        }
+      ],
+      "scripted_accepted_suggestion": false,
+      "latency_seconds": {
+        "model_only_cache": 0.0012135002762079239,
+        "memory_first": 0.010299100074917078,
+        "memory_repeat": 0.004085100255906582
+      }
+    },
+    {
+      "id": "PM20",
+      "group": "existing_cache",
+      "raw_text": "MOLKEREI ART",
+      "expected_product": null,
+      "expected_category": "dairy_eggs",
+      "model_only": {
+        "node_id": "dairy_eggs",
+        "specificity": "parent",
+        "review_required": true,
+        "cache_available": true,
+        "category_result": "correct_parent",
+        "matched_product_id": null,
+        "match_method": null,
+        "jev_stage_bypassed": false
+      },
+      "memory_before_review": {
+        "node_id": "dairy_eggs",
+        "specificity": "parent",
+        "review_required": true,
+        "cache_available": true,
+        "category_result": "correct_parent",
+        "matched_product_id": null,
+        "match_method": null,
+        "jev_stage_bypassed": false
+      },
+      "memory_after_scripted_review": {
+        "node_id": "dairy_eggs",
+        "specificity": "parent",
+        "review_required": true,
+        "cache_available": true,
+        "category_result": "correct_parent",
+        "matched_product_id": null,
+        "match_method": null,
+        "jev_stage_bypassed": false
+      },
+      "top_suggestion": "SYN-104",
+      "candidate_products": [
+        {
+          "id": "SYN-104",
+          "lexical": 0.041248,
+          "semantic_cosine": 0.796198,
+          "eligible": false,
+          "blocked_reasons": [
+            "Description does not justify a reusable product identity.",
+            "Pack size is absent; this alias could refer to multiple catalog sizes.",
+            "Distinguishing product variant is absent from the reusable alias."
+          ]
+        },
+        {
+          "id": "SYN-101",
+          "lexical": 0.0,
+          "semantic_cosine": 0.805252,
+          "eligible": false,
+          "blocked_reasons": [
+            "Description does not justify a reusable product identity.",
+            "Pack size is absent; this alias could refer to multiple catalog sizes.",
+            "Brand is absent from the reusable alias."
+          ]
+        },
+        {
+          "id": "SYN-105",
+          "lexical": 0.0,
+          "semantic_cosine": 0.796502,
+          "eligible": false,
+          "blocked_reasons": [
+            "Description does not justify a reusable product identity.",
+            "Pack size is absent; this alias could refer to multiple catalog sizes.",
+            "Distinguishing product variant is absent from the reusable alias."
+          ]
+        }
+      ],
+      "scripted_accepted_suggestion": false,
+      "latency_seconds": {
+        "model_only_cache": 0.001394299790263176,
+        "memory_first": 0.007749099750071764,
+        "memory_repeat": 0.004541900008916855
+      }
+    },
+    {
+      "id": "PM21",
+      "group": "existing_cache",
+      "raw_text": "AKTION 1",
+      "expected_product": null,
+      "expected_category": null,
+      "model_only": {
+        "node_id": null,
+        "specificity": "none",
+        "review_required": true,
+        "cache_available": true,
+        "category_result": "abstention",
+        "matched_product_id": null,
+        "match_method": null,
+        "jev_stage_bypassed": false
+      },
+      "memory_before_review": {
+        "node_id": null,
+        "specificity": "none",
+        "review_required": true,
+        "cache_available": true,
+        "category_result": "abstention",
+        "matched_product_id": null,
+        "match_method": null,
+        "jev_stage_bypassed": false
+      },
+      "memory_after_scripted_review": {
+        "node_id": null,
+        "specificity": "none",
+        "review_required": true,
+        "cache_available": true,
+        "category_result": "abstention",
+        "matched_product_id": null,
+        "match_method": null,
+        "jev_stage_bypassed": false
+      },
+      "top_suggestion": "SYN-106",
+      "candidate_products": [
+        {
+          "id": "SYN-106",
+          "lexical": 0.100518,
+          "semantic_cosine": 0.827364,
+          "eligible": false,
+          "blocked_reasons": [
+            "Description does not justify a reusable product identity.",
+            "Pack size is absent; this alias could refer to multiple catalog sizes.",
+            "Distinguishing product variant is absent from the reusable alias."
+          ]
+        },
+        {
+          "id": "SYN-107",
+          "lexical": 0.10534,
+          "semantic_cosine": 0.818705,
+          "eligible": false,
+          "blocked_reasons": [
+            "Description does not justify a reusable product identity.",
+            "Pack size is absent; this alias could refer to multiple catalog sizes.",
+            "Distinguishing product variant is absent from the reusable alias."
+          ]
+        },
+        {
+          "id": "SYN-105",
+          "lexical": 0.079333,
+          "semantic_cosine": 0.806867,
+          "eligible": false,
+          "blocked_reasons": [
+            "Description does not justify a reusable product identity.",
+            "Pack size is absent; this alias could refer to multiple catalog sizes.",
+            "Distinguishing product variant is absent from the reusable alias."
+          ]
+        }
+      ],
+      "scripted_accepted_suggestion": false,
+      "latency_seconds": {
+        "model_only_cache": 0.0010829996317625046,
+        "memory_first": 0.010418300051242113,
+        "memory_repeat": 0.005133800208568573
+      }
+    },
+    {
+      "id": "PM22",
+      "group": "existing_cache",
+      "raw_text": "HARIBO SAURE POMMES",
+      "expected_product": null,
+      "expected_category": "confectionery_snacks.confectionery",
+      "model_only": {
+        "node_id": "confectionery_snacks.confectionery",
+        "specificity": "leaf",
+        "review_required": false,
+        "cache_available": true,
+        "category_result": "correct_leaf",
+        "matched_product_id": null,
+        "match_method": null,
+        "jev_stage_bypassed": false
+      },
+      "memory_before_review": {
+        "node_id": "confectionery_snacks.confectionery",
+        "specificity": "leaf",
+        "review_required": false,
+        "cache_available": true,
+        "category_result": "correct_leaf",
+        "matched_product_id": null,
+        "match_method": null,
+        "jev_stage_bypassed": false
+      },
+      "memory_after_scripted_review": {
+        "node_id": "confectionery_snacks.confectionery",
+        "specificity": "leaf",
+        "review_required": false,
+        "cache_available": true,
+        "category_result": "correct_leaf",
+        "matched_product_id": null,
+        "match_method": null,
+        "jev_stage_bypassed": false
+      },
+      "top_suggestion": "SYN-101",
+      "candidate_products": [
+        {
+          "id": "SYN-101",
+          "lexical": 0.790246,
+          "semantic_cosine": 0.898186,
+          "eligible": false,
+          "blocked_reasons": [
+            "Pack size is absent; this alias could refer to multiple catalog sizes."
+          ]
+        },
+        {
+          "id": "SYN-102",
+          "lexical": 0.283694,
+          "semantic_cosine": 0.81122,
+          "eligible": false,
+          "blocked_reasons": [
+            "Explicit description conflicts with this catalog product family.",
+            "Description names a conflicting product family or form.",
+            "Pack size is absent; this alias could refer to multiple catalog sizes."
+          ]
+        },
+        {
+          "id": "SYN-108",
+          "lexical": 0.0,
+          "semantic_cosine": 0.812543,
+          "eligible": false,
+          "blocked_reasons": [
+            "Explicit description conflicts with this catalog product family.",
+            "Pack size is absent; this alias could refer to multiple catalog sizes."
+          ]
+        }
+      ],
+      "scripted_accepted_suggestion": false,
+      "latency_seconds": {
+        "model_only_cache": 0.0018799998797476292,
+        "memory_first": 0.008644700050354004,
+        "memory_repeat": 0.004963899962604046
+      }
+    },
+    {
+      "id": "PM23",
+      "group": "existing_cache",
+      "raw_text": "POMMES FRITES TK",
+      "expected_product": null,
+      "expected_category": "prepared_food.potato_sides",
+      "model_only": {
+        "node_id": "prepared_food.potato_sides",
+        "specificity": "leaf",
+        "review_required": false,
+        "cache_available": true,
+        "category_result": "correct_leaf",
+        "matched_product_id": null,
+        "match_method": null,
+        "jev_stage_bypassed": false
+      },
+      "memory_before_review": {
+        "node_id": "prepared_food.potato_sides",
+        "specificity": "leaf",
+        "review_required": false,
+        "cache_available": true,
+        "category_result": "correct_leaf",
+        "matched_product_id": null,
+        "match_method": null,
+        "jev_stage_bypassed": false
+      },
+      "memory_after_scripted_review": {
+        "node_id": "prepared_food.potato_sides",
+        "specificity": "leaf",
+        "review_required": false,
+        "cache_available": true,
+        "category_result": "correct_leaf",
+        "matched_product_id": null,
+        "match_method": null,
+        "jev_stage_bypassed": false
+      },
+      "top_suggestion": "SYN-102",
+      "candidate_products": [
+        {
+          "id": "SYN-102",
+          "lexical": 0.601971,
+          "semantic_cosine": 0.840268,
+          "eligible": false,
+          "blocked_reasons": [
+            "Pack size is absent; this alias could refer to multiple catalog sizes."
+          ]
+        },
+        {
+          "id": "SYN-101",
+          "lexical": 0.273845,
+          "semantic_cosine": 0.839202,
+          "eligible": false,
+          "blocked_reasons": [
+            "Explicit description conflicts with this catalog product family.",
+            "Description names a conflicting product family or form.",
+            "Pack size is absent; this alias could refer to multiple catalog sizes.",
+            "Brand is absent from the reusable alias."
+          ]
+        },
+        {
+          "id": "SYN-103",
+          "lexical": 0.0,
+          "semantic_cosine": 0.806977,
+          "eligible": false,
+          "blocked_reasons": [
+            "Explicit description conflicts with this catalog product family.",
+            "Cookware diameter is absent.",
+            "Brand is absent from the reusable alias."
+          ]
+        }
+      ],
+      "scripted_accepted_suggestion": false,
+      "latency_seconds": {
+        "model_only_cache": 0.00139999995008111,
+        "memory_first": 0.009498499799519777,
+        "memory_repeat": 0.00399320013821125
+      }
+    },
+    {
+      "id": "PM24",
+      "group": "existing_cache",
+      "raw_text": "WMF PF 24CM",
+      "expected_product": null,
+      "expected_category": "household.kitchenware",
+      "model_only": {
+        "node_id": null,
+        "specificity": "none",
+        "review_required": true,
+        "cache_available": true,
+        "category_result": "abstention",
+        "matched_product_id": null,
+        "match_method": null,
+        "jev_stage_bypassed": false
+      },
+      "memory_before_review": {
+        "node_id": null,
+        "specificity": "none",
+        "review_required": true,
+        "cache_available": true,
+        "category_result": "abstention",
+        "matched_product_id": null,
+        "match_method": null,
+        "jev_stage_bypassed": false
+      },
+      "memory_after_scripted_review": {
+        "node_id": null,
+        "specificity": "none",
+        "review_required": true,
+        "cache_available": true,
+        "category_result": "abstention",
+        "matched_product_id": null,
+        "match_method": null,
+        "jev_stage_bypassed": false
+      },
+      "top_suggestion": "SYN-103",
+      "candidate_products": [
+        {
+          "id": "SYN-103",
+          "lexical": 0.640454,
+          "semantic_cosine": 0.922787,
+          "eligible": true,
+          "blocked_reasons": []
+        },
+        {
+          "id": "SYN-101",
+          "lexical": 0.0,
+          "semantic_cosine": 0.837265,
+          "eligible": false,
+          "blocked_reasons": [
+            "Explicit brand differs.",
+            "Explicit description conflicts with this catalog product family.",
+            "Pack size is absent; this alias could refer to multiple catalog sizes.",
+            "Brand is absent from the reusable alias."
+          ]
+        },
+        {
+          "id": "SYN-105",
+          "lexical": 0.0,
+          "semantic_cosine": 0.829844,
+          "eligible": false,
+          "blocked_reasons": [
+            "Explicit description conflicts with this catalog product family.",
+            "Pack size is absent; this alias could refer to multiple catalog sizes.",
+            "Distinguishing product variant is absent from the reusable alias."
+          ]
+        }
+      ],
+      "scripted_accepted_suggestion": false,
+      "latency_seconds": {
+        "model_only_cache": 0.0020826999098062515,
+        "memory_first": 0.011838499922305346,
+        "memory_repeat": 0.004590499680489302
+      }
+    }
+  ]
+}

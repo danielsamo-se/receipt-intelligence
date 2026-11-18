@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Check, ChevronDown, Database, FileText, LoaderCircle, PencilLine, Undo2, X } from 'lucide-react'
 import { api, money, percent, stamp } from './api'
 import { DecisionStatus } from './decisionRegistry'
+import { ProductMemory } from './ProductMemory'
 import type { Assessment, InspectorData, Policy, TaxonomyNode } from './types'
 
 interface Props { lineId: string; merchantId: string; policy: Policy; nodes: TaxonomyNode[]; onClose: () => void; onChanged: () => Promise<void> }
@@ -58,6 +59,17 @@ export function Inspector({ lineId, merchantId, policy, nodes, onClose, onChange
     finally { setBusy(false) }
   }
 
+  async function memoryAction(path: string, body: Record<string,unknown>, success: string) {
+    setBusy(true); setError(''); setMessage('')
+    try {
+      const value=await api<InspectorData>(`${endpoint}/${path}`,{method:'POST',body:JSON.stringify({...body,policy})})
+      setData(value);setSelected(value.decision.node_id || '')
+      await onChanged()
+      setMessage(success)
+    }catch(e){setError(e instanceof Error?e.message:'Product memory review failed.')}
+    finally{setBusy(false)}
+  }
+
   const decision = data?.decision
   const original = decision?.underlying_model || decision
   const parents = nodes.filter(n => n.level === 'parent' && n.kind === (data?.sales_assumption.record_type === 'sale' ? 'merchandise' : 'receipt_adjustment'))
@@ -83,17 +95,21 @@ export function Inspector({ lineId, merchantId, policy, nodes, onClose, onChange
         {!data && !error && <div className="loading"><LoaderCircle className="spin" size={22}/>Loading the cached decision…</div>}
         {error && <div className="error" role="alert">{error}</div>}
         {data && decision && original && <>
-          <div className="pipeline-intro">Receipt input → Jev assessment → Policy → Final outcome</div>
+          <div className="pipeline-intro">Receipt input → Product memory → Jev if needed → Final outcome</div>
           <section className="pipeline-step"><div className="step-label"><FileText size={17}/><h3>Receipt input</h3></div>
             <div className="receipt-input"><span className="receipt-raw">{decision.raw_text}</span><div><span>{money(decision.price_cents)} per printed line</span><span>{decision.merchant_type}</span></div></div>
-            <p className="muted small">{lineId} · {data.sales_assumption.weekly_quantity} modeled weekly occurrences. Quantities are synthetic assumptions.</p>
+            <p className="muted small">{lineId} · {data.included_in_weekly_analytics ? `${data.sales_assumption.weekly_quantity} modeled weekly occurrences. Quantities are synthetic assumptions.` : 'Synthetic one-off input. Excluded from the frozen weekly analytics.'}</p>
           </section>
-          <section className="pipeline-step"><div className="step-label"><Database size={17}/><h3>Jev assessment</h3><span className="tag">Real cached response</span></div>
-            <p className="muted small">These are returned choices and scores, not a generated explanation of the model’s reasoning.</p>
-            {decision.assessments.map(e => <AssessmentCard key={e.stage} evidence={e}/>)}
+          {decision.product_memory && <ProductMemory key={lineId} memory={decision.product_memory} busy={busy} names={names} expanded={!data.included_in_weekly_analytics}
+            onReview={(productId,action,checked)=>memoryAction('memory-review',{product_id:productId,action,identity_checked:checked},action==='confirm'?'Alias confirmed. Future exact matches reuse Product Memory.':'Suggestion rejected. No classification was propagated.')}
+            onReverse={eventId=>memoryAction(`memory-reviews/${eventId}/reverse`,{},'Product memory review reversed. The alias is no longer trusted by that review.')}/>}
+          <section className="pipeline-step"><div className="step-label"><Database size={17}/><h3>Jev assessment</h3><span className="tag">{decision.product_memory?.model_stage_bypassed?'Bypassed':'Cached results only'}</span></div>
+            <p className="muted small">{decision.product_memory?.model_stage_bypassed?'Product memory supplied the classification. Any cache below is an inspection-only comparison, not part of this decision.':'These are returned choices and scores, not a generated explanation of the model’s reasoning.'}</p>
+            {(decision.assessments.length>0?decision.assessments:original.assessments).map(e => <AssessmentCard key={e.stage} evidence={e}/>)}
+            {decision.assessments.length===0&&original.assessments.length===0&&<p className="muted small">No Jev response exists for this input. No API call was made.</p>}
           </section>
           <section className="pipeline-step"><div className="step-label"><ChevronDown size={17}/><h3>Classification policy</h3><span className={`tag ${policy === 'FORCED' ? 'tag-warning' : ''}`}>{policy}</span></div>
-            <ul className="rules">{original.applied_rules.filter(r => r.code !== 'CACHE_ONLY').map(r => <li key={r.code}>{r.explanation}</li>)}</ul>
+            <ul className="rules">{(decision.product_memory?.model_stage_bypassed?decision:original).applied_rules.filter(r => r.code !== 'CACHE_ONLY').map(r => <li key={r.code}>{r.explanation}</li>)}</ul>
           </section>
           <section className="pipeline-step final-step"><div className="step-label"><Check size={17}/><h3>Final outcome</h3></div><DecisionStatus decision={decision}/>
             <h3 className="final-category">{decision.node_label || (decision.outcome === 'out_of_scope' ? 'Outside supported categories' : 'No category assigned')}</h3>

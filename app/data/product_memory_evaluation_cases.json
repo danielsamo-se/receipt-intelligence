@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "notice": "Labeled synthetic development examples, not a blind benchmark or real merchant data. Identities are stipulated only where the synthetic catalog scenario supplies them.",
+  "protocol": "Freeze these cases and retrieval settings before recording results. Compare SAFE model-only with the memory cascade. Then simulate a merchant checking the labeled catalog identity: confirm an eligible correct suggestion in the top three, never infer an identity for null labels. Reprocess identical inputs and record reuse. This scripted review is an oracle simulation, not observed human acceptance or autonomous accuracy.",
+  "cases": [
+    {"id":"PM01","group":"known_alias","raw_text":"HARIBO SAUR POMM 175G","price_cents":119,"product_id":"SYN-101","category":"confectionery_snacks.confectionery"},
+    {"id":"PM02","group":"known_alias","raw_text":"NM POMMES TK 750G","price_cents":229,"product_id":"SYN-102","category":"prepared_food.potato_sides"},
+    {"id":"PM03","group":"known_alias","raw_text":"WMF BRATPF 24CM","price_cents":2999,"product_id":"SYN-103","category":"household.kitchenware"},
+    {"id":"PM04","group":"known_identifier","raw_text":"ART 123456","price_cents":79,"identifier":"SKU-104","product_id":"SYN-104","category":"dairy_eggs.yogurt_quark"},
+    {"id":"PM05","group":"known_identifier","raw_text":"COLA KLASSIK 1L","price_cents":149,"identifier":"SKU-106","product_id":"SYN-106","category":"beverages.water_soft_drinks"},
+    {"id":"PM06","group":"known_identifier","raw_text":"MILCH 3,5% 1L","price_cents":119,"identifier":"SKU-105","product_id":"SYN-105","category":"dairy_eggs.milk_cream"},
+    {"id":"PM07","group":"new_alias","raw_text":"HARIBO SAURE POMMES 175 G","price_cents":119,"product_id":"SYN-101","category":"confectionery_snacks.confectionery"},
+    {"id":"PM08","group":"new_alias","raw_text":"POMMES FRITES TIEFKUEHL 750G","price_cents":229,"product_id":"SYN-102","category":"prepared_food.potato_sides"},
+    {"id":"PM09","group":"new_alias","raw_text":"BRATPFANNE WMF 24 CM","price_cents":2999,"product_id":"SYN-103","category":"household.kitchenware"},
+    {"id":"PM10","group":"new_alias","raw_text":"ERDBEER JOGHURT NM 150 G","price_cents":79,"product_id":"SYN-104","category":"dairy_eggs.yogurt_quark"},
+    {"id":"PM11","group":"new_alias","raw_text":"COLA ZERO 1000ML","price_cents":149,"product_id":"SYN-107","category":"beverages.water_soft_drinks"},
+    {"id":"PM12","group":"new_alias","raw_text":"ZITRONEN BIO NETZ 0,5KG","price_cents":199,"product_id":"SYN-108","category":"produce.fruit"},
+    {"id":"PM13","group":"misleading","raw_text":"HARIBO POMMES FRITES TK 750G","price_cents":229,"product_id":null,"category":null,"note":"Conflicting candy brand and frozen fries description; no precise identity or category asserted."},
+    {"id":"PM14","group":"misleading","raw_text":"WMF PFANNE 28CM","price_cents":3499,"product_id":null,"category":"household.kitchenware","note":"Category is defensible, but not the 24 cm catalog identity."},
+    {"id":"PM15","group":"misleading","raw_text":"ERDBEER JOG 500G","price_cents":169,"product_id":null,"category":"dairy_eggs.yogurt_quark","note":"A different size from the only catalog yogurt."},
+    {"id":"PM16","group":"misleading","raw_text":"MILCH FETTARM 1,5% 1L","price_cents":109,"product_id":null,"category":"dairy_eggs.milk_cream","note":"Not the confirmed full-fat milk."},
+    {"id":"PM17","group":"misleading","raw_text":"CC ZERO 1L","price_cents":149,"identifier":"SKU-106","product_id":null,"category":"beverages.water_soft_drinks","note":"Original-cola identifier contradicts exact zero-cola alias. Requires verification."},
+    {"id":"PM18","group":"misleading","raw_text":"BIO ZITRONEN REINIGER 500ML","price_cents":249,"product_id":null,"category":"household.cleaning_supplies","note":"Lemon cleaner is not fresh citrus."},
+    {"id":"PM19","group":"existing_cache","raw_text":"ART 004711","price_cents":349,"product_id":null,"category":null,"note":"Completely insufficient information."},
+    {"id":"PM20","group":"existing_cache","raw_text":"MOLKEREI ART","price_cents":149,"product_id":null,"category":"dairy_eggs","note":"Parent-only evidence, no specific dairy product identity."},
+    {"id":"PM21","group":"existing_cache","raw_text":"AKTION 1","price_cents":199,"product_id":null,"category":null,"note":"Promotion marker does not identify a product."},
+    {"id":"PM22","group":"existing_cache","raw_text":"HARIBO SAURE POMMES","price_cents":119,"product_id":null,"category":"confectionery_snacks.confectionery","note":"Confectionery category supported; no pack size establishes the 175 g catalog identity."},
+    {"id":"PM23","group":"existing_cache","raw_text":"POMMES FRITES TK","price_cents":229,"product_id":null,"category":"prepared_food.potato_sides","note":"Category supported; brand and pack identity remain unstated."},
+    {"id":"PM24","group":"existing_cache","raw_text":"WMF PF 24CM","price_cents":2999,"product_id":null,"category":"household.kitchenware","note":"Kitchenware category supported; abbreviation does not establish the precise catalog product."}
+  ]
+}

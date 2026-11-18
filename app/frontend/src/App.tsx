@@ -4,6 +4,7 @@ import { api, money, percent } from './api'
 import { DecisionStatus } from './decisionRegistry'
 import { Evaluation } from './Evaluation'
 import { Inspector } from './Inspector'
+import { MemoryInput } from './MemoryInput'
 import type { Bootstrap, LineSummary, Policy, ReplaySession, Report, Scope } from './types'
 
 const initialPolicy = (): Policy => localStorage.getItem('receipt-policy') === 'SAFE' ? 'SAFE' : 'FORCED'
@@ -56,7 +57,7 @@ export default function App() {
       socket.onmessage=event=>{
         try{
           const message=JSON.parse(event.data) as {type:string;session_id?:string}
-          if(message.type.startsWith('correction.')||(message.session_id&&message.session_id===replayRef.current))void refreshRef.current().catch(()=>{})
+          if(message.type.startsWith('correction.')||message.type.startsWith('memory.')||(message.session_id&&message.session_id===replayRef.current))void refreshRef.current().catch(()=>{})
         }catch{/* Ignore malformed notifications; REST remains authoritative. */}
       }
       socket.onerror=()=>setConnection('disconnected')
@@ -156,7 +157,8 @@ export default function App() {
               {!search&&candidates.length>3&&<button className="queue-expand" onClick={()=>setShowAll(!showAll)}>{showAll?'Show highest-impact lines':`View all ${candidates.length} review items`}<ChevronDown size={15}/></button>}
             </section>
           </div>
-          <div className="data-footer"><span><Database size={14}/>Real cached Jev 1.14 assessments</span><span>{report?.correction_count||0} merchant-corrected lines</span><span>Net modeled receipt value: <strong>{money(totals?.net_receipt_value_cents||0)}</strong></span></div>
+          <div className="data-footer"><span><Database size={14}/>Real cached Jev 1.14 assessments</span><span>{report?.correction_count||0} lines using merchant knowledge</span><span>Net modeled receipt value: <strong>{money(totals?.net_receipt_value_cents||0)}</strong></span></div>
+          {bootstrap&&<MemoryInput merchantId={bootstrap.merchant_id} policy={policy} onInspect={setSelectedLine}/>}
           <details className="panel all-lines"><summary><FileText size={17}/>Inspect all {report?.line_count||0} receipt lines<span>Includes adjustments and scope rejections</span></summary><div className="table-scroll"><table><thead><tr><th>POS description</th><th>Occurrences</th><th>Value</th><th>Outcome</th><th>Category</th></tr></thead><tbody>{report?.lines.map(line=><tr key={line.line_id}><td><button className="line-link" onClick={()=>setSelectedLine(line.line_id)}>{line.raw_text}</button><span className="row-meta">{line.line_id} · {line.record_type==='sale'?'Modeled sale':line.record_type.replaceAll('_',' ')}</span></td><td>{line.quantity}</td><td>{money(line.value_cents)}</td><td><DecisionStatus decision={line}/></td><td>{line.node_label||'—'}</td></tr>)}</tbody></table></div></details>
         </>}
       </main>

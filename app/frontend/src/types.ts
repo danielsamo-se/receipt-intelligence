@@ -22,6 +22,7 @@ export interface Decision {
   assessments: Assessment[]; scores: Record<string, number>;
   applied_rules: { code: string; explanation: string }[]; provenance: Record<string, unknown>;
   correction: Correction | null; underlying_model: Decision | null
+  product_memory: ProductMemory | null
 }
 export interface LineSummary extends Omit<Decision, 'assessments' | 'underlying_model' | 'applied_rules' | 'provenance'> {
   quantity: number; value_cents: number; record_type: string; reason: string
@@ -54,7 +55,29 @@ export interface AuditEvent {
   original_classification: { node_id?: string; outcome?: string }; original_model_decision: Decision
 }
 export interface InspectorData {
-  decision: Decision; sales_assumption: { weekly_quantity: number; record_type: string }; audit: AuditEvent[]
+  decision: Decision; sales_assumption: { weekly_quantity: number; record_type: string }; audit: AuditEvent[];
+  included_in_weekly_analytics: boolean
+}
+
+export interface MemoryProduct {
+  product_id: string; name: string; node_id: string; attributes: Record<string,string>;
+  source: { kind: string; notice?: string }; created_at: string
+}
+export interface MemoryCandidate {
+  product: MemoryProduct; lexical_score: number; semantic_cosine: number | null;
+  ranking_score: number; eligible_for_confirmation: boolean; blocked_reasons: string[]; rejected: boolean
+}
+export interface MemoryEvent {
+  id: number; action: 'confirm' | 'reject' | 'reverse'; product_id: string;
+  created_at: string; reversible: boolean; note: string; evidence: unknown
+}
+export interface ProductMemory {
+  status: 'known_mapping' | 'suggested' | 'no_mapping' | 'line_override_precedence';
+  namespace: string; normalized_alias: string; identifier: string | null;
+  match: { product: MemoryProduct; method: string; alias_provenance: {event_id: number | null; created_at: string; source: {kind: string}} | null } | null;
+  candidates: MemoryCandidate[]; blocked_reasons: string[]; model_stage_bypassed: boolean;
+  embedding: { model?: string; revision?: string; available: boolean; error: string | null; network_access?: boolean };
+  retrieval_mode: string; audit: MemoryEvent[]
 }
 export interface EvaluationMetric {
   method?: string; threshold?: number | null; correct_leaf: number; correct_parent: number;

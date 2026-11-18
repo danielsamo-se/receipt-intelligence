@@ -1,0 +1,232 @@
+{
+  "version": 1,
+  "seed": 20261118,
+  "merchant_id": "nordmarkt-demo",
+  "merchant_name": "Nordmarkt Demo",
+  "period_label": "Illustrative week · 9–15 Nov 2026",
+  "quantity_meaning": "Modeled occurrences of the printed receipt line, not individual units inside a pack.",
+  "notice": "Synthetic demonstration data — not actual anybill merchant data.",
+  "record_type_assumption": "Four explicit deposit/discount descriptions are typed separately. Other positive-priced lines are modeled sales candidates, including unresolved and outside-scope value; this does not establish product identity.",
+  "source_sha256": {
+    "data/lines.csv": "32ddb63ad1d4f7adc321000990943e7abd66dd344ba588d2124aa58ea905de0a",
+    "data/followup_holdout24_inputs.csv": "afb71178b1481e629eb39e9d224ce44a908232c49acda8d291aa3945e40b3b3e"
+  },
+  "items": {
+    "pilot:01": {
+      "weekly_quantity": 91,
+      "record_type": "sale"
+    },
+    "pilot:02": {
+      "weekly_quantity": 34,
+      "record_type": "sale"
+    },
+    "pilot:03": {
+      "weekly_quantity": 51,
+      "record_type": "sale"
+    },
+    "pilot:04": {
+      "weekly_quantity": 17,
+      "record_type": "sale"
+    },
+    "pilot:05": {
+      "weekly_quantity": 13,
+      "record_type": "sale"
+    },
+    "pilot:06": {
+      "weekly_quantity": 10,
+      "record_type": "deposit_return"
+    },
+    "pilot:07": {
+      "weekly_quantity": 36,
+      "record_type": "deposit_charge"
+    },
+    "pilot:08": {
+      "weekly_quantity": 56,
+      "record_type": "sale"
+    },
+    "pilot:09": {
+      "weekly_quantity": 48,
+      "record_type": "sale"
+    },
+    "pilot:10": {
+      "weekly_quantity": 71,
+      "record_type": "sale"
+    },
+    "pilot:11": {
+      "weekly_quantity": 62,
+      "record_type": "sale"
+    },
+    "pilot:12": {
+      "weekly_quantity": 29,
+      "record_type": "sale"
+    },
+    "pilot:13": {
+      "weekly_quantity": 35,
+      "record_type": "sale"
+    },
+    "pilot:14": {
+      "weekly_quantity": 94,
+      "record_type": "sale"
+    },
+    "pilot:15": {
+      "weekly_quantity": 8,
+      "record_type": "sale"
+    },
+    "pilot:16": {
+      "weekly_quantity": 37,
+      "record_type": "sale"
+    },
+    "pilot:17": {
+      "weekly_quantity": 77,
+      "record_type": "sale"
+    },
+    "pilot:18": {
+      "weekly_quantity": 14,
+      "record_type": "sale"
+    },
+    "pilot:19": {
+      "weekly_quantity": 55,
+      "record_type": "sale"
+    },
+    "pilot:20": {
+      "weekly_quantity": 8,
+      "record_type": "sale"
+    },
+    "pilot:21": {
+      "weekly_quantity": 34,
+      "record_type": "sale"
+    },
+    "pilot:22": {
+      "weekly_quantity": 43,
+      "record_type": "sale"
+    },
+    "pilot:23": {
+      "weekly_quantity": 53,
+      "record_type": "discount"
+    },
+    "pilot:24": {
+      "weekly_quantity": 20,
+      "record_type": "sale"
+    },
+    "pilot:25": {
+      "weekly_quantity": 80,
+      "record_type": "sale"
+    },
+    "pilot:26": {
+      "weekly_quantity": 74,
+      "record_type": "sale"
+    },
+    "pilot:27": {
+      "weekly_quantity": 34,
+      "record_type": "sale"
+    },
+    "pilot:28": {
+      "weekly_quantity": 57,
+      "record_type": "sale"
+    },
+    "pilot:29": {
+      "weekly_quantity": 26,
+      "record_type": "sale"
+    },
+    "pilot:30": {
+      "weekly_quantity": 35,
+      "record_type": "sale"
+    },
+    "holdout:H01": {
+      "weekly_quantity": 82,
+      "record_type": "sale"
+    },
+    "holdout:H02": {
+      "weekly_quantity": 37,
+      "record_type": "sale"
+    },
+    "holdout:H03": {
+      "weekly_quantity": 21,
+      "record_type": "sale"
+    },
+    "holdout:H04": {
+      "weekly_quantity": 71,
+      "record_type": "sale"
+    },
+    "holdout:H05": {
+      "weekly_quantity": 62,
+      "record_type": "sale"
+    },
+    "holdout:H06": {
+      "weekly_quantity": 35,
+      "record_type": "sale"
+    },
+    "holdout:H07": {
+      "weekly_quantity": 14,
+      "record_type": "sale"
+    },
+    "holdout:H08": {
+      "weekly_quantity": 67,
+      "record_type": "sale"
+    },
+    "holdout:H09": {
+      "weekly_quantity": 31,
+      "record_type": "sale"
+    },
+    "holdout:H10": {
+      "weekly_quantity": 79,
+      "record_type": "sale"
+    },
+    "holdout:H11": {
+      "weekly_quantity": 40,
+      "record_type": "sale"
+    },
+    "holdout:H12": {
+      "weekly_quantity": 87,
+      "record_type": "sale"
+    },
+    "holdout:H13": {
+      "weekly_quantity": 27,
+      "record_type": "sale"
+    },
+    "holdout:H14": {
+      "weekly_quantity": 59,
+      "record_type": "sale"
+    },
+    "holdout:H15": {
+      "weekly_quantity": 56,
+      "record_type": "discount"
+    },
+    "holdout:H16": {
+      "weekly_quantity": 53,
+      "record_type": "sale"
+    },
+    "holdout:H17": {
+      "weekly_quantity": 15,
+      "record_type": "sale"
+    },
+    "holdout:H18": {
+      "weekly_quantity": 16,
+      "record_type": "sale"
+    },
+    "holdout:H19": {
+      "weekly_quantity": 45,
+      "record_type": "sale"
+    },
+    "holdout:H20": {
+      "weekly_quantity": 51,
+      "record_type": "sale"
+    },
+    "holdout:H21": {
+      "weekly_quantity": 84,
+      "record_type": "sale"
+    },
+    "holdout:H22": {
+      "weekly_quantity": 94,
+      "record_type": "sale"
+    },
+    "holdout:H23": {
+      "weekly_quantity": 84,
+      "record_type": "sale"
+    },
+    "holdout:H24": {
+      "weekly_quantity": 56,
+      "record_type": "sale"
+    }
+  }
+}

@@ -72,11 +72,12 @@ class Store:
                                    JOIN correction_events e ON e.id=a.event_id WHERE a.merchant_id=?""", (merchant_id,)).fetchall()
             return revision, {r["line_id"]: dict(r) for r in active}
 
-    def set_override(self, merchant_id: str, line_id: str, node_id: str, policy: str, model: dict, note: str) -> int:
+    def set_override(self, merchant_id: str, line_id: str, node_id: str, policy: str, model: dict, note: str,
+                     before_decision: dict | None = None) -> int:
         with self.connection() as db:
             db.execute("BEGIN IMMEDIATE")
             previous = db.execute("SELECT * FROM active_overrides WHERE merchant_id=? AND line_id=?", (merchant_id, line_id)).fetchone()
-            before = {"outcome": "override", "node_id": previous["node_id"], "event_id": previous["event_id"]} if previous else model
+            before = {"outcome": "override", "node_id": previous["node_id"], "event_id": previous["event_id"]} if previous else before_decision or model
             cursor = db.execute("""INSERT INTO correction_events
                 (merchant_id,line_id,action,node_id,previous_event_id,policy,before_json,model_json,note,created_at)
                 VALUES (?,?,?,?,?,?,?,?,?,?)""", (merchant_id, line_id, "set", node_id,

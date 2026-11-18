@@ -36,6 +36,7 @@ class Decision(BaseModel):
     provenance: dict = Field(default_factory=dict)
     correction: dict | None = None
     underlying_model: dict | None = None
+    product_memory: dict | None = None
 
 
 class DecisionEngine:

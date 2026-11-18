@@ -30,6 +30,28 @@ class ReplayBody(BaseModel):
     policy: Policy = "SAFE"
 
 
+class MemoryReceiptBody(BaseModel):
+    raw_text: str = Field(min_length=1,max_length=160,pattern=r".*\S.*")
+    price_cents: int = Field(ge=1,le=100000)
+    merchant_type: str = Field(default="supermarket",min_length=1,max_length=60)
+    pos_namespace: str = Field(default="demo-pos",min_length=1,max_length=80)
+    identifier: str | None = Field(default=None,min_length=1,max_length=80)
+    policy: Policy = "SAFE"
+
+
+class MemoryReviewBody(BaseModel):
+    product_id: str = Field(min_length=1,max_length=80)
+    action: Literal["confirm","reject"]
+    identity_checked: bool = False
+    note: str = Field(default="",max_length=500)
+    policy: Policy = "SAFE"
+
+
+class MemoryReverseBody(BaseModel):
+    note: str = Field(default="Reverse merchant product review",max_length=500)
+    policy: Policy = "SAFE"
+
+
 def create_app(db_path: Path | None = None, replay_interval: float = 1.0) -> FastAPI:
     catalog = Catalog()
     store = Store(db_path or PROJECT / os.environ.get("RECEIPT_DB_PATH", "app/.local/demo.sqlite3"))
@@ -80,8 +102,7 @@ def create_app(db_path: Path | None = None, replay_interval: float = 1.0) -> Fas
     @application.get("/api/merchants/{merchant_id}/lines/{line_id}")
     def inspect(merchant_id: str,line_id: str,policy: Policy = "SAFE"):
         try:
-            return {"decision":service.decision(line_id,merchant_id,policy),
-                    "sales_assumption":service.assumptions["items"][line_id],"audit":store.audit(merchant_id,line_id)}
+            return service.inspect(line_id,merchant_id,policy)
         except KeyError:
             raise HTTPException(404,"Merchant or receipt line not found") from None
 
@@ -106,6 +127,55 @@ def create_app(db_path: Path | None = None, replay_interval: float = 1.0) -> Fas
             raise HTTPException(404,"Merchant or receipt line not found") from None
         except ValueError as exc:
             raise HTTPException(409,str(exc)) from None
+
+    @application.post("/api/merchants/{merchant_id}/memory/receipts")
+    def process_memory_receipt(merchant_id: str,body: MemoryReceiptBody):
+        try:
+            service.merchant(merchant_id)
+            line_id = service.memory.db.add_receipt(merchant_id,body.raw_text,body.price_cents,
+                body.merchant_type,body.pos_namespace,body.identifier)
+            return inspect(merchant_id,line_id,body.policy)
+        except KeyError:
+            raise HTTPException(404,"Merchant not found") from None
+
+    @application.post("/api/merchants/{merchant_id}/lines/{line_id}/memory-review")
+    async def review_product(merchant_id: str,line_id: str,body: MemoryReviewBody):
+        try:
+            service.merchant(merchant_id)
+            line,context = service.input(line_id,merchant_id)
+            original = service.decision(line_id,merchant_id,body.policy).model_dump()
+            service.memory.review(line,merchant_id,context,body.product_id,body.action,
+                                  body.identity_checked,body.note,original)
+            await broker.publish(merchant_id,{"type":"memory.reviewed","line_id":line_id})
+            return inspect(merchant_id,line_id,body.policy)
+        except KeyError:
+            raise HTTPException(404,"Merchant, receipt or product not found") from None
+        except ValueError as exc:
+            raise HTTPException(409,str(exc)) from None
+
+    @application.post("/api/merchants/{merchant_id}/lines/{line_id}/memory-reviews/{event_id}/reverse")
+    async def reverse_product_review(merchant_id: str,line_id: str,event_id: int,body: MemoryReverseBody):
+        try:
+            service.merchant(merchant_id)
+            line,context = service.input(line_id,merchant_id)
+            events = service.memory.db.audit(merchant_id,context["pos_namespace"],line.merchant_type,
+                                            service.memory.assess(line,merchant_id,retrieve=False)["normalized_alias"])
+            if event_id not in {event["id"] for event in events}:
+                raise KeyError("Review not found for this receipt")
+            service.memory.db.reverse(merchant_id,event_id,body.note)
+            await broker.publish(merchant_id,{"type":"memory.reversed","line_id":line_id})
+            return inspect(merchant_id,line_id,body.policy)
+        except KeyError:
+            raise HTTPException(404,"Merchant receipt or review not found") from None
+        except ValueError as exc:
+            raise HTTPException(409,str(exc)) from None
+
+    @application.get("/api/product-memory/evaluation")
+    def memory_evaluation():
+        path = PROJECT / "app/data/product_memory_evaluation_results.json"
+        if not path.exists():
+            raise HTTPException(404,"Product memory evaluation has not been recorded")
+        return json.loads(path.read_text(encoding="utf-8"))
 
     @application.get("/api/evaluation")
     def evaluation():

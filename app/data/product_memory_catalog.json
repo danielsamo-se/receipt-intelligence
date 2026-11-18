@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "notice": "Explicitly synthetic merchant catalog. Product identities and confirmations are demonstration assumptions, not anybill merchant data or independent ground truth.",
+  "merchant_id": "nordmarkt-demo",
+  "pos_namespace": "demo-pos",
+  "merchant_type": "supermarket",
+  "products": [
+    {"product_id":"SYN-101","name":"Haribo Saure Pommes 175 g","node_id":"confectionery_snacks.confectionery","identifier":"SKU-101","aliases":["HARIBO SAUR POMM 175G"],"attributes":{"brand":"haribo","pack":"175g","family":"candy"}},
+    {"product_id":"SYN-102","name":"Nordmarkt Pommes Frites tiefgekühlt 750 g","node_id":"prepared_food.potato_sides","identifier":"SKU-102","aliases":["NM POMMES TK 750G"],"attributes":{"pack":"750g","family":"frozen_fries"}},
+    {"product_id":"SYN-103","name":"WMF Bratpfanne 24 cm","node_id":"household.kitchenware","identifier":"SKU-103","aliases":["WMF BRATPF 24CM"],"attributes":{"brand":"wmf","diameter_cm":"24","family":"pan"}},
+    {"product_id":"SYN-104","name":"Nordmarkt Erdbeerjoghurt 150 g","node_id":"dairy_eggs.yogurt_quark","identifier":"SKU-104","aliases":["NM ERDB JOG 150G"],"attributes":{"pack":"150g","family":"yogurt","variant":"strawberry"}},
+    {"product_id":"SYN-105","name":"Nordmarkt Vollmilch 3,5 Prozent 1 l","node_id":"dairy_eggs.milk_cream","identifier":"SKU-105","aliases":["NM VOLLMILCH 1L 3,5%"],"attributes":{"pack":"1l","family":"milk","variant":"full_fat"}},
+    {"product_id":"SYN-106","name":"Coca Cola Original 1 l","node_id":"beverages.water_soft_drinks","identifier":"SKU-106","aliases":["CC ORIGINAL 1L"],"attributes":{"pack":"1l","family":"cola","variant":"original"}},
+    {"product_id":"SYN-107","name":"Coca Cola Zero 1 l","node_id":"beverages.water_soft_drinks","identifier":"SKU-107","aliases":["CC ZERO 1L"],"attributes":{"pack":"1l","family":"cola","variant":"zero"}},
+    {"product_id":"SYN-108","name":"Bio Zitronen im Netz 500 g","node_id":"produce.fruit","identifier":"SKU-108","aliases":["BIO ZITRONEN NETZ 500G"],"attributes":{"pack":"500g","family":"lemons"}}
+  ]
+}

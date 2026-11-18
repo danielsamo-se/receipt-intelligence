@@ -6,6 +6,7 @@ from pathlib import Path
 
 from .catalog import Catalog, PROJECT
 from .engine import Decision, DecisionEngine, Policy, Rule, SAFE_THRESHOLD
+from .product_memory import ProductMemory, normalize
 from .storage import Store
 
 NOTICE = "Synthetic demonstration data — not actual anybill merchant data."
@@ -17,6 +18,7 @@ class ReceiptService:
         self.store = store
         self.catalog = catalog or Catalog()
         self.engine = DecisionEngine(self.catalog)
+        self.memory = ProductMemory(store,self.catalog)
         self.assumptions = json.loads((PROJECT / "app/data/synthetic_sales.json").read_text(encoding="utf-8"))
         for name, sha in self.assumptions["source_sha256"].items():
             if hashlib.sha256((PROJECT / name).read_bytes()).hexdigest() != sha:
@@ -29,13 +31,37 @@ class ReceiptService:
         if merchant_id != MERCHANT_ID:
             raise KeyError("Demo merchant not found")
 
-    def decision(self, line_id: str, merchant_id: str, policy: Policy, active: dict | None = None) -> Decision:
+    def input(self, line_id: str, merchant_id: str):
+        if line_id in self.catalog.lines:
+            return self.catalog.line(line_id), {"pos_namespace":"demo-pos","identifier":None}
+        return self.memory.db.receipt(merchant_id,line_id)
+
+    def model_decision(self, line_id: str, merchant_id: str, policy: Policy) -> Decision:
+        line,_ = self.input(line_id,merchant_id)
+        # Only identical complete input state can reuse an existing cached response.
+        cached = self.catalog.lines.get(line_id) or next((item for item in self.catalog.lines.values()
+            if (item.raw_text,item.price_cents,item.merchant_type)==(line.raw_text,line.price_cents,line.merchant_type)),None)
+        if cached:
+            decision = self.engine.resolve(cached.id,merchant_id,policy)
+            decision.line_id,decision.dataset = line.id,line.dataset
+            if cached.id != line.id:
+                decision.provenance["exact_input_cache_source"] = cached.id
+            return decision
+        decision = Decision(line_id=line.id,merchant_id=merchant_id,raw_text=line.raw_text,
+            price_cents=line.price_cents,merchant_type=line.merchant_type,dataset=line.dataset,policy=policy)
+        decision.provenance = {"mode":"no_matching_cache","taxonomy_version":self.catalog.taxonomy["version"],"actual_model_calls":0}
+        return self.engine.unavailable(decision,"This new input has no identical Jev cache. Merchant review is required.")
+
+    def decision(self, line_id: str, merchant_id: str, policy: Policy, active: dict | None = None,
+                 retrieve: bool = True) -> Decision:
         self.merchant(merchant_id)
-        base = self.engine.resolve(line_id, merchant_id, policy)
+        line,context = self.input(line_id,merchant_id)
         if active is None:
             _, active = self.store.snapshot(merchant_id)
         correction = active.get(line_id)
+        memory = self.memory.assess(line,merchant_id,context["pos_namespace"],context.get("identifier"),retrieve=retrieve and not correction)
         if correction:
+            base = self.model_decision(line_id,merchant_id,policy)
             original = base.model_dump()
             self.engine.assign(base, correction["node_id"])
             base.outcome, base.review_required = "override", False
@@ -43,25 +69,53 @@ class ReceiptService:
             base.correction = {**correction, "scope": "merchant_and_exact_receipt_line",
                                "independent_ground_truth": False}
             base.applied_rules.append(Rule(code="MERCHANT_OVERRIDE", explanation="An active merchant correction for this exact receipt line takes precedence over the cached model policy. It does not apply to similar product names or other merchants."))
+            memory["status"] = "line_override_precedence"
+            memory["model_stage_bypassed"] = False
+        elif memory["match"]:
+            product = memory["match"]["product"]
+            base = Decision(line_id=line.id,merchant_id=merchant_id,raw_text=line.raw_text,price_cents=line.price_cents,
+                merchant_type=line.merchant_type,dataset=line.dataset,policy=policy)
+            self.engine.assign(base,product["node_id"])
+            base.outcome,base.review_required = "override",False
+            base.provenance = {"mode":"merchant_product_memory","taxonomy_version":self.catalog.taxonomy["version"],
+                "product_id":product["product_id"],"source":product["source"],"actual_model_calls":0}
+            base.applied_rules.append(Rule(code="CONFIRMED_PRODUCT_MEMORY",explanation="An exact confirmed identifier or alias in this merchant/POS scope supplies the catalog classification. Similarity did not establish identity. The Jev policy stage was bypassed."))
+        else:
+            base = self.model_decision(line_id,merchant_id,policy)
+            base.applied_rules.insert(0,Rule(code="MEMORY_NOT_TRUSTED",explanation="No safe exact confirmed product mapping. Retrieval candidates are suggestions only; the existing cached Jev policy or review determines the outcome."))
+        base.product_memory = memory
         return base
+
+    def inspect(self, line_id: str, merchant_id: str, policy: Policy) -> dict:
+        decision = self.decision(line_id,merchant_id,policy)
+        line,context = self.input(line_id,merchant_id)
+        memory = decision.product_memory
+        memory["audit"] = self.memory.db.audit(merchant_id,context["pos_namespace"],line.merchant_type,normalize(line.raw_text))
+        if memory["match"]:
+            # Inspection-only comparison, never used to establish the mapped outcome.
+            decision.underlying_model = self.model_decision(line_id,merchant_id,policy).model_dump()
+        assumption = self.assumptions["items"].get(line_id)
+        return {"decision":decision,"sales_assumption":assumption or {"weekly_quantity":0,"record_type":"sale"},
+                "audit":self.store.audit(merchant_id,line_id),"included_in_weekly_analytics":assumption is not None}
 
     def set_override(self, line_id: str, merchant_id: str, policy: Policy, node_id: str, note: str) -> int:
         self.merchant(merchant_id)
-        self.catalog.line(line_id)
+        self.input(line_id,merchant_id)
         if node_id not in self.catalog.nodes:
             raise ValueError("Select a valid taxonomy parent or leaf.")
         node = self.catalog.nodes[node_id]
-        record_type = self.assumptions["items"][line_id]["record_type"]
+        record_type = self.assumptions["items"].get(line_id,{"record_type":"sale"})["record_type"]
         if (record_type == "sale") != (node["kind"] == "merchandise"):
             raise ValueError("A category correction cannot change the assumed POS record type. Merchandise and receipt adjustments stay separate.")
         if record_type != "sale" and node["level"] == "leaf" and node_id != f"adjustments.{record_type}":
             raise ValueError("The correction must preserve this assumed adjustment type.")
-        base = self.engine.resolve(line_id, merchant_id, policy)
-        return self.store.set_override(merchant_id,line_id,node_id,policy,base.model_dump(),note)
+        base = self.model_decision(line_id, merchant_id, policy)
+        before = self.decision(line_id,merchant_id,policy,retrieve=False).model_dump()
+        return self.store.set_override(merchant_id,line_id,node_id,policy,base.model_dump(),note,before)
 
     def undo(self, line_id: str, merchant_id: str, policy: Policy) -> int:
         self.merchant(merchant_id)
-        base = self.engine.resolve(line_id, merchant_id, policy)
+        base = self.model_decision(line_id, merchant_id, policy)
         return self.store.undo(merchant_id,line_id,policy,base.model_dump())
 
     @staticmethod
@@ -83,7 +137,7 @@ class ReceiptService:
                 continue
             assumption = self.assumptions["items"][line.id]
             quantity = 1 if member_ids is not None else assumption["weekly_quantity"]
-            d = self.decision(line.id,merchant_id,policy,active)
+            d = self.decision(line.id,merchant_id,policy,active,retrieve=False)
             summary = self.compact(d,quantity,assumption["record_type"])
             summaries.append(summary)
             value = summary["value_cents"]

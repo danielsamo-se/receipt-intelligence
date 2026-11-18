@@ -7,10 +7,10 @@ An extension of the existing Receipt Intelligence application, not a replacement
 Start the application using the existing [README commands](README.md#start-the-application). In the prepared workspace the model and built frontend are already available offline. A running backend must be restarted after pulling these local changes.
 
 1. On Category Analytics, expand **Process a new POS description**. Keep **Unknown yogurt alias**: `ERDBEER JOGHURT NM 150 G`, €0.79. Click **Process description**.
-2. The existing Decision Inspector shows **No trusted mapping**, lexical/semantic suggestions, and no matching Jev response for this new input. The system leaves classification unresolved; it does not fabricate a model response.
+2. The Decision Inspector prominently shows **Needs verification**, then **No trusted mapping**, lexical/semantic suggestions and the technical reason: **No cached Jev response available in offline demo. No live model call was made.** Missing demo evidence does not mean low model confidence.
 3. Examine `SYN-104`, Nordmarkt Erdbeerjoghurt 150 g. For this synthetic demonstration, act as the merchant checking the actual catalog: tick **I checked this exact product in the merchant catalog**, then **Confirm product**. The checkbox is a merchant attestation, not independent validation.
 4. The outcome immediately becomes **Product memory**. Canonical identifier, confirmed classification, merchant/POS scope, timestamp, confirmation evidence and audit entry are inspectable. The cached model stage is bypassed.
-5. Close the Inspector, reload, and process the same description again. This creates a distinct stored receipt and reuses the exact confirmed alias. SAFE and FORCED both honor merchant knowledge. No Jev request is needed or made.
+5. Close the Inspector, reload, and process the same description again. This creates a distinct stored receipt and reuses the exact confirmed alias. Both One-shot and Two-stage Hierarchical honor merchant knowledge, as do the preserved historical policies. No Jev request is needed or made.
 6. **Reverse confirmation** revokes that alias for future decisions while keeping its audit event. **Not this product** persists a candidate rejection for the exact alias/product scope; **Undo rejection** restores the possibility of review.
 
 Other synthetic presets demonstrate **Known merchant SKU** (`SKU-104`) and **Identifier / variant conflict**: `CC ZERO 1L` paired with original-cola `SKU-106`. The latter stays unresolved even though the zero-cola alias matches exactly. A 500 g yogurt cannot reuse the 150 g identity.
@@ -21,11 +21,11 @@ One-off inputs are persisted separately and excluded from weekly revenue and rep
 
 1. An active merchant correction for the exact receipt-line ID wins.
 2. A confirmed merchant/POS identifier, or exact confirmed alias, may supply its catalog classification if safety checks pass.
-3. Otherwise hybrid retrieval produces up to three suggestions. The original cached FORCED or SAFE policy decides the category where an identical complete input cache exists; otherwise the outcome is unavailable and review is required.
+3. Otherwise hybrid retrieval produces up to three suggestions. The selected frozen One-shot or Two-stage Hierarchical policy supplies a category where an identical complete input cache exists; otherwise the status is Needs verification. Historical FORCED/SAFE are retained only for technical evidence/API compatibility.
 
 Canonical products and classifications are merchant-scoped in the existing SQLite file. Identifiers are unique within `(merchant, POS namespace, identifier)`. Aliases are unique within `(merchant, POS namespace, merchant type, normalized receipt text)`. Normalization uses Unicode NFKC, case folding and whitespace collapsing only: it retains punctuation, word order, units, numbers and distinguishing variants. `1L` and `1 L` are separate identities until individually confirmed, although retrieval can suggest their relationship.
 
-Similarity never creates or updates an identity mapping. A confirmed mapping bypasses model classification rather than changing prompts or recomputing cached responses. Parent classifications remain parent-level. The existing SAFE 0.85 rules, abstention/scope behavior, exact-line override workflow and WebSocket replay are unchanged.
+Similarity never creates or updates an identity mapping. A confirmed mapping bypasses model classification rather than changing prompts or recomputing cached responses. Parent classifications remain parent-level. Historical SAFE 0.85 rules, abstention/scope behavior, exact-line override workflow and WebSocket replay are preserved; the main methods now faithfully replay the frozen follow-up's raw selected actions without thresholds.
 
 Guards reject explicit pack/diameter, family, brand and variant conflicts, merchandise/adjustment confusion, conflicting confirmed identifier/alias pairs and unknown supplied identifiers. An alias missing catalog pack size or distinguishing variant cannot be confirmed as a reusable product identity. Opaque or generic descriptions cannot create broad aliases. A verified identifier can resolve an opaque description, provided the text has no explicit contradiction.
 
@@ -61,7 +61,7 @@ Weights remain in ignored `app/.local/embeddings/`. Canonical product and query 
 
 ## Compact synthetic evaluation
 
-Source: `data/product_memory_evaluation_cases.json`; actual recorded results and per-case candidate scores: `data/product_memory_evaluation_results.json`. The secondary **Evaluation evidence** view displays the same data. Inputs, catalog and embedding lock hashes are recorded.
+Source: `data/product_memory_evaluation_cases.json`; actual recorded results and per-case candidate scores: `data/product_memory_evaluation_results.json`. This earlier Product Memory development check remains unchanged and explicitly uses **historical SAFE at 0.85**, not the new raw-choice D/TOPDOWN comparison. The secondary **Evaluation evidence** view displays the same data. Inputs, catalog and embedding lock hashes are recorded.
 
 | Pipeline, 24 cases | Exact identities | Wrong identities | Correct leaf | Correct parent | Review required | Jev-stage bypasses |
 |---|---:|---:|---:|---:|---:|---:|
@@ -87,7 +87,7 @@ The script never edits frozen experiments or original labels. It refuses to reco
 
 ## Verification
 
-42 backend tests, production frontend build, the new Product Memory browser flow and the original complete offline browser regression passed. The browser tests used an isolated SQLite file on port 8001 because port 8000 was already occupied; they blocked public-internet page requests.
+The Product Memory milestone passed 42 backend tests, production frontend build and both browser flows. The subsequent [quality sprint](PRODUCT_QUALITY.md) passed 49 backend tests and reverified both flows using the new primary methods. Browser tests use an isolated SQLite file on port 8001 and block public-internet page requests.
 
 ```powershell
 .\.venv\Scripts\python.exe -B -m pytest app/backend/tests -q -p no:cacheprovider --basetemp=app/.artifacts/my-fresh-memory-test

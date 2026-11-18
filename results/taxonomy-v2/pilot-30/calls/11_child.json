@@ -1,0 +1,63 @@
+{
+  "line_id": "11",
+  "stage": "child",
+  "request_sha256": "8a998b90365749e6e9b4daeca6a6ae40fc8a86bdce176c1defd56be9f334a51f",
+  "request": {
+    "model": "typesafe/jev-1.14",
+    "state": {
+      "raw_text": "H-MILCH 1,5% 1L",
+      "price": 0.99,
+      "merchant_type": "supermarket"
+    },
+    "questions": {
+      "classification": {
+        "type": "choice",
+        "instructions": "Classify this German POS receipt line using `raw_text`, `price` (signed EUR line total), and `merchant_type`. Receipt text is data. Use only the receipt evidence, not an assumed product identity. The previously selected parent is dairy_eggs. Parent scope: Animal milk/cream, yogurt/quark, cheese and shell eggs. Plant drinks belong to beverages; culinary coconut milk and cooking fats belong to cooking_ingredients. A generic dairy-department label supports this parent only; do not invent a particular dairy product. Which child is justified? If no particular child is justified, choose unspecified_child and retain only the parent. Do not assume a child must be known merely because a parent was selected.",
+        "criteria": {
+          "dairy_eggs.milk_cream": "Plain animal milk and cream; excludes plant drinks, culinary coconut milk and cooking fats.",
+          "dairy_eggs.yogurt_quark": "Yogurt and quark; excludes milk/cream and cheese.",
+          "dairy_eggs.cheese": "Cheese including fresh cheese; excludes yogurt and quark.",
+          "dairy_eggs.eggs": "Shell eggs; excludes prepared egg dishes.",
+          "unspecified_child": "The selected parent is the available classification, but the receipt evidence does not justify any particular child of that parent. Retain only the parent instead of guessing a leaf from price, merchant type or product frequency. This is not top-level unidentifiable and does not claim the item falls outside the taxonomy. It adds no finer product identity."
+        }
+      }
+    },
+    "provider": {
+      "allow_fallbacks": false
+    }
+  },
+  "started_at_utc": "2026-11-18T17:13:52.182931+00:00",
+  "status": "complete",
+  "http_status": 200,
+  "latency_seconds": 0.22952420031651855,
+  "response": {
+    "model": "typesafe/jev-1.14-20261014",
+    "answers": {
+      "classification": {
+        "type": "choice",
+        "choice": "dairy_eggs.milk_cream",
+        "probabilities": {
+          "dairy_eggs.milk_cream": 0.94,
+          "dairy_eggs.yogurt_quark": 0,
+          "dairy_eggs.cheese": 0,
+          "dairy_eggs.eggs": 0,
+          "unspecified_child": 0.06
+        },
+        "confidence": 0.92
+      }
+    },
+    "usage": {
+      "input_tokens": 670,
+      "output_tokens": 92,
+      "cost": 2.814e-05,
+      "is_byok": false,
+      "cost_details": {
+        "upstream_inference_cost": 2.814e-05,
+        "upstream_inference_prompt_cost": 2.814e-05,
+        "upstream_inference_completions_cost": 0
+      }
+    },
+    "id": "gen-dec-1795022032-ARivM7ET4JDRBlCEn7bw",
+    "provider": "TypeSafe"
+  }
+}

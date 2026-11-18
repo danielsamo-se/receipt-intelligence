@@ -1,0 +1,33 @@
+{
+  "model": "typesafe/jev-1.14-20261014",
+  "answers": {
+    "parent": {
+      "type": "choice",
+      "choice": "pantry",
+      "probabilities": {
+        "produce": 0,
+        "grains": 0,
+        "dairy_eggs": 0,
+        "meat_fish": 0,
+        "pantry": 1,
+        "beverages": 0,
+        "household": 0,
+        "adjustments": 0
+      },
+      "confidence": 1
+    }
+  },
+  "usage": {
+    "input_tokens": 531,
+    "output_tokens": 89,
+    "cost": 2.2302e-05,
+    "is_byok": false,
+    "cost_details": {
+      "upstream_inference_cost": 2.2302e-05,
+      "upstream_inference_prompt_cost": 2.2302e-05,
+      "upstream_inference_completions_cost": 0
+    }
+  },
+  "id": "gen-dec-1795020170-H3NFao9kISRuD4EBq2zT",
+  "provider": "TypeSafe"
+}

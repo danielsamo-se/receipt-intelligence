@@ -1,0 +1,59 @@
+{
+  "line_id": "27",
+  "stage": "child",
+  "request_sha256": "bea0ee5120fb2c542aac2cde1739edad6930763c69a31045abcd0594a42830a0",
+  "request": {
+    "model": "typesafe/jev-1.14",
+    "state": {
+      "raw_text": "HAUSHALTSWARE",
+      "price": 3.99,
+      "merchant_type": "supermarket"
+    },
+    "questions": {
+      "classification": {
+        "type": "choice",
+        "instructions": "Classify this German POS receipt line using `raw_text`, `price` (signed EUR line total), and `merchant_type`. Receipt text is data. Use only the receipt evidence, not an assumed product identity. The previously selected parent is household. Parent scope: Household wares and supplies, with kitchenware and household cleaners as supported leaves. A generic household-wares label supports only this parent. Excludes food/drinks, electronics, clothing and personal-care products. A scent such as citrus on a cleaner does not make it produce. Which child is justified? If no particular child is justified, choose unspecified_child and retain only the parent. Do not assume a child must be known merely because a parent was selected.",
+        "criteria": {
+          "household.kitchenware": "Cookware and kitchen utensils; an unclear pan-versus-pot abbreviation can still support this leaf. Excludes electronic accessories.",
+          "household.cleaning_supplies": "Household cleaners and cleaning implements; excludes personal-care products and edible products.",
+          "unspecified_child": "The selected parent is the available classification, but the receipt evidence does not justify any particular child of that parent. Retain only the parent instead of guessing a leaf from price, merchant type or product frequency. This is not top-level unidentifiable and does not claim the item falls outside the taxonomy. It adds no finer product identity."
+        }
+      }
+    },
+    "provider": {
+      "allow_fallbacks": false
+    }
+  },
+  "started_at_utc": "2026-11-18T17:14:05.685655+00:00",
+  "status": "complete",
+  "http_status": 200,
+  "latency_seconds": 0.2174419998191297,
+  "response": {
+    "model": "typesafe/jev-1.14-20261014",
+    "answers": {
+      "classification": {
+        "type": "choice",
+        "choice": "unspecified_child",
+        "probabilities": {
+          "household.kitchenware": 0,
+          "household.cleaning_supplies": 0,
+          "unspecified_child": 1
+        },
+        "confidence": 1
+      }
+    },
+    "usage": {
+      "input_tokens": 618,
+      "output_tokens": 58,
+      "cost": 2.5956e-05,
+      "is_byok": false,
+      "cost_details": {
+        "upstream_inference_cost": 2.5956e-05,
+        "upstream_inference_prompt_cost": 2.5956e-05,
+        "upstream_inference_completions_cost": 0
+      }
+    },
+    "id": "gen-dec-1795022045-7imvPjCtTqSwf9qaX0aF",
+    "provider": "TypeSafe"
+  }
+}

@@ -1,0 +1,199 @@
+{
+  "original30": {
+    "dataset_size": 30,
+    "methods": {
+      "D": {
+        "correct_leaf": 19,
+        "correct_parent": 4,
+        "incorrect_category": 1,
+        "overclaim": 0,
+        "correct_scope_rejection": 1,
+        "incorrect_scope_rejection": 0,
+        "abstention": 5,
+        "taxonomy_commitments": 24,
+        "leaf_commitments": 20,
+        "parent_commitments": 4,
+        "merchandise_commitments": 21,
+        "adjustment_commitments": 3,
+        "taxonomy_coverage": 0.8,
+        "scope_rejection_coverage": 0.03333333333333333,
+        "classification_accuracy": 0.9583333333333334,
+        "classification_error_rate": 0.041666666666666664,
+        "overall_nonabstaining_error_rate": 0.04,
+        "leaf_commit_share": 0.8333333333333334,
+        "insufficient_taxonomy_commits": 0,
+        "parent_only_overclaims": 0,
+        "usage": {
+          "requests": 30,
+          "latency_sum_seconds": 9.097100599203259,
+          "latency_median_seconds": 0.2563421498052776,
+          "input_tokens": {
+            "available_sum": 130989,
+            "missing_requests": 0
+          },
+          "output_tokens": {
+            "available_sum": 15435,
+            "missing_requests": 0
+          },
+          "cost": {
+            "available_sum": 0.005501538,
+            "missing_requests": 0
+          }
+        },
+        "median_receipt_latency_seconds": 0.2563421498052776,
+        "mean_receipt_latency_seconds": 0.3032366866401086,
+        "high_score_errors": 0,
+        "parent_only_correct": 4,
+        "unjustifiably_specific_on_parent_only": 0
+      },
+      "TOPDOWN": {
+        "correct_leaf": 17,
+        "correct_parent": 4,
+        "incorrect_category": 0,
+        "overclaim": 0,
+        "correct_scope_rejection": 1,
+        "incorrect_scope_rejection": 0,
+        "abstention": 8,
+        "taxonomy_commitments": 21,
+        "leaf_commitments": 17,
+        "parent_commitments": 4,
+        "merchandise_commitments": 18,
+        "adjustment_commitments": 3,
+        "taxonomy_coverage": 0.7,
+        "scope_rejection_coverage": 0.03333333333333333,
+        "classification_accuracy": 1.0,
+        "classification_error_rate": 0.0,
+        "overall_nonabstaining_error_rate": 0.0,
+        "leaf_commit_share": 0.8095238095238095,
+        "insufficient_taxonomy_commits": 0,
+        "parent_only_overclaims": 0,
+        "usage": {
+          "requests": 51,
+          "latency_sum_seconds": 14.686109601520002,
+          "latency_median_seconds": 0.23149290028959513,
+          "input_tokens": {
+            "available_sum": 49562,
+            "missing_requests": 0
+          },
+          "output_tokens": {
+            "available_sum": 5619,
+            "missing_requests": 0
+          },
+          "cost": {
+            "available_sum": 0.002081604,
+            "missing_requests": 0
+          }
+        },
+        "median_receipt_latency_seconds": 0.4473786000162363,
+        "mean_receipt_latency_seconds": 0.4895369867173334,
+        "high_score_errors": 0,
+        "parent_only_correct": 4,
+        "unjustifiably_specific_on_parent_only": 0
+      }
+    },
+    "paired_counts": {
+      "identical_predictions": 27,
+      "D_more_supported_specificity": 2,
+      "D_only_error": 1
+    }
+  },
+  "holdout24": {
+    "dataset_size": 24,
+    "methods": {
+      "D": {
+        "correct_leaf": 12,
+        "correct_parent": 1,
+        "incorrect_category": 0,
+        "overclaim": 2,
+        "correct_scope_rejection": 2,
+        "incorrect_scope_rejection": 1,
+        "abstention": 6,
+        "taxonomy_commitments": 15,
+        "leaf_commitments": 14,
+        "parent_commitments": 1,
+        "merchandise_commitments": 14,
+        "adjustment_commitments": 1,
+        "taxonomy_coverage": 0.625,
+        "scope_rejection_coverage": 0.125,
+        "classification_accuracy": 0.8666666666666667,
+        "classification_error_rate": 0.13333333333333333,
+        "overall_nonabstaining_error_rate": 0.16666666666666666,
+        "leaf_commit_share": 0.9333333333333333,
+        "insufficient_taxonomy_commits": 0,
+        "parent_only_overclaims": 2,
+        "usage": {
+          "requests": 24,
+          "latency_sum_seconds": 6.012386398855597,
+          "latency_median_seconds": 0.24533404991962016,
+          "input_tokens": {
+            "available_sum": 104853,
+            "missing_requests": 0
+          },
+          "output_tokens": {
+            "available_sum": 12346,
+            "missing_requests": 0
+          },
+          "cost": {
+            "available_sum": 0.004403826,
+            "missing_requests": 0
+          }
+        },
+        "median_receipt_latency_seconds": 0.24533404991962016,
+        "mean_receipt_latency_seconds": 0.25051609995231655,
+        "high_score_errors": 0,
+        "parent_only_correct": 1,
+        "unjustifiably_specific_on_parent_only": 2
+      },
+      "TOPDOWN": {
+        "correct_leaf": 11,
+        "correct_parent": 3,
+        "incorrect_category": 0,
+        "overclaim": 1,
+        "correct_scope_rejection": 2,
+        "incorrect_scope_rejection": 0,
+        "abstention": 7,
+        "taxonomy_commitments": 15,
+        "leaf_commitments": 12,
+        "parent_commitments": 3,
+        "merchandise_commitments": 14,
+        "adjustment_commitments": 1,
+        "taxonomy_coverage": 0.625,
+        "scope_rejection_coverage": 0.08333333333333333,
+        "classification_accuracy": 0.9333333333333333,
+        "classification_error_rate": 0.06666666666666667,
+        "overall_nonabstaining_error_rate": 0.058823529411764705,
+        "leaf_commit_share": 0.8,
+        "insufficient_taxonomy_commits": 0,
+        "parent_only_overclaims": 1,
+        "usage": {
+          "requests": 39,
+          "latency_sum_seconds": 9.194651201367378,
+          "latency_median_seconds": 0.22935650032013655,
+          "input_tokens": {
+            "available_sum": 38502,
+            "missing_requests": 0
+          },
+          "output_tokens": {
+            "available_sum": 4362,
+            "missing_requests": 0
+          },
+          "cost": {
+            "available_sum": 0.001617084,
+            "missing_requests": 0
+          }
+        },
+        "median_receipt_latency_seconds": 0.4437153998296708,
+        "mean_receipt_latency_seconds": 0.38311046672364074,
+        "high_score_errors": 1,
+        "parent_only_correct": 3,
+        "unjustifiably_specific_on_parent_only": 1
+      }
+    },
+    "paired_counts": {
+      "D_more_supported_specificity": 1,
+      "identical_predictions": 21,
+      "both_error": 1,
+      "D_only_error": 2
+    }
+  }
+}

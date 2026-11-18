@@ -1,0 +1,13 @@
+{
+  "primary": "Use raw selected choices, without probability thresholds. D can choose parent, leaf or a special option. TOPDOWN uses its selected parent then selected child; unspecified_child retains parent.",
+  "D_parent": "A parent option means parent-only support; prefer a leaf if justified. No known leaf may be downgraded solely because its parent is broader.",
+  "specials": "unidentifiable abstains and never counts as correct classification. out_of_scope is separate routing, not a product classification. unspecified_child retains a committed parent, not an overall abstention.",
+  "evaluation": "Reuse frozen pilot outcome/metrics functions. Correct leaves and parents reported separately; matching-parent specific child on parent-only truth is overclaim; wrong-parent leaf is wrong_category. Any category commitment on insufficient/out-of-scope truth is error.",
+  "coverage": "Taxonomy leaf/parent commits divided by dataset size; scope rejects reported separately. Accuracy denominator is taxonomy commits, with overclaims and wrong categories included.",
+  "blindness": "Outcome-unseen synthetic holdout authored by the same assistant that designed the test, not independent human-blind validation. Inputs/labels sealed before API calls. Collector parses only inputs for model calls; labels are hash-verified but not parsed until scoring. Model state contains only raw_text, price and merchant_type.",
+  "datasets": "Original30 and holdout24 remain separate; no pooled headline metric. No label, category or prompt adjustments after freeze.",
+  "order": "Original30 TOPDOWN reused from cache; original30 D newly collected, so original latency is historical/noncontemporaneous. On holdout, alternate D-first and TOPDOWN-first by fixed row order; parent always precedes child.",
+  "scores": "D probabilities describe mutually exclusive resolution actions; TOPDOWN parent and conditional-child scores are different quantities. Do not multiply or treat equal numeric probabilities as equally calibrated.",
+  "high_score_audit": "Flag committed errors with any selected-option probability or confidence >=0.90, labeling stage. Not a calibration estimate.",
+  "scope": "Only D on original30 and D/TOPDOWN on holdout24. At most 102 new HTTP calls. No tuning, extra data, UI or prototype implementation."
+}

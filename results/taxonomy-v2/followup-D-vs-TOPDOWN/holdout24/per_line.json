@@ -1,0 +1,1076 @@
+[
+  {
+    "id": "H01",
+    "raw_text": "BLAUBEEREN SCHALE 125",
+    "ground_truth": "produce.fruit",
+    "D": {
+      "id": "H01",
+      "raw_text": "BLAUBEEREN SCHALE 125",
+      "ground_truth": "produce.fruit",
+      "method": "D",
+      "prediction": "produce.fruit",
+      "outcome": "correct_leaf",
+      "raw_scores": [
+        {
+          "stage": "D",
+          "choice": "produce.fruit",
+          "probability": 0.49,
+          "confidence": 0.48
+        }
+      ],
+      "receipt_latency_seconds": 0.24211949994787574,
+      "high_score_error": false
+    },
+    "TOPDOWN": {
+      "id": "H01",
+      "raw_text": "BLAUBEEREN SCHALE 125",
+      "ground_truth": "produce.fruit",
+      "method": "TOPDOWN",
+      "prediction": null,
+      "outcome": "abstention",
+      "raw_scores": [
+        {
+          "stage": "parent",
+          "choice": "unidentifiable",
+          "probability": 0.64,
+          "confidence": 0.61
+        }
+      ],
+      "receipt_latency_seconds": 0.2397532998584211,
+      "high_score_error": false
+    }
+  },
+  {
+    "id": "H02",
+    "raw_text": "SUPPENGRUEN BUND",
+    "ground_truth": "produce.vegetables",
+    "D": {
+      "id": "H02",
+      "raw_text": "SUPPENGRUEN BUND",
+      "ground_truth": "produce.vegetables",
+      "method": "D",
+      "prediction": null,
+      "outcome": "abstention",
+      "raw_scores": [
+        {
+          "stage": "D",
+          "choice": "unidentifiable",
+          "probability": 0.28,
+          "confidence": 0.26
+        }
+      ],
+      "receipt_latency_seconds": 0.2554723001085222,
+      "high_score_error": false
+    },
+    "TOPDOWN": {
+      "id": "H02",
+      "raw_text": "SUPPENGRUEN BUND",
+      "ground_truth": "produce.vegetables",
+      "method": "TOPDOWN",
+      "prediction": null,
+      "outcome": "abstention",
+      "raw_scores": [
+        {
+          "stage": "parent",
+          "choice": "unidentifiable",
+          "probability": 0.37,
+          "confidence": 0.31
+        }
+      ],
+      "receipt_latency_seconds": 0.30520940013229847,
+      "high_score_error": false
+    }
+  },
+  {
+    "id": "H03",
+    "raw_text": "KNUSPER MUESLI NUSS",
+    "ground_truth": "grains.dry_staples",
+    "D": {
+      "id": "H03",
+      "raw_text": "KNUSPER MUESLI NUSS",
+      "ground_truth": "grains.dry_staples",
+      "method": "D",
+      "prediction": "grains.dry_staples",
+      "outcome": "correct_leaf",
+      "raw_scores": [
+        {
+          "stage": "D",
+          "choice": "grains.dry_staples",
+          "probability": 0.97,
+          "confidence": 0.97
+        }
+      ],
+      "receipt_latency_seconds": 0.246110700070858,
+      "high_score_error": false
+    },
+    "TOPDOWN": {
+      "id": "H03",
+      "raw_text": "KNUSPER MUESLI NUSS",
+      "ground_truth": "grains.dry_staples",
+      "method": "TOPDOWN",
+      "prediction": "grains.dry_staples",
+      "outcome": "correct_leaf",
+      "raw_scores": [
+        {
+          "stage": "parent",
+          "choice": "grains",
+          "probability": 0.91,
+          "confidence": 0.9
+        },
+        {
+          "stage": "child",
+          "choice": "grains.dry_staples",
+          "probability": 0.9,
+          "confidence": 0.85
+        }
+      ],
+      "receipt_latency_seconds": 0.4255189001560211,
+      "high_score_error": false
+    }
+  },
+  {
+    "id": "H04",
+    "raw_text": "KRAEUTERQUARK 20% 250",
+    "ground_truth": "dairy_eggs.yogurt_quark",
+    "D": {
+      "id": "H04",
+      "raw_text": "KRAEUTERQUARK 20% 250",
+      "ground_truth": "dairy_eggs.yogurt_quark",
+      "method": "D",
+      "prediction": "dairy_eggs.yogurt_quark",
+      "outcome": "correct_leaf",
+      "raw_scores": [
+        {
+          "stage": "D",
+          "choice": "dairy_eggs.yogurt_quark",
+          "probability": 0.98,
+          "confidence": 0.98
+        }
+      ],
+      "receipt_latency_seconds": 0.23361170012503862,
+      "high_score_error": false
+    },
+    "TOPDOWN": {
+      "id": "H04",
+      "raw_text": "KRAEUTERQUARK 20% 250",
+      "ground_truth": "dairy_eggs.yogurt_quark",
+      "method": "TOPDOWN",
+      "prediction": "dairy_eggs.yogurt_quark",
+      "outcome": "correct_leaf",
+      "raw_scores": [
+        {
+          "stage": "parent",
+          "choice": "dairy_eggs",
+          "probability": 0.96,
+          "confidence": 0.96
+        },
+        {
+          "stage": "child",
+          "choice": "dairy_eggs.yogurt_quark",
+          "probability": 0.91,
+          "confidence": 0.89
+        }
+      ],
+      "receipt_latency_seconds": 0.5379503997974098,
+      "high_score_error": false
+    }
+  },
+  {
+    "id": "H05",
+    "raw_text": "SCHMAND 24% 200G",
+    "ground_truth": "dairy_eggs.milk_cream",
+    "D": {
+      "id": "H05",
+      "raw_text": "SCHMAND 24% 200G",
+      "ground_truth": "dairy_eggs.milk_cream",
+      "method": "D",
+      "prediction": "dairy_eggs.milk_cream",
+      "outcome": "correct_leaf",
+      "raw_scores": [
+        {
+          "stage": "D",
+          "choice": "dairy_eggs.milk_cream",
+          "probability": 0.36,
+          "confidence": 0.34
+        }
+      ],
+      "receipt_latency_seconds": 0.26842800015583634,
+      "high_score_error": false
+    },
+    "TOPDOWN": {
+      "id": "H05",
+      "raw_text": "SCHMAND 24% 200G",
+      "ground_truth": "dairy_eggs.milk_cream",
+      "method": "TOPDOWN",
+      "prediction": "dairy_eggs.milk_cream",
+      "outcome": "correct_leaf",
+      "raw_scores": [
+        {
+          "stage": "parent",
+          "choice": "dairy_eggs",
+          "probability": 0.84,
+          "confidence": 0.83
+        },
+        {
+          "stage": "child",
+          "choice": "dairy_eggs.milk_cream",
+          "probability": 0.55,
+          "confidence": 0.44
+        }
+      ],
+      "receipt_latency_seconds": 0.4833204005844891,
+      "high_score_error": false
+    }
+  },
+  {
+    "id": "H06",
+    "raw_text": "KASSLER NACKEN SB",
+    "ground_truth": "meat_fish.meat_sausage",
+    "D": {
+      "id": "H06",
+      "raw_text": "KASSLER NACKEN SB",
+      "ground_truth": "meat_fish.meat_sausage",
+      "method": "D",
+      "prediction": "meat_fish.meat_sausage",
+      "outcome": "correct_leaf",
+      "raw_scores": [
+        {
+          "stage": "D",
+          "choice": "meat_fish.meat_sausage",
+          "probability": 0.85,
+          "confidence": 0.85
+        }
+      ],
+      "receipt_latency_seconds": 0.26832190016284585,
+      "high_score_error": false
+    },
+    "TOPDOWN": {
+      "id": "H06",
+      "raw_text": "KASSLER NACKEN SB",
+      "ground_truth": "meat_fish.meat_sausage",
+      "method": "TOPDOWN",
+      "prediction": "meat_fish.meat_sausage",
+      "outcome": "correct_leaf",
+      "raw_scores": [
+        {
+          "stage": "parent",
+          "choice": "meat_fish",
+          "probability": 0.89,
+          "confidence": 0.88
+        },
+        {
+          "stage": "child",
+          "choice": "meat_fish.meat_sausage",
+          "probability": 0.67,
+          "confidence": 0.5
+        }
+      ],
+      "receipt_latency_seconds": 0.4616972003132105,
+      "high_score_error": false
+    }
+  },
+  {
+    "id": "H07",
+    "raw_text": "THUNF. EIG. SAFT",
+    "ground_truth": "meat_fish.fish_seafood",
+    "D": {
+      "id": "H07",
+      "raw_text": "THUNF. EIG. SAFT",
+      "ground_truth": "meat_fish.fish_seafood",
+      "method": "D",
+      "prediction": "meat_fish.fish_seafood",
+      "outcome": "correct_leaf",
+      "raw_scores": [
+        {
+          "stage": "D",
+          "choice": "meat_fish.fish_seafood",
+          "probability": 0.63,
+          "confidence": 0.62
+        }
+      ],
+      "receipt_latency_seconds": 0.2490437999367714,
+      "high_score_error": false
+    },
+    "TOPDOWN": {
+      "id": "H07",
+      "raw_text": "THUNF. EIG. SAFT",
+      "ground_truth": "meat_fish.fish_seafood",
+      "method": "TOPDOWN",
+      "prediction": "meat_fish.fish_seafood",
+      "outcome": "correct_leaf",
+      "raw_scores": [
+        {
+          "stage": "parent",
+          "choice": "meat_fish",
+          "probability": 0.75,
+          "confidence": 0.73
+        },
+        {
+          "stage": "child",
+          "choice": "meat_fish.fish_seafood",
+          "probability": 0.87,
+          "confidence": 0.8
+        }
+      ],
+      "receipt_latency_seconds": 0.5135538000613451,
+      "high_score_error": false
+    }
+  },
+  {
+    "id": "H08",
+    "raw_text": "LAKRITZ SCHNECKEN",
+    "ground_truth": "confectionery_snacks.confectionery",
+    "D": {
+      "id": "H08",
+      "raw_text": "LAKRITZ SCHNECKEN",
+      "ground_truth": "confectionery_snacks.confectionery",
+      "method": "D",
+      "prediction": "confectionery_snacks.confectionery",
+      "outcome": "correct_leaf",
+      "raw_scores": [
+        {
+          "stage": "D",
+          "choice": "confectionery_snacks.confectionery",
+          "probability": 0.66,
+          "confidence": 0.65
+        }
+      ],
+      "receipt_latency_seconds": 0.2282167999073863,
+      "high_score_error": false
+    },
+    "TOPDOWN": {
+      "id": "H08",
+      "raw_text": "LAKRITZ SCHNECKEN",
+      "ground_truth": "confectionery_snacks.confectionery",
+      "method": "TOPDOWN",
+      "prediction": "confectionery_snacks.confectionery",
+      "outcome": "correct_leaf",
+      "raw_scores": [
+        {
+          "stage": "parent",
+          "choice": "confectionery_snacks",
+          "probability": 0.98,
+          "confidence": 0.98
+        },
+        {
+          "stage": "child",
+          "choice": "confectionery_snacks.confectionery",
+          "probability": 0.67,
+          "confidence": 0.56
+        }
+      ],
+      "receipt_latency_seconds": 0.4331548996269703,
+      "high_score_error": false
+    }
+  },
+  {
+    "id": "H09",
+    "raw_text": "SALZSTANGEN 250G",
+    "ground_truth": "confectionery_snacks.savory_snacks",
+    "D": {
+      "id": "H09",
+      "raw_text": "SALZSTANGEN 250G",
+      "ground_truth": "confectionery_snacks.savory_snacks",
+      "method": "D",
+      "prediction": "confectionery_snacks.savory_snacks",
+      "outcome": "correct_leaf",
+      "raw_scores": [
+        {
+          "stage": "D",
+          "choice": "confectionery_snacks.savory_snacks",
+          "probability": 0.59,
+          "confidence": 0.58
+        }
+      ],
+      "receipt_latency_seconds": 0.2246220000088215,
+      "high_score_error": false
+    },
+    "TOPDOWN": {
+      "id": "H09",
+      "raw_text": "SALZSTANGEN 250G",
+      "ground_truth": "confectionery_snacks.savory_snacks",
+      "method": "TOPDOWN",
+      "prediction": "confectionery_snacks.savory_snacks",
+      "outcome": "correct_leaf",
+      "raw_scores": [
+        {
+          "stage": "parent",
+          "choice": "confectionery_snacks",
+          "probability": 0.88,
+          "confidence": 0.87
+        },
+        {
+          "stage": "child",
+          "choice": "confectionery_snacks.savory_snacks",
+          "probability": 0.65,
+          "confidence": 0.53
+        }
+      ],
+      "receipt_latency_seconds": 0.49736460018903017,
+      "high_score_error": false
+    }
+  },
+  {
+    "id": "H10",
+    "raw_text": "LINSENEINTOPF DOSE",
+    "ground_truth": "prepared_food.meals_soups",
+    "D": {
+      "id": "H10",
+      "raw_text": "LINSENEINTOPF DOSE",
+      "ground_truth": "prepared_food.meals_soups",
+      "method": "D",
+      "prediction": "prepared_food.meals_soups",
+      "outcome": "correct_leaf",
+      "raw_scores": [
+        {
+          "stage": "D",
+          "choice": "prepared_food.meals_soups",
+          "probability": 0.91,
+          "confidence": 0.91
+        }
+      ],
+      "receipt_latency_seconds": 0.26401969976723194,
+      "high_score_error": false
+    },
+    "TOPDOWN": {
+      "id": "H10",
+      "raw_text": "LINSENEINTOPF DOSE",
+      "ground_truth": "prepared_food.meals_soups",
+      "method": "TOPDOWN",
+      "prediction": "prepared_food.meals_soups",
+      "outcome": "correct_leaf",
+      "raw_scores": [
+        {
+          "stage": "parent",
+          "choice": "prepared_food",
+          "probability": 0.89,
+          "confidence": 0.88
+        },
+        {
+          "stage": "child",
+          "choice": "prepared_food.meals_soups",
+          "probability": 0.82,
+          "confidence": 0.73
+        }
+      ],
+      "receipt_latency_seconds": 0.4398512998595834,
+      "high_score_error": false
+    }
+  },
+  {
+    "id": "H11",
+    "raw_text": "RAPSOEL 0,75L",
+    "ground_truth": "cooking_ingredients.oils_fats",
+    "D": {
+      "id": "H11",
+      "raw_text": "RAPSOEL 0,75L",
+      "ground_truth": "cooking_ingredients.oils_fats",
+      "method": "D",
+      "prediction": null,
+      "outcome": "abstention",
+      "raw_scores": [
+        {
+          "stage": "D",
+          "choice": "unidentifiable",
+          "probability": 0.49,
+          "confidence": 0.48
+        }
+      ],
+      "receipt_latency_seconds": 0.24123180005699396,
+      "high_score_error": false
+    },
+    "TOPDOWN": {
+      "id": "H11",
+      "raw_text": "RAPSOEL 0,75L",
+      "ground_truth": "cooking_ingredients.oils_fats",
+      "method": "TOPDOWN",
+      "prediction": null,
+      "outcome": "abstention",
+      "raw_scores": [
+        {
+          "stage": "parent",
+          "choice": "unidentifiable",
+          "probability": 0.57,
+          "confidence": 0.53
+        }
+      ],
+      "receipt_latency_seconds": 0.2599705997854471,
+      "high_score_error": false
+    }
+  },
+  {
+    "id": "H12",
+    "raw_text": "TOMATENMARK 3FACH",
+    "ground_truth": "cooking_ingredients.sauces_bases_seasonings",
+    "D": {
+      "id": "H12",
+      "raw_text": "TOMATENMARK 3FACH",
+      "ground_truth": "cooking_ingredients.sauces_bases_seasonings",
+      "method": "D",
+      "prediction": "cooking_ingredients.sauces_bases_seasonings",
+      "outcome": "correct_leaf",
+      "raw_scores": [
+        {
+          "stage": "D",
+          "choice": "cooking_ingredients.sauces_bases_seasonings",
+          "probability": 0.93,
+          "confidence": 0.93
+        }
+      ],
+      "receipt_latency_seconds": 0.27154710004106164,
+      "high_score_error": false
+    },
+    "TOPDOWN": {
+      "id": "H12",
+      "raw_text": "TOMATENMARK 3FACH",
+      "ground_truth": "cooking_ingredients.sauces_bases_seasonings",
+      "method": "TOPDOWN",
+      "prediction": "cooking_ingredients.sauces_bases_seasonings",
+      "outcome": "correct_leaf",
+      "raw_scores": [
+        {
+          "stage": "parent",
+          "choice": "cooking_ingredients",
+          "probability": 0.93,
+          "confidence": 0.92
+        },
+        {
+          "stage": "child",
+          "choice": "cooking_ingredients.sauces_bases_seasonings",
+          "probability": 0.9,
+          "confidence": 0.85
+        }
+      ],
+      "receipt_latency_seconds": 0.449091300368309,
+      "high_score_error": false
+    }
+  },
+  {
+    "id": "H13",
+    "raw_text": "MINERALW. STILL 1L",
+    "ground_truth": "beverages.water_soft_drinks",
+    "D": {
+      "id": "H13",
+      "raw_text": "MINERALW. STILL 1L",
+      "ground_truth": "beverages.water_soft_drinks",
+      "method": "D",
+      "prediction": "beverages.water_soft_drinks",
+      "outcome": "correct_leaf",
+      "raw_scores": [
+        {
+          "stage": "D",
+          "choice": "beverages.water_soft_drinks",
+          "probability": 0.99,
+          "confidence": 0.99
+        }
+      ],
+      "receipt_latency_seconds": 0.2518372000195086,
+      "high_score_error": false
+    },
+    "TOPDOWN": {
+      "id": "H13",
+      "raw_text": "MINERALW. STILL 1L",
+      "ground_truth": "beverages.water_soft_drinks",
+      "method": "TOPDOWN",
+      "prediction": "beverages.water_soft_drinks",
+      "outcome": "correct_leaf",
+      "raw_scores": [
+        {
+          "stage": "parent",
+          "choice": "beverages",
+          "probability": 0.99,
+          "confidence": 0.99
+        },
+        {
+          "stage": "child",
+          "choice": "beverages.water_soft_drinks",
+          "probability": 0.98,
+          "confidence": 0.98
+        }
+      ],
+      "receipt_latency_seconds": 0.45961560029536486,
+      "high_score_error": false
+    }
+  },
+  {
+    "id": "H14",
+    "raw_text": "SPUELMASCH. TABS 40",
+    "ground_truth": "household.cleaning_supplies",
+    "D": {
+      "id": "H14",
+      "raw_text": "SPUELMASCH. TABS 40",
+      "ground_truth": "household.cleaning_supplies",
+      "method": "D",
+      "prediction": null,
+      "outcome": "abstention",
+      "raw_scores": [
+        {
+          "stage": "D",
+          "choice": "unidentifiable",
+          "probability": 0.24,
+          "confidence": 0.22
+        }
+      ],
+      "receipt_latency_seconds": 0.24298489978536963,
+      "high_score_error": false
+    },
+    "TOPDOWN": {
+      "id": "H14",
+      "raw_text": "SPUELMASCH. TABS 40",
+      "ground_truth": "household.cleaning_supplies",
+      "method": "TOPDOWN",
+      "prediction": null,
+      "outcome": "abstention",
+      "raw_scores": [
+        {
+          "stage": "parent",
+          "choice": "unidentifiable",
+          "probability": 0.4,
+          "confidence": 0.35
+        }
+      ],
+      "receipt_latency_seconds": 0.2156859003007412,
+      "high_score_error": false
+    }
+  },
+  {
+    "id": "H15",
+    "raw_text": "MENGENRABATT 2+1",
+    "ground_truth": "adjustments.discount",
+    "D": {
+      "id": "H15",
+      "raw_text": "MENGENRABATT 2+1",
+      "ground_truth": "adjustments.discount",
+      "method": "D",
+      "prediction": "adjustments.discount",
+      "outcome": "correct_leaf",
+      "raw_scores": [
+        {
+          "stage": "D",
+          "choice": "adjustments.discount",
+          "probability": 0.7,
+          "confidence": 0.69
+        }
+      ],
+      "receipt_latency_seconds": 0.3015466998331249,
+      "high_score_error": false
+    },
+    "TOPDOWN": {
+      "id": "H15",
+      "raw_text": "MENGENRABATT 2+1",
+      "ground_truth": "adjustments.discount",
+      "method": "TOPDOWN",
+      "prediction": "adjustments.discount",
+      "outcome": "correct_leaf",
+      "raw_scores": [
+        {
+          "stage": "parent",
+          "choice": "adjustments",
+          "probability": 0.8,
+          "confidence": 0.78
+        },
+        {
+          "stage": "child",
+          "choice": "adjustments.discount",
+          "probability": 0.65,
+          "confidence": 0.53
+        }
+      ],
+      "receipt_latency_seconds": 0.4713321002200246,
+      "high_score_error": false
+    }
+  },
+  {
+    "id": "H16",
+    "raw_text": "KARTOFFELGRATIN 400",
+    "ground_truth": "PARENT_ONLY:prepared_food",
+    "D": {
+      "id": "H16",
+      "raw_text": "KARTOFFELGRATIN 400",
+      "ground_truth": "PARENT_ONLY:prepared_food",
+      "method": "D",
+      "prediction": "prepared_food.potato_sides",
+      "outcome": "overclaim",
+      "raw_scores": [
+        {
+          "stage": "D",
+          "choice": "prepared_food.potato_sides",
+          "probability": 0.45,
+          "confidence": 0.44
+        }
+      ],
+      "receipt_latency_seconds": 0.23048869986087084,
+      "high_score_error": false
+    },
+    "TOPDOWN": {
+      "id": "H16",
+      "raw_text": "KARTOFFELGRATIN 400",
+      "ground_truth": "PARENT_ONLY:prepared_food",
+      "method": "TOPDOWN",
+      "prediction": "prepared_food.potato_sides",
+      "outcome": "overclaim",
+      "raw_scores": [
+        {
+          "stage": "parent",
+          "choice": "prepared_food",
+          "probability": 0.94,
+          "confidence": 0.93
+        },
+        {
+          "stage": "child",
+          "choice": "prepared_food.potato_sides",
+          "probability": 0.54,
+          "confidence": 0.31
+        }
+      ],
+      "receipt_latency_seconds": 0.4475794997997582,
+      "high_score_error": true
+    }
+  },
+  {
+    "id": "H17",
+    "raw_text": "NASCHBOX MIX 300G",
+    "ground_truth": "PARENT_ONLY:confectionery_snacks",
+    "D": {
+      "id": "H17",
+      "raw_text": "NASCHBOX MIX 300G",
+      "ground_truth": "PARENT_ONLY:confectionery_snacks",
+      "method": "D",
+      "prediction": "confectionery_snacks.confectionery",
+      "outcome": "overclaim",
+      "raw_scores": [
+        {
+          "stage": "D",
+          "choice": "confectionery_snacks.confectionery",
+          "probability": 0.4,
+          "confidence": 0.38
+        }
+      ],
+      "receipt_latency_seconds": 0.24651309987530112,
+      "high_score_error": false
+    },
+    "TOPDOWN": {
+      "id": "H17",
+      "raw_text": "NASCHBOX MIX 300G",
+      "ground_truth": "PARENT_ONLY:confectionery_snacks",
+      "method": "TOPDOWN",
+      "prediction": "confectionery_snacks",
+      "outcome": "correct_parent",
+      "raw_scores": [
+        {
+          "stage": "parent",
+          "choice": "confectionery_snacks",
+          "probability": 0.77,
+          "confidence": 0.75
+        },
+        {
+          "stage": "child",
+          "choice": "unspecified_child",
+          "probability": 0.66,
+          "confidence": 0.55
+        }
+      ],
+      "receipt_latency_seconds": 0.4525448000058532,
+      "high_score_error": false
+    }
+  },
+  {
+    "id": "H18",
+    "raw_text": "EISKAFFEE DRINK 250ML",
+    "ground_truth": "PARENT_ONLY:beverages",
+    "D": {
+      "id": "H18",
+      "raw_text": "EISKAFFEE DRINK 250ML",
+      "ground_truth": "PARENT_ONLY:beverages",
+      "method": "D",
+      "prediction": "beverages",
+      "outcome": "correct_parent",
+      "raw_scores": [
+        {
+          "stage": "D",
+          "choice": "beverages",
+          "probability": 0.95,
+          "confidence": 0.95
+        }
+      ],
+      "receipt_latency_seconds": 0.24301679991185665,
+      "high_score_error": false
+    },
+    "TOPDOWN": {
+      "id": "H18",
+      "raw_text": "EISKAFFEE DRINK 250ML",
+      "ground_truth": "PARENT_ONLY:beverages",
+      "method": "TOPDOWN",
+      "prediction": "beverages",
+      "outcome": "correct_parent",
+      "raw_scores": [
+        {
+          "stage": "parent",
+          "choice": "beverages",
+          "probability": 0.99,
+          "confidence": 0.99
+        },
+        {
+          "stage": "child",
+          "choice": "unspecified_child",
+          "probability": 0.94,
+          "confidence": 0.93
+        }
+      ],
+      "receipt_latency_seconds": 0.44794500013813376,
+      "high_score_error": false
+    }
+  },
+  {
+    "id": "H19",
+    "raw_text": "TISCHDEKO SORTIERT",
+    "ground_truth": "PARENT_ONLY:household",
+    "D": {
+      "id": "H19",
+      "raw_text": "TISCHDEKO SORTIERT",
+      "ground_truth": "PARENT_ONLY:household",
+      "method": "D",
+      "prediction": "out_of_scope",
+      "outcome": "incorrect_scope_rejection",
+      "raw_scores": [
+        {
+          "stage": "D",
+          "choice": "out_of_scope",
+          "probability": 0.38,
+          "confidence": 0.36
+        }
+      ],
+      "receipt_latency_seconds": 0.24824019987136126,
+      "high_score_error": false
+    },
+    "TOPDOWN": {
+      "id": "H19",
+      "raw_text": "TISCHDEKO SORTIERT",
+      "ground_truth": "PARENT_ONLY:household",
+      "method": "TOPDOWN",
+      "prediction": "household",
+      "outcome": "correct_parent",
+      "raw_scores": [
+        {
+          "stage": "parent",
+          "choice": "household",
+          "probability": 0.56,
+          "confidence": 0.52
+        },
+        {
+          "stage": "child",
+          "choice": "unspecified_child",
+          "probability": 0.8,
+          "confidence": 0.7
+        }
+      ],
+      "receipt_latency_seconds": 0.46091389982029796,
+      "high_score_error": false
+    }
+  },
+  {
+    "id": "H20",
+    "raw_text": "MIXBOX",
+    "ground_truth": "INSUFFICIENT_INFORMATION",
+    "D": {
+      "id": "H20",
+      "raw_text": "MIXBOX",
+      "ground_truth": "INSUFFICIENT_INFORMATION",
+      "method": "D",
+      "prediction": null,
+      "outcome": "abstention",
+      "raw_scores": [
+        {
+          "stage": "D",
+          "choice": "unidentifiable",
+          "probability": 0.91,
+          "confidence": 0.91
+        }
+      ],
+      "receipt_latency_seconds": 0.2248547999188304,
+      "high_score_error": false
+    },
+    "TOPDOWN": {
+      "id": "H20",
+      "raw_text": "MIXBOX",
+      "ground_truth": "INSUFFICIENT_INFORMATION",
+      "method": "TOPDOWN",
+      "prediction": null,
+      "outcome": "abstention",
+      "raw_scores": [
+        {
+          "stage": "parent",
+          "choice": "unidentifiable",
+          "probability": 0.91,
+          "confidence": 0.9
+        }
+      ],
+      "receipt_latency_seconds": 0.2503740000538528,
+      "high_score_error": false
+    }
+  },
+  {
+    "id": "H21",
+    "raw_text": "MAN. PREIS",
+    "ground_truth": "INSUFFICIENT_INFORMATION",
+    "D": {
+      "id": "H21",
+      "raw_text": "MAN. PREIS",
+      "ground_truth": "INSUFFICIENT_INFORMATION",
+      "method": "D",
+      "prediction": null,
+      "outcome": "abstention",
+      "raw_scores": [
+        {
+          "stage": "D",
+          "choice": "unidentifiable",
+          "probability": 0.88,
+          "confidence": 0.88
+        }
+      ],
+      "receipt_latency_seconds": 0.3134246999397874,
+      "high_score_error": false
+    },
+    "TOPDOWN": {
+      "id": "H21",
+      "raw_text": "MAN. PREIS",
+      "ground_truth": "INSUFFICIENT_INFORMATION",
+      "method": "TOPDOWN",
+      "prediction": null,
+      "outcome": "abstention",
+      "raw_scores": [
+        {
+          "stage": "parent",
+          "choice": "unidentifiable",
+          "probability": 0.96,
+          "confidence": 0.96
+        }
+      ],
+      "receipt_latency_seconds": 0.20649649994447827,
+      "high_score_error": false
+    }
+  },
+  {
+    "id": "H22",
+    "raw_text": "WARE LT. ETIKETT",
+    "ground_truth": "INSUFFICIENT_INFORMATION",
+    "D": {
+      "id": "H22",
+      "raw_text": "WARE LT. ETIKETT",
+      "ground_truth": "INSUFFICIENT_INFORMATION",
+      "method": "D",
+      "prediction": null,
+      "outcome": "abstention",
+      "raw_scores": [
+        {
+          "stage": "D",
+          "choice": "unidentifiable",
+          "probability": 0.62,
+          "confidence": 0.61
+        }
+      ],
+      "receipt_latency_seconds": 0.22953819995746017,
+      "high_score_error": false
+    },
+    "TOPDOWN": {
+      "id": "H22",
+      "raw_text": "WARE LT. ETIKETT",
+      "ground_truth": "INSUFFICIENT_INFORMATION",
+      "method": "TOPDOWN",
+      "prediction": null,
+      "outcome": "abstention",
+      "raw_scores": [
+        {
+          "stage": "parent",
+          "choice": "unidentifiable",
+          "probability": 0.7,
+          "confidence": 0.67
+        }
+      ],
+      "receipt_latency_seconds": 0.28204219974577427,
+      "high_score_error": false
+    }
+  },
+  {
+    "id": "H23",
+    "raw_text": "DUSCHGEL SENSITIV",
+    "ground_truth": "OUT_OF_SCOPE",
+    "D": {
+      "id": "H23",
+      "raw_text": "DUSCHGEL SENSITIV",
+      "ground_truth": "OUT_OF_SCOPE",
+      "method": "D",
+      "prediction": "out_of_scope",
+      "outcome": "correct_scope_rejection",
+      "raw_scores": [
+        {
+          "stage": "D",
+          "choice": "out_of_scope",
+          "probability": 0.9,
+          "confidence": 0.9
+        }
+      ],
+      "receipt_latency_seconds": 0.24263839982450008,
+      "high_score_error": false
+    },
+    "TOPDOWN": {
+      "id": "H23",
+      "raw_text": "DUSCHGEL SENSITIV",
+      "ground_truth": "OUT_OF_SCOPE",
+      "method": "TOPDOWN",
+      "prediction": "out_of_scope",
+      "outcome": "correct_scope_rejection",
+      "raw_scores": [
+        {
+          "stage": "parent",
+          "choice": "out_of_scope",
+          "probability": 0.92,
+          "confidence": 0.91
+        }
+      ],
+      "receipt_latency_seconds": 0.24447870021685958,
+      "high_score_error": false
+    }
+  },
+  {
+    "id": "H24",
+    "raw_text": "SPORTSOCKEN 3PAAR",
+    "ground_truth": "OUT_OF_SCOPE",
+    "D": {
+      "id": "H24",
+      "raw_text": "SPORTSOCKEN 3PAAR",
+      "ground_truth": "OUT_OF_SCOPE",
+      "method": "D",
+      "prediction": "out_of_scope",
+      "outcome": "correct_scope_rejection",
+      "raw_scores": [
+        {
+          "stage": "D",
+          "choice": "out_of_scope",
+          "probability": 0.95,
+          "confidence": 0.95
+        }
+      ],
+      "receipt_latency_seconds": 0.2445573997683823,
+      "high_score_error": false
+    },
+    "TOPDOWN": {
+      "id": "H24",
+      "raw_text": "SPORTSOCKEN 3PAAR",
+      "ground_truth": "OUT_OF_SCOPE",
+      "method": "TOPDOWN",
+      "prediction": "out_of_scope",
+      "outcome": "correct_scope_rejection",
+      "raw_scores": [
+        {
+          "stage": "parent",
+          "choice": "out_of_scope",
+          "probability": 0.98,
+          "confidence": 0.98
+        }
+      ],
+      "receipt_latency_seconds": 0.20920690009370446,
+      "high_score_error": false
+    }
+  }
+]

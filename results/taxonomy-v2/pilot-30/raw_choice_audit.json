@@ -1,0 +1,1289 @@
+[
+  {
+    "id": "01",
+    "raw_text": "HARIBO SAURE POMMES",
+    "method": "B",
+    "ground_truth": "confectionery_snacks.confectionery",
+    "prediction": "confectionery_snacks.confectionery",
+    "reason": "flat_choice",
+    "score": 0.97,
+    "outcome": "correct_leaf",
+    "raw_scores": [
+      {
+        "stage": "flat",
+        "choice": "confectionery_snacks.confectionery",
+        "probability": 0.97,
+        "confidence": 0.97
+      }
+    ],
+    "high_score_error": false
+  },
+  {
+    "id": "01",
+    "raw_text": "HARIBO SAURE POMMES",
+    "method": "C2",
+    "ground_truth": "confectionery_snacks.confectionery",
+    "prediction": "confectionery_snacks.confectionery",
+    "reason": "parent_and_conditional_child_supported",
+    "parent_score": 0.99,
+    "conditional_child_score": 0.88,
+    "outcome": "correct_leaf",
+    "raw_scores": [
+      {
+        "stage": "parent",
+        "choice": "confectionery_snacks",
+        "probability": 0.99,
+        "confidence": 0.99
+      },
+      {
+        "stage": "child",
+        "choice": "confectionery_snacks.confectionery",
+        "probability": 0.88,
+        "confidence": 0.84
+      }
+    ],
+    "high_score_error": false
+  },
+  {
+    "id": "02",
+    "raw_text": "POMMES FRITES TK",
+    "method": "B",
+    "ground_truth": "prepared_food.potato_sides",
+    "prediction": "prepared_food.potato_sides",
+    "reason": "flat_choice",
+    "score": 0.99,
+    "outcome": "correct_leaf",
+    "raw_scores": [
+      {
+        "stage": "flat",
+        "choice": "prepared_food.potato_sides",
+        "probability": 0.99,
+        "confidence": 0.99
+      }
+    ],
+    "high_score_error": false
+  },
+  {
+    "id": "02",
+    "raw_text": "POMMES FRITES TK",
+    "method": "C2",
+    "ground_truth": "prepared_food.potato_sides",
+    "prediction": "prepared_food.potato_sides",
+    "reason": "parent_and_conditional_child_supported",
+    "parent_score": 0.94,
+    "conditional_child_score": 0.93,
+    "outcome": "correct_leaf",
+    "raw_scores": [
+      {
+        "stage": "parent",
+        "choice": "prepared_food",
+        "probability": 0.94,
+        "confidence": 0.93
+      },
+      {
+        "stage": "child",
+        "choice": "prepared_food.potato_sides",
+        "probability": 0.93,
+        "confidence": 0.89
+      }
+    ],
+    "high_score_error": false
+  },
+  {
+    "id": "03",
+    "raw_text": "WMF PF 24CM",
+    "method": "B",
+    "ground_truth": "household.kitchenware",
+    "prediction": "household.kitchenware",
+    "reason": "flat_choice",
+    "score": 0.96,
+    "outcome": "correct_leaf",
+    "raw_scores": [
+      {
+        "stage": "flat",
+        "choice": "household.kitchenware",
+        "probability": 0.96,
+        "confidence": 0.96
+      }
+    ],
+    "high_score_error": false
+  },
+  {
+    "id": "03",
+    "raw_text": "WMF PF 24CM",
+    "method": "C2",
+    "ground_truth": "household.kitchenware",
+    "prediction": "household.kitchenware",
+    "reason": "parent_and_conditional_child_supported",
+    "parent_score": 0.69,
+    "conditional_child_score": 0.84,
+    "outcome": "correct_leaf",
+    "raw_scores": [
+      {
+        "stage": "parent",
+        "choice": "household",
+        "probability": 0.69,
+        "confidence": 0.66
+      },
+      {
+        "stage": "child",
+        "choice": "household.kitchenware",
+        "probability": 0.84,
+        "confidence": 0.76
+      }
+    ],
+    "high_score_error": false
+  },
+  {
+    "id": "04",
+    "raw_text": "BIO ZITR 500G",
+    "method": "B",
+    "ground_truth": "produce.fruit",
+    "prediction": null,
+    "reason": "explicit_unidentifiable",
+    "score": 0.84,
+    "outcome": "abstention",
+    "raw_scores": [
+      {
+        "stage": "flat",
+        "choice": "unidentifiable",
+        "probability": 0.84,
+        "confidence": 0.83
+      }
+    ],
+    "high_score_error": false
+  },
+  {
+    "id": "04",
+    "raw_text": "BIO ZITR 500G",
+    "method": "C2",
+    "ground_truth": "produce.fruit",
+    "prediction": null,
+    "reason": "explicit_unidentifiable",
+    "parent_score": 0.76,
+    "outcome": "abstention",
+    "raw_scores": [
+      {
+        "stage": "parent",
+        "choice": "unidentifiable",
+        "probability": 0.76,
+        "confidence": 0.74
+      }
+    ],
+    "high_score_error": false
+  },
+  {
+    "id": "05",
+    "raw_text": "COCA COLA",
+    "method": "B",
+    "ground_truth": "beverages.water_soft_drinks",
+    "prediction": "beverages.water_soft_drinks",
+    "reason": "flat_choice",
+    "score": 0.85,
+    "outcome": "correct_leaf",
+    "raw_scores": [
+      {
+        "stage": "flat",
+        "choice": "beverages.water_soft_drinks",
+        "probability": 0.85,
+        "confidence": 0.84
+      }
+    ],
+    "high_score_error": false
+  },
+  {
+    "id": "05",
+    "raw_text": "COCA COLA",
+    "method": "C2",
+    "ground_truth": "beverages.water_soft_drinks",
+    "prediction": "beverages.water_soft_drinks",
+    "reason": "parent_and_conditional_child_supported",
+    "parent_score": 0.9,
+    "conditional_child_score": 0.84,
+    "outcome": "correct_leaf",
+    "raw_scores": [
+      {
+        "stage": "parent",
+        "choice": "beverages",
+        "probability": 0.9,
+        "confidence": 0.89
+      },
+      {
+        "stage": "child",
+        "choice": "beverages.water_soft_drinks",
+        "probability": 0.84,
+        "confidence": 0.81
+      }
+    ],
+    "high_score_error": false
+  },
+  {
+    "id": "06",
+    "raw_text": "LEERGUT",
+    "method": "B",
+    "ground_truth": "adjustments.deposit_return",
+    "prediction": "adjustments.deposit_return",
+    "reason": "flat_choice",
+    "score": 0.96,
+    "outcome": "correct_leaf",
+    "raw_scores": [
+      {
+        "stage": "flat",
+        "choice": "adjustments.deposit_return",
+        "probability": 0.96,
+        "confidence": 0.96
+      }
+    ],
+    "high_score_error": false
+  },
+  {
+    "id": "06",
+    "raw_text": "LEERGUT",
+    "method": "C2",
+    "ground_truth": "adjustments.deposit_return",
+    "prediction": "adjustments.deposit_return",
+    "reason": "parent_and_conditional_child_supported",
+    "parent_score": 0.83,
+    "conditional_child_score": 0.87,
+    "outcome": "correct_leaf",
+    "raw_scores": [
+      {
+        "stage": "parent",
+        "choice": "adjustments",
+        "probability": 0.83,
+        "confidence": 0.81
+      },
+      {
+        "stage": "child",
+        "choice": "adjustments.deposit_return",
+        "probability": 0.87,
+        "confidence": 0.83
+      }
+    ],
+    "high_score_error": false
+  },
+  {
+    "id": "07",
+    "raw_text": "PFAND",
+    "method": "B",
+    "ground_truth": "adjustments.deposit_charge",
+    "prediction": "adjustments.deposit_charge",
+    "reason": "flat_choice",
+    "score": 0.96,
+    "outcome": "correct_leaf",
+    "raw_scores": [
+      {
+        "stage": "flat",
+        "choice": "adjustments.deposit_charge",
+        "probability": 0.96,
+        "confidence": 0.96
+      }
+    ],
+    "high_score_error": false
+  },
+  {
+    "id": "07",
+    "raw_text": "PFAND",
+    "method": "C2",
+    "ground_truth": "adjustments.deposit_charge",
+    "prediction": "adjustments.deposit_charge",
+    "reason": "parent_and_conditional_child_supported",
+    "parent_score": 0.91,
+    "conditional_child_score": 0.95,
+    "outcome": "correct_leaf",
+    "raw_scores": [
+      {
+        "stage": "parent",
+        "choice": "adjustments",
+        "probability": 0.91,
+        "confidence": 0.9
+      },
+      {
+        "stage": "child",
+        "choice": "adjustments.deposit_charge",
+        "probability": 0.95,
+        "confidence": 0.93
+      }
+    ],
+    "high_score_error": false
+  },
+  {
+    "id": "08",
+    "raw_text": "ART 004711",
+    "method": "B",
+    "ground_truth": "INSUFFICIENT_INFORMATION",
+    "prediction": null,
+    "reason": "explicit_unidentifiable",
+    "score": 0.99,
+    "outcome": "abstention",
+    "raw_scores": [
+      {
+        "stage": "flat",
+        "choice": "unidentifiable",
+        "probability": 0.99,
+        "confidence": 0.99
+      }
+    ],
+    "high_score_error": false
+  },
+  {
+    "id": "08",
+    "raw_text": "ART 004711",
+    "method": "C2",
+    "ground_truth": "INSUFFICIENT_INFORMATION",
+    "prediction": null,
+    "reason": "explicit_unidentifiable",
+    "parent_score": 1,
+    "outcome": "abstention",
+    "raw_scores": [
+      {
+        "stage": "parent",
+        "choice": "unidentifiable",
+        "probability": 1,
+        "confidence": 1
+      }
+    ],
+    "high_score_error": false
+  },
+  {
+    "id": "09",
+    "raw_text": "GEMUESE LASAGNE TK",
+    "method": "B",
+    "ground_truth": "prepared_food.meals_soups",
+    "prediction": "prepared_food.meals_soups",
+    "reason": "flat_choice",
+    "score": 1,
+    "outcome": "correct_leaf",
+    "raw_scores": [
+      {
+        "stage": "flat",
+        "choice": "prepared_food.meals_soups",
+        "probability": 1,
+        "confidence": 1
+      }
+    ],
+    "high_score_error": false
+  },
+  {
+    "id": "09",
+    "raw_text": "GEMUESE LASAGNE TK",
+    "method": "C2",
+    "ground_truth": "prepared_food.meals_soups",
+    "prediction": "prepared_food.meals_soups",
+    "reason": "parent_and_conditional_child_supported",
+    "parent_score": 1,
+    "conditional_child_score": 0.97,
+    "outcome": "correct_leaf",
+    "raw_scores": [
+      {
+        "stage": "parent",
+        "choice": "prepared_food",
+        "probability": 1,
+        "confidence": 1
+      },
+      {
+        "stage": "child",
+        "choice": "prepared_food.meals_soups",
+        "probability": 0.97,
+        "confidence": 0.96
+      }
+    ],
+    "high_score_error": false
+  },
+  {
+    "id": "10",
+    "raw_text": "INGWER SHOT 60ML",
+    "method": "B",
+    "ground_truth": "beverages.juice_shots",
+    "prediction": "beverages.juice_shots",
+    "reason": "flat_choice",
+    "score": 1,
+    "outcome": "correct_leaf",
+    "raw_scores": [
+      {
+        "stage": "flat",
+        "choice": "beverages.juice_shots",
+        "probability": 1,
+        "confidence": 1
+      }
+    ],
+    "high_score_error": false
+  },
+  {
+    "id": "10",
+    "raw_text": "INGWER SHOT 60ML",
+    "method": "C2",
+    "ground_truth": "beverages.juice_shots",
+    "prediction": "beverages.juice_shots",
+    "reason": "parent_and_conditional_child_supported",
+    "parent_score": 0.96,
+    "conditional_child_score": 0.97,
+    "outcome": "correct_leaf",
+    "raw_scores": [
+      {
+        "stage": "parent",
+        "choice": "beverages",
+        "probability": 0.96,
+        "confidence": 0.96
+      },
+      {
+        "stage": "child",
+        "choice": "beverages.juice_shots",
+        "probability": 0.97,
+        "confidence": 0.96
+      }
+    ],
+    "high_score_error": false
+  },
+  {
+    "id": "11",
+    "raw_text": "H-MILCH 1,5% 1L",
+    "method": "B",
+    "ground_truth": "dairy_eggs.milk_cream",
+    "prediction": "dairy_eggs.milk_cream",
+    "reason": "flat_choice",
+    "score": 0.98,
+    "outcome": "correct_leaf",
+    "raw_scores": [
+      {
+        "stage": "flat",
+        "choice": "dairy_eggs.milk_cream",
+        "probability": 0.98,
+        "confidence": 0.98
+      }
+    ],
+    "high_score_error": false
+  },
+  {
+    "id": "11",
+    "raw_text": "H-MILCH 1,5% 1L",
+    "method": "C2",
+    "ground_truth": "dairy_eggs.milk_cream",
+    "prediction": "dairy_eggs.milk_cream",
+    "reason": "parent_and_conditional_child_supported",
+    "parent_score": 0.97,
+    "conditional_child_score": 0.94,
+    "outcome": "correct_leaf",
+    "raw_scores": [
+      {
+        "stage": "parent",
+        "choice": "dairy_eggs",
+        "probability": 0.97,
+        "confidence": 0.97
+      },
+      {
+        "stage": "child",
+        "choice": "dairy_eggs.milk_cream",
+        "probability": 0.94,
+        "confidence": 0.92
+      }
+    ],
+    "high_score_error": false
+  },
+  {
+    "id": "12",
+    "raw_text": "HAFER DRINK NAT",
+    "method": "B",
+    "ground_truth": "beverages.plant_drinks",
+    "prediction": "beverages.plant_drinks",
+    "reason": "flat_choice",
+    "score": 0.97,
+    "outcome": "correct_leaf",
+    "raw_scores": [
+      {
+        "stage": "flat",
+        "choice": "beverages.plant_drinks",
+        "probability": 0.97,
+        "confidence": 0.97
+      }
+    ],
+    "high_score_error": false
+  },
+  {
+    "id": "12",
+    "raw_text": "HAFER DRINK NAT",
+    "method": "C2",
+    "ground_truth": "beverages.plant_drinks",
+    "prediction": "beverages.plant_drinks",
+    "reason": "parent_and_conditional_child_supported",
+    "parent_score": 0.97,
+    "conditional_child_score": 0.97,
+    "outcome": "correct_leaf",
+    "raw_scores": [
+      {
+        "stage": "parent",
+        "choice": "beverages",
+        "probability": 0.97,
+        "confidence": 0.97
+      },
+      {
+        "stage": "child",
+        "choice": "beverages.plant_drinks",
+        "probability": 0.97,
+        "confidence": 0.96
+      }
+    ],
+    "high_score_error": false
+  },
+  {
+    "id": "13",
+    "raw_text": "GRIECH JOG NAT",
+    "method": "B",
+    "ground_truth": "dairy_eggs.yogurt_quark",
+    "prediction": null,
+    "reason": "explicit_unidentifiable",
+    "score": 0.61,
+    "outcome": "abstention",
+    "raw_scores": [
+      {
+        "stage": "flat",
+        "choice": "unidentifiable",
+        "probability": 0.61,
+        "confidence": 0.6
+      }
+    ],
+    "high_score_error": false
+  },
+  {
+    "id": "13",
+    "raw_text": "GRIECH JOG NAT",
+    "method": "C2",
+    "ground_truth": "dairy_eggs.yogurt_quark",
+    "prediction": null,
+    "reason": "explicit_unidentifiable",
+    "parent_score": 0.74,
+    "outcome": "abstention",
+    "raw_scores": [
+      {
+        "stage": "parent",
+        "choice": "unidentifiable",
+        "probability": 0.74,
+        "confidence": 0.72
+      }
+    ],
+    "high_score_error": false
+  },
+  {
+    "id": "14",
+    "raw_text": "GOUDA JUN 48%",
+    "method": "B",
+    "ground_truth": "dairy_eggs.cheese",
+    "prediction": "dairy_eggs.cheese",
+    "reason": "flat_choice",
+    "score": 0.97,
+    "outcome": "correct_leaf",
+    "raw_scores": [
+      {
+        "stage": "flat",
+        "choice": "dairy_eggs.cheese",
+        "probability": 0.97,
+        "confidence": 0.97
+      }
+    ],
+    "high_score_error": false
+  },
+  {
+    "id": "14",
+    "raw_text": "GOUDA JUN 48%",
+    "method": "C2",
+    "ground_truth": "dairy_eggs.cheese",
+    "prediction": "dairy_eggs.cheese",
+    "reason": "parent_and_conditional_child_supported",
+    "parent_score": 0.93,
+    "conditional_child_score": 0.9,
+    "outcome": "correct_leaf",
+    "raw_scores": [
+      {
+        "stage": "parent",
+        "choice": "dairy_eggs",
+        "probability": 0.93,
+        "confidence": 0.92
+      },
+      {
+        "stage": "child",
+        "choice": "dairy_eggs.cheese",
+        "probability": 0.9,
+        "confidence": 0.87
+      }
+    ],
+    "high_score_error": false
+  },
+  {
+    "id": "15",
+    "raw_text": "POM-BAER ORIGINAL",
+    "method": "B",
+    "ground_truth": "confectionery_snacks.savory_snacks",
+    "prediction": null,
+    "reason": "explicit_unidentifiable",
+    "score": 0.86,
+    "outcome": "abstention",
+    "raw_scores": [
+      {
+        "stage": "flat",
+        "choice": "unidentifiable",
+        "probability": 0.86,
+        "confidence": 0.86
+      }
+    ],
+    "high_score_error": false
+  },
+  {
+    "id": "15",
+    "raw_text": "POM-BAER ORIGINAL",
+    "method": "C2",
+    "ground_truth": "confectionery_snacks.savory_snacks",
+    "prediction": null,
+    "reason": "explicit_unidentifiable",
+    "parent_score": 0.7,
+    "outcome": "abstention",
+    "raw_scores": [
+      {
+        "stage": "parent",
+        "choice": "unidentifiable",
+        "probability": 0.7,
+        "confidence": 0.67
+      }
+    ],
+    "high_score_error": false
+  },
+  {
+    "id": "16",
+    "raw_text": "PUTENBRUST AUFS",
+    "method": "B",
+    "ground_truth": "meat_fish.meat_sausage",
+    "prediction": "meat_fish.meat_sausage",
+    "reason": "flat_choice",
+    "score": 0.9,
+    "outcome": "correct_leaf",
+    "raw_scores": [
+      {
+        "stage": "flat",
+        "choice": "meat_fish.meat_sausage",
+        "probability": 0.9,
+        "confidence": 0.9
+      }
+    ],
+    "high_score_error": false
+  },
+  {
+    "id": "16",
+    "raw_text": "PUTENBRUST AUFS",
+    "method": "C2",
+    "ground_truth": "meat_fish.meat_sausage",
+    "prediction": "meat_fish.meat_sausage",
+    "reason": "parent_and_conditional_child_supported",
+    "parent_score": 0.89,
+    "conditional_child_score": 0.86,
+    "outcome": "correct_leaf",
+    "raw_scores": [
+      {
+        "stage": "parent",
+        "choice": "meat_fish",
+        "probability": 0.89,
+        "confidence": 0.88
+      },
+      {
+        "stage": "child",
+        "choice": "meat_fish.meat_sausage",
+        "probability": 0.86,
+        "confidence": 0.79
+      }
+    ],
+    "high_score_error": false
+  },
+  {
+    "id": "17",
+    "raw_text": "LACHSFILET TK",
+    "method": "B",
+    "ground_truth": "meat_fish.fish_seafood",
+    "prediction": "meat_fish.fish_seafood",
+    "reason": "flat_choice",
+    "score": 0.92,
+    "outcome": "correct_leaf",
+    "raw_scores": [
+      {
+        "stage": "flat",
+        "choice": "meat_fish.fish_seafood",
+        "probability": 0.92,
+        "confidence": 0.92
+      }
+    ],
+    "high_score_error": false
+  },
+  {
+    "id": "17",
+    "raw_text": "LACHSFILET TK",
+    "method": "C2",
+    "ground_truth": "meat_fish.fish_seafood",
+    "prediction": "meat_fish.fish_seafood",
+    "reason": "parent_and_conditional_child_supported",
+    "parent_score": 0.96,
+    "conditional_child_score": 0.87,
+    "outcome": "correct_leaf",
+    "raw_scores": [
+      {
+        "stage": "parent",
+        "choice": "meat_fish",
+        "probability": 0.96,
+        "confidence": 0.96
+      },
+      {
+        "stage": "child",
+        "choice": "meat_fish.fish_seafood",
+        "probability": 0.87,
+        "confidence": 0.8
+      }
+    ],
+    "high_score_error": false
+  },
+  {
+    "id": "18",
+    "raw_text": "SEMMEL 4ST",
+    "method": "B",
+    "ground_truth": "grains.bread_bakery",
+    "prediction": "grains.bread_bakery",
+    "reason": "flat_choice",
+    "score": 0.84,
+    "outcome": "correct_leaf",
+    "raw_scores": [
+      {
+        "stage": "flat",
+        "choice": "grains.bread_bakery",
+        "probability": 0.84,
+        "confidence": 0.83
+      }
+    ],
+    "high_score_error": false
+  },
+  {
+    "id": "18",
+    "raw_text": "SEMMEL 4ST",
+    "method": "C2",
+    "ground_truth": "grains.bread_bakery",
+    "prediction": "grains.bread_bakery",
+    "reason": "parent_and_conditional_child_supported",
+    "parent_score": 0.65,
+    "conditional_child_score": 0.75,
+    "outcome": "correct_leaf",
+    "raw_scores": [
+      {
+        "stage": "parent",
+        "choice": "grains",
+        "probability": 0.65,
+        "confidence": 0.62
+      },
+      {
+        "stage": "child",
+        "choice": "grains.bread_bakery",
+        "probability": 0.75,
+        "confidence": 0.62
+      }
+    ],
+    "high_score_error": false
+  },
+  {
+    "id": "19",
+    "raw_text": "USB-C KABEL 1M",
+    "method": "B",
+    "ground_truth": "OUT_OF_SCOPE",
+    "prediction": "out_of_scope",
+    "reason": "flat_choice",
+    "score": 0.99,
+    "outcome": "correct_scope_rejection",
+    "raw_scores": [
+      {
+        "stage": "flat",
+        "choice": "out_of_scope",
+        "probability": 0.99,
+        "confidence": 0.99
+      }
+    ],
+    "high_score_error": false
+  },
+  {
+    "id": "19",
+    "raw_text": "USB-C KABEL 1M",
+    "method": "C2",
+    "ground_truth": "OUT_OF_SCOPE",
+    "prediction": "out_of_scope",
+    "reason": "scope_rejection",
+    "parent_score": 1,
+    "outcome": "correct_scope_rejection",
+    "raw_scores": [
+      {
+        "stage": "parent",
+        "choice": "out_of_scope",
+        "probability": 1,
+        "confidence": 1
+      }
+    ],
+    "high_score_error": false
+  },
+  {
+    "id": "20",
+    "raw_text": "PRINZEN ROLLE",
+    "method": "B",
+    "ground_truth": "confectionery_snacks.sweet_biscuits",
+    "prediction": null,
+    "reason": "explicit_unidentifiable",
+    "score": 0.64,
+    "outcome": "abstention",
+    "raw_scores": [
+      {
+        "stage": "flat",
+        "choice": "unidentifiable",
+        "probability": 0.64,
+        "confidence": 0.63
+      }
+    ],
+    "high_score_error": false
+  },
+  {
+    "id": "20",
+    "raw_text": "PRINZEN ROLLE",
+    "method": "C2",
+    "ground_truth": "confectionery_snacks.sweet_biscuits",
+    "prediction": null,
+    "reason": "explicit_unidentifiable",
+    "parent_score": 0.65,
+    "outcome": "abstention",
+    "raw_scores": [
+      {
+        "stage": "parent",
+        "choice": "unidentifiable",
+        "probability": 0.65,
+        "confidence": 0.62
+      }
+    ],
+    "high_score_error": false
+  },
+  {
+    "id": "21",
+    "raw_text": "KOKOSMILCH 400ML",
+    "method": "B",
+    "ground_truth": "cooking_ingredients.sauces_bases_seasonings",
+    "prediction": "cooking_ingredients.sauces_bases_seasonings",
+    "reason": "flat_choice",
+    "score": 0.76,
+    "outcome": "correct_leaf",
+    "raw_scores": [
+      {
+        "stage": "flat",
+        "choice": "cooking_ingredients.sauces_bases_seasonings",
+        "probability": 0.76,
+        "confidence": 0.75
+      }
+    ],
+    "high_score_error": false
+  },
+  {
+    "id": "21",
+    "raw_text": "KOKOSMILCH 400ML",
+    "method": "C2",
+    "ground_truth": "cooking_ingredients.sauces_bases_seasonings",
+    "prediction": "cooking_ingredients.sauces_bases_seasonings",
+    "reason": "parent_and_conditional_child_supported",
+    "parent_score": 0.73,
+    "conditional_child_score": 0.58,
+    "outcome": "correct_leaf",
+    "raw_scores": [
+      {
+        "stage": "parent",
+        "choice": "cooking_ingredients",
+        "probability": 0.73,
+        "confidence": 0.71
+      },
+      {
+        "stage": "child",
+        "choice": "cooking_ingredients.sauces_bases_seasonings",
+        "probability": 0.58,
+        "confidence": 0.37
+      }
+    ],
+    "high_score_error": false
+  },
+  {
+    "id": "22",
+    "raw_text": "WC REIN ZITR",
+    "method": "B",
+    "ground_truth": "household.cleaning_supplies",
+    "prediction": "household.cleaning_supplies",
+    "reason": "flat_choice",
+    "score": 0.58,
+    "outcome": "correct_leaf",
+    "raw_scores": [
+      {
+        "stage": "flat",
+        "choice": "household.cleaning_supplies",
+        "probability": 0.58,
+        "confidence": 0.56
+      }
+    ],
+    "high_score_error": false
+  },
+  {
+    "id": "22",
+    "raw_text": "WC REIN ZITR",
+    "method": "C2",
+    "ground_truth": "household.cleaning_supplies",
+    "prediction": null,
+    "reason": "explicit_unidentifiable",
+    "parent_score": 0.39,
+    "outcome": "abstention",
+    "raw_scores": [
+      {
+        "stage": "parent",
+        "choice": "unidentifiable",
+        "probability": 0.39,
+        "confidence": 0.33
+      }
+    ],
+    "high_score_error": false
+  },
+  {
+    "id": "23",
+    "raw_text": "COUPON 10%",
+    "method": "B",
+    "ground_truth": "adjustments.discount",
+    "prediction": "adjustments.discount",
+    "reason": "flat_choice",
+    "score": 1,
+    "outcome": "correct_leaf",
+    "raw_scores": [
+      {
+        "stage": "flat",
+        "choice": "adjustments.discount",
+        "probability": 1,
+        "confidence": 1
+      }
+    ],
+    "high_score_error": false
+  },
+  {
+    "id": "23",
+    "raw_text": "COUPON 10%",
+    "method": "C2",
+    "ground_truth": "adjustments.discount",
+    "prediction": "adjustments.discount",
+    "reason": "parent_and_conditional_child_supported",
+    "parent_score": 0.99,
+    "conditional_child_score": 0.99,
+    "outcome": "correct_leaf",
+    "raw_scores": [
+      {
+        "stage": "parent",
+        "choice": "adjustments",
+        "probability": 0.99,
+        "confidence": 0.99
+      },
+      {
+        "stage": "child",
+        "choice": "adjustments.discount",
+        "probability": 0.99,
+        "confidence": 0.99
+      }
+    ],
+    "high_score_error": false
+  },
+  {
+    "id": "24",
+    "raw_text": "MOLKEREI ART",
+    "method": "B",
+    "ground_truth": "PARENT_ONLY:dairy_eggs",
+    "prediction": null,
+    "reason": "explicit_unidentifiable",
+    "score": 0.93,
+    "outcome": "abstention",
+    "raw_scores": [
+      {
+        "stage": "flat",
+        "choice": "unidentifiable",
+        "probability": 0.93,
+        "confidence": 0.93
+      }
+    ],
+    "high_score_error": false
+  },
+  {
+    "id": "24",
+    "raw_text": "MOLKEREI ART",
+    "method": "C2",
+    "ground_truth": "PARENT_ONLY:dairy_eggs",
+    "prediction": "dairy_eggs",
+    "reason": "explicit_unspecified_child",
+    "parent_score": 0.94,
+    "conditional_child_score": 0.97,
+    "outcome": "correct_parent",
+    "raw_scores": [
+      {
+        "stage": "parent",
+        "choice": "dairy_eggs",
+        "probability": 0.94,
+        "confidence": 0.93
+      },
+      {
+        "stage": "child",
+        "choice": "unspecified_child",
+        "probability": 0.97,
+        "confidence": 0.96
+      }
+    ],
+    "high_score_error": false
+  },
+  {
+    "id": "25",
+    "raw_text": "OBST/GEMUESE",
+    "method": "B",
+    "ground_truth": "PARENT_ONLY:produce",
+    "prediction": null,
+    "reason": "explicit_unidentifiable",
+    "score": 0.99,
+    "outcome": "abstention",
+    "raw_scores": [
+      {
+        "stage": "flat",
+        "choice": "unidentifiable",
+        "probability": 0.99,
+        "confidence": 0.99
+      }
+    ],
+    "high_score_error": false
+  },
+  {
+    "id": "25",
+    "raw_text": "OBST/GEMUESE",
+    "method": "C2",
+    "ground_truth": "PARENT_ONLY:produce",
+    "prediction": "produce",
+    "reason": "explicit_unspecified_child",
+    "parent_score": 0.96,
+    "conditional_child_score": 0.99,
+    "outcome": "correct_parent",
+    "raw_scores": [
+      {
+        "stage": "parent",
+        "choice": "produce",
+        "probability": 0.96,
+        "confidence": 0.96
+      },
+      {
+        "stage": "child",
+        "choice": "unspecified_child",
+        "probability": 0.99,
+        "confidence": 0.98
+      }
+    ],
+    "high_score_error": false
+  },
+  {
+    "id": "26",
+    "raw_text": "GETRAENKE",
+    "method": "B",
+    "ground_truth": "PARENT_ONLY:beverages",
+    "prediction": null,
+    "reason": "explicit_unidentifiable",
+    "score": 1,
+    "outcome": "abstention",
+    "raw_scores": [
+      {
+        "stage": "flat",
+        "choice": "unidentifiable",
+        "probability": 1,
+        "confidence": 1
+      }
+    ],
+    "high_score_error": false
+  },
+  {
+    "id": "26",
+    "raw_text": "GETRAENKE",
+    "method": "C2",
+    "ground_truth": "PARENT_ONLY:beverages",
+    "prediction": "beverages",
+    "reason": "explicit_unspecified_child",
+    "parent_score": 1,
+    "conditional_child_score": 1,
+    "outcome": "correct_parent",
+    "raw_scores": [
+      {
+        "stage": "parent",
+        "choice": "beverages",
+        "probability": 1,
+        "confidence": 1
+      },
+      {
+        "stage": "child",
+        "choice": "unspecified_child",
+        "probability": 1,
+        "confidence": 1
+      }
+    ],
+    "high_score_error": false
+  },
+  {
+    "id": "27",
+    "raw_text": "HAUSHALTSWARE",
+    "method": "B",
+    "ground_truth": "PARENT_ONLY:household",
+    "prediction": null,
+    "reason": "explicit_unidentifiable",
+    "score": 0.98,
+    "outcome": "abstention",
+    "raw_scores": [
+      {
+        "stage": "flat",
+        "choice": "unidentifiable",
+        "probability": 0.98,
+        "confidence": 0.98
+      }
+    ],
+    "high_score_error": false
+  },
+  {
+    "id": "27",
+    "raw_text": "HAUSHALTSWARE",
+    "method": "C2",
+    "ground_truth": "PARENT_ONLY:household",
+    "prediction": "household",
+    "reason": "explicit_unspecified_child",
+    "parent_score": 0.99,
+    "conditional_child_score": 1,
+    "outcome": "correct_parent",
+    "raw_scores": [
+      {
+        "stage": "parent",
+        "choice": "household",
+        "probability": 0.99,
+        "confidence": 0.99
+      },
+      {
+        "stage": "child",
+        "choice": "unspecified_child",
+        "probability": 1,
+        "confidence": 1
+      }
+    ],
+    "high_score_error": false
+  },
+  {
+    "id": "28",
+    "raw_text": "DIVERSES",
+    "method": "B",
+    "ground_truth": "INSUFFICIENT_INFORMATION",
+    "prediction": null,
+    "reason": "explicit_unidentifiable",
+    "score": 0.99,
+    "outcome": "abstention",
+    "raw_scores": [
+      {
+        "stage": "flat",
+        "choice": "unidentifiable",
+        "probability": 0.99,
+        "confidence": 0.99
+      }
+    ],
+    "high_score_error": false
+  },
+  {
+    "id": "28",
+    "raw_text": "DIVERSES",
+    "method": "C2",
+    "ground_truth": "INSUFFICIENT_INFORMATION",
+    "prediction": null,
+    "reason": "explicit_unidentifiable",
+    "parent_score": 0.97,
+    "outcome": "abstention",
+    "raw_scores": [
+      {
+        "stage": "parent",
+        "choice": "unidentifiable",
+        "probability": 0.97,
+        "confidence": 0.97
+      }
+    ],
+    "high_score_error": false
+  },
+  {
+    "id": "29",
+    "raw_text": "AKTION 1",
+    "method": "B",
+    "ground_truth": "INSUFFICIENT_INFORMATION",
+    "prediction": null,
+    "reason": "explicit_unidentifiable",
+    "score": 1,
+    "outcome": "abstention",
+    "raw_scores": [
+      {
+        "stage": "flat",
+        "choice": "unidentifiable",
+        "probability": 1,
+        "confidence": 1
+      }
+    ],
+    "high_score_error": false
+  },
+  {
+    "id": "29",
+    "raw_text": "AKTION 1",
+    "method": "C2",
+    "ground_truth": "INSUFFICIENT_INFORMATION",
+    "prediction": null,
+    "reason": "explicit_unidentifiable",
+    "parent_score": 0.99,
+    "outcome": "abstention",
+    "raw_scores": [
+      {
+        "stage": "parent",
+        "choice": "unidentifiable",
+        "probability": 0.99,
+        "confidence": 0.99
+      }
+    ],
+    "high_score_error": false
+  },
+  {
+    "id": "30",
+    "raw_text": "ESPRESSO BOHN 250G",
+    "method": "B",
+    "ground_truth": "beverages.coffee_tea",
+    "prediction": "beverages.coffee_tea",
+    "reason": "flat_choice",
+    "score": 0.99,
+    "outcome": "correct_leaf",
+    "raw_scores": [
+      {
+        "stage": "flat",
+        "choice": "beverages.coffee_tea",
+        "probability": 0.99,
+        "confidence": 0.99
+      }
+    ],
+    "high_score_error": false
+  },
+  {
+    "id": "30",
+    "raw_text": "ESPRESSO BOHN 250G",
+    "method": "C2",
+    "ground_truth": "beverages.coffee_tea",
+    "prediction": "beverages.coffee_tea",
+    "reason": "parent_and_conditional_child_supported",
+    "parent_score": 0.97,
+    "conditional_child_score": 0.98,
+    "outcome": "correct_leaf",
+    "raw_scores": [
+      {
+        "stage": "parent",
+        "choice": "beverages",
+        "probability": 0.97,
+        "confidence": 0.97
+      },
+      {
+        "stage": "child",
+        "choice": "beverages.coffee_tea",
+        "probability": 0.98,
+        "confidence": 0.98
+      }
+    ],
+    "high_score_error": false
+  }
+]

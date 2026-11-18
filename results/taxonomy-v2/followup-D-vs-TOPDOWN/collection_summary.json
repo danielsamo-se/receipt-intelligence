@@ -1,0 +1,8 @@
+{
+  "new_requests": {
+    "original30": 30,
+    "holdout24": 63
+  },
+  "new_requests_total": 93,
+  "original_TOPDOWN_cache_records_reused": 51
+}

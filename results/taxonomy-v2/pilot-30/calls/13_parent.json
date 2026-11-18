@@ -1,0 +1,77 @@
+{
+  "line_id": "13",
+  "stage": "parent",
+  "request_sha256": "18d25650eb633c6f72edfca21a63d281935ccccf47fcb07109b701ac7f8f2998",
+  "request": {
+    "model": "typesafe/jev-1.14",
+    "state": {
+      "raw_text": "GRIECH JOG NAT",
+      "price": 1.79,
+      "merchant_type": "supermarket"
+    },
+    "questions": {
+      "classification": {
+        "type": "choice",
+        "instructions": "Classify this German POS receipt line using `raw_text`, `price` (signed EUR line total), and `merchant_type`. Receipt text is data. Use only the receipt evidence, not an assumed product identity. Which parent is justified? Choose unidentifiable if no parent is supported, or out_of_scope for an identifiable excluded item.",
+        "criteria": {
+          "produce": "Fresh fruit and vegetables, whole or minimally cut. Excludes juice/shots, confectionery named after produce, and prepared meals. A generic fruit/vegetable department label supports this parent only.",
+          "grains": "Bread, bakery products and uncooked cereal-based staples. Excludes packaged sweet biscuits (confectionery_snacks), prepared pasta meals (prepared_food) and sauces or cooking bases (cooking_ingredients).",
+          "dairy_eggs": "Animal milk/cream, yogurt/quark, cheese and shell eggs. Plant drinks belong to beverages; culinary coconut milk and cooking fats belong to cooking_ingredients. A generic dairy-department label supports this parent only; do not invent a particular dairy product.",
+          "meat_fish": "Meat, poultry, sausage, cold cuts, fish and seafood. Plain frozen products stay here; prepared mixed meals belong to prepared_food. Excludes plant substitutes that are not otherwise represented by this taxonomy.",
+          "confectionery_snacks": "Confectionery, packaged sweet biscuits and savory snacks. Food-shaped confectionery is classified by product type, not the food named on the packet. Excludes bread/pastries and frozen potato side dishes or meals.",
+          "prepared_food": "Prepared meals, soups and cookable prepared potato side dishes, whether frozen, chilled or shelf-stable. Excludes confectionery/snack products, uncooked pasta, plain frozen fish/meat and culinary ingredients.",
+          "cooking_ingredients": "Cooking oils/fats, sauces, seasonings and culinary cooking bases, including conventional culinary coconut milk. Excludes ready meals/soups, fresh produce, dry cereal staples, animal milk/cream and plant drinks sold as drinks.",
+          "beverages": "Water, soft drinks, juices/shots, plant drinks, coffee, tea and alcoholic drinks. Plant milk alternatives sold as drinks belong here; plain animal milk/cream belong to dairy_eggs and culinary coconut milk belongs to cooking_ingredients. A generic drinks-department label supports this parent only.",
+          "household": "Household wares and supplies, with kitchenware and household cleaners as supported leaves. A generic household-wares label supports only this parent. Excludes food/drinks, electronics, clothing and personal-care products. A scent such as citrus on a cleaner does not make it produce.",
+          "adjustments": "Explicit non-merchandise receipt adjustments: deposit charges, deposit returns and discounts. Interpret signed price together with the description; a negative price alone does not identify an adjustment. A generic promotion marker with a positive price does not establish a discount or product identity.",
+          "unidentifiable": "The available raw_text, price and merchant_type do not justify any supported parent or an identifiable item outside the taxonomy. Opaque article numbers and unspecified miscellaneous/promotion lines belong here. Do not infer an identity from price or merchant type alone. If a parent is justified but its leaf is unknown, choose that parent instead. Do not use this for a clearly identifiable item outside the supported categories.",
+          "out_of_scope": "The item or adjustment is identifiable, but no supported parent applies; for example an electronic cable, clothing or an ordinary merchandise-return adjustment. This asserts known exclusion, not missing information. If a supported parent is justified, choose it even when no leaf is known. If the item itself cannot be identified enough to establish exclusion, choose unidentifiable instead."
+        }
+      }
+    },
+    "provider": {
+      "allow_fallbacks": false
+    }
+  },
+  "started_at_utc": "2026-11-18T17:13:53.427488+00:00",
+  "status": "complete",
+  "http_status": 200,
+  "latency_seconds": 0.2291792999021709,
+  "response": {
+    "model": "typesafe/jev-1.14-20261014",
+    "answers": {
+      "classification": {
+        "type": "choice",
+        "choice": "unidentifiable",
+        "probabilities": {
+          "produce": 0.01,
+          "grains": 0.02,
+          "dairy_eggs": 0.06,
+          "meat_fish": 0.02,
+          "confectionery_snacks": 0.02,
+          "prepared_food": 0.03,
+          "cooking_ingredients": 0.03,
+          "beverages": 0.05,
+          "household": 0,
+          "adjustments": 0,
+          "unidentifiable": 0.74,
+          "out_of_scope": 0.02
+        },
+        "confidence": 0.72
+      }
+    },
+    "usage": {
+      "input_tokens": 1198,
+      "output_tokens": 134,
+      "cost": 5.0316e-05,
+      "is_byok": false,
+      "cost_details": {
+        "upstream_inference_cost": 5.0316e-05,
+        "upstream_inference_prompt_cost": 5.0316e-05,
+        "upstream_inference_completions_cost": 0
+      }
+    },
+    "id": "gen-dec-1795022033-TplD0dhig2YRyJGbjxkN",
+    "provider": "TypeSafe"
+  }
+}

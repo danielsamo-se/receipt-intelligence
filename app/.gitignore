@@ -1,0 +1,27 @@
+# Product-only rules; the frozen experiment's root ignore file stays unchanged.
+.env
+.env.*
+!.env.example
+*credentials*
+*.pem
+*.key
+.venv/
+node_modules/
+.local/
+.tools/
+.artifacts/
+*.sqlite
+*.sqlite3
+*.db
+*.db-*
+*.sqlite3-*
+__pycache__/
+.pytest_cache/
+*.pyc
+*.tmp
+*.log
+dist/
+build/
+coverage/
+test-results/
+playwright-report/

@@ -1,0 +1,39 @@
+{
+  "taxonomy_version": "1.0",
+  "dataset_version": "1.0",
+  "version_assignment": "Version 1.0 assigned retrospectively to the original 8-parent, 21-leaf taxonomy and first successful request.",
+  "historical_only": true,
+  "exclude_from_revised_taxonomy_results": true,
+  "artifacts": [
+    {
+      "original_path": "taxonomy.yaml",
+      "archived_path": "history/taxonomy-v1/taxonomy.yaml",
+      "sha256": "00e1290db601b2ac899cd10b2e9b210fe96bf686c12f70611403707938c685ee"
+    },
+    {
+      "original_path": "data/lines.csv",
+      "archived_path": "history/taxonomy-v1/data/lines.csv",
+      "sha256": "1aae546b61cd784db6419e3c3d68df583d6a014b76b84748ee1f115a0cec2356"
+    },
+    {
+      "original_path": "README.md",
+      "archived_path": "history/taxonomy-v1/README.md",
+      "sha256": "d7b1f78af81a27cfb5aa1fe954b3cf7bd259055722ff688f2e9e64ceb4f69110"
+    },
+    {
+      "original_path": "test_jev.py",
+      "archived_path": "history/taxonomy-v1/test_jev.py",
+      "sha256": "483c338cea7c9d31e3fc1d407f2ef57ab99e2b65abfaff566fe6af0a19a7e328"
+    },
+    {
+      "original_path": "results/first_jev_response.json",
+      "archived_path": "results/taxonomy-v1/first_jev_response.json",
+      "sha256": "32782aa928c6abeed2ea94c5088887d1ebb5af0fa8544ac85d8c30d833adcbc3"
+    },
+    {
+      "original_path": "results/first_jev_metadata.json",
+      "archived_path": "results/taxonomy-v1/first_jev_metadata.json",
+      "sha256": "15bb79c5f683e2565c9e2a75a48a6f41bac96bb9943a4484e5a1ddc4522a37e9"
+    }
+  ]
+}

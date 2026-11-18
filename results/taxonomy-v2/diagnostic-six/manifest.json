@@ -1,0 +1,25 @@
+{
+  "taxonomy_version": "2.0",
+  "dataset_version": "2.0",
+  "input_sha256": {
+    "taxonomy.yaml": "f4da610acf2e5a17e206f73cae56c5e39f062c77748bbf74913c955b20094222",
+    "data/lines.csv": "32ddb63ad1d4f7adc321000990943e7abd66dd344ba588d2124aa58ea905de0a",
+    "diagnostic_jev.py": "6c69fd8a57955e723c88524a2bbcd36ba427c4d2d5b54e883fa8b8f1360b2e4d"
+  },
+  "line_ids": [
+    "01",
+    "02",
+    "03",
+    "08",
+    "24",
+    "29"
+  ],
+  "model": "typesafe/jev-1.14",
+  "endpoint": "https://openrouter.ai/api/alpha/decisions",
+  "maximum_requests": 18,
+  "thresholds": null,
+  "probability_convention": "TOPDOWN child probabilities are conditional; no joint probability derived.",
+  "flat_unidentifiable": "No justified leaf; may include parent-only evidence.",
+  "top_unidentifiable": "No justified parent.",
+  "unspecified_child": "Retain selected parent without a leaf commitment."
+}

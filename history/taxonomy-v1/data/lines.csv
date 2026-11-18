@@ -1,0 +1,31 @@
+﻿id,raw_text,price,merchant_type,ground_truth_label,review_note
+01,HARIBO SAURE POMMES,1.19,supermarket,pantry.sweets_snacks,Confectionery despite “Pommes.”
+02,POMMES FRITES TK,2.29,supermarket,pantry.prepared_food,Frozen prepared potato product.
+03,WMF PF 24CM,29.99,household_goods,household.kitchenware,Cookware supported; exact pan/pot identity unnecessary.
+04,BIO ZITR 500G,2.49,supermarket,produce.fruit,Citrus fruit supported; exact variety uncertain.
+05,COCA COLA,1.29,supermarket,beverages.nonalcoholic,Soft drink; size and variant unspecified.
+06,LEERGUT,-0.25,supermarket,adjustments.deposit_return,Description and negative amount support deposit credit.
+07,PFAND,0.25,supermarket,adjustments.deposit_charge,Description and positive amount support deposit charge.
+08,ART 004711,3.49,supermarket,INSUFFICIENT_INFORMATION,Opaque article number; no category evidence.
+09,APFEL GALA 1KG,2.79,supermarket,produce.fruit,Explicit apple description.
+10,INGWER SHOT 60ML,1.49,supermarket,beverages.nonalcoholic,"Prepared drink, despite ingredient name."
+11,"H-MILCH 1,5% 1L",0.99,supermarket,dairy_eggs.milk_cream,Standard milk abbreviation.
+12,HAFER DRINK NAT,1.49,supermarket,beverages.nonalcoholic,Plant drink; exact formulation unspecified.
+13,GRIECH JOG NAT,1.79,supermarket,dairy_eggs.yogurt_quark,Yogurt abbreviation; no brand inference.
+14,GOUDA JUN 48%,2.49,supermarket,dairy_eggs.cheese,Cheese explicitly identifiable.
+15,EIER BODENH 10ST,2.99,supermarket,dairy_eggs.eggs,Shell eggs; abbreviated husbandry description.
+16,PUTENBRUST AUFS,1.99,supermarket,meat_fish.meat_sausage,Turkey cold cuts indicated by “Aufs.”
+17,LACHSFILET TK,4.99,supermarket,meat_fish.fish_seafood,Frozen salmon fillet.
+18,SEMMEL 4ST,1.40,bakery,grains.bread_bakery,Regional term for bread rolls.
+19,DINKEL SPAGH 500G,1.49,supermarket,grains.dry_staples,Dry spelt pasta.
+20,PRINZEN ROLLE,1.99,supermarket,pantry.sweets_snacks,Sweet biscuits despite non-descriptive product name.
+21,KOKOSMILCH 400ML,1.79,supermarket,pantry.cooking_ingredients,Conventional culinary coconut milk; not labeled as a drink.
+22,WC REIN ZITR,1.29,drugstore,household.cleaning_supplies,"Toilet cleaner; “Zitr” describes scent, not fruit merchandise."
+23,COUPON 10%,-0.80,supermarket,adjustments.discount,Actual monetary deduction shown in price.
+24,MOLKEREI ART,1.49,supermarket,PARENT_ONLY:dairy_eggs,"Dairy indicated; milk, yogurt, or cheese unresolved."
+25,OBST/GEMUESE,2.99,supermarket,PARENT_ONLY:produce,Produce indicated; fruit versus vegetables unresolved.
+26,GETRAENKE,1.99,supermarket,PARENT_ONLY:beverages,Beverage department only; no defensible leaf.
+27,HAUSHALTSWARE,3.99,supermarket,PARENT_ONLY:household,Household department indicated; leaf unresolved.
+28,DIVERSES,2.00,drugstore,INSUFFICIENT_INFORMATION,Merchant type cannot identify the purchased item.
+29,AKTION 1,1.99,supermarket,INSUFFICIENT_INFORMATION,Promotion marker gives no product category. Positive amount does not establish a discount.
+30,ESPRESSO BOHN 250G,3.99,supermarket,beverages.coffee_tea,"Coffee beans, rather than a prepared espresso drink."

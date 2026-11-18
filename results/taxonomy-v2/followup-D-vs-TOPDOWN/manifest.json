@@ -1,0 +1,373 @@
+{
+  "sealed_at_utc": "2026-11-18T17:31:56.625965+00:00",
+  "taxonomy_version": "2.0",
+  "model": "typesafe/jev-1.14",
+  "original_count": 30,
+  "holdout_count": 24,
+  "maximum_new_requests": 102,
+  "protocol": {
+    "primary": "Use raw selected choices, without probability thresholds. D can choose parent, leaf or a special option. TOPDOWN uses its selected parent then selected child; unspecified_child retains parent.",
+    "D_parent": "A parent option means parent-only support; prefer a leaf if justified. No known leaf may be downgraded solely because its parent is broader.",
+    "specials": "unidentifiable abstains and never counts as correct classification. out_of_scope is separate routing, not a product classification. unspecified_child retains a committed parent, not an overall abstention.",
+    "evaluation": "Reuse frozen pilot outcome/metrics functions. Correct leaves and parents reported separately; matching-parent specific child on parent-only truth is overclaim; wrong-parent leaf is wrong_category. Any category commitment on insufficient/out-of-scope truth is error.",
+    "coverage": "Taxonomy leaf/parent commits divided by dataset size; scope rejects reported separately. Accuracy denominator is taxonomy commits, with overclaims and wrong categories included.",
+    "blindness": "Outcome-unseen synthetic holdout authored by the same assistant that designed the test, not independent human-blind validation. Inputs/labels sealed before API calls. Collector parses only inputs for model calls; labels are hash-verified but not parsed until scoring. Model state contains only raw_text, price and merchant_type.",
+    "datasets": "Original30 and holdout24 remain separate; no pooled headline metric. No label, category or prompt adjustments after freeze.",
+    "order": "Original30 TOPDOWN reused from cache; original30 D newly collected, so original latency is historical/noncontemporaneous. On holdout, alternate D-first and TOPDOWN-first by fixed row order; parent always precedes child.",
+    "scores": "D probabilities describe mutually exclusive resolution actions; TOPDOWN parent and conditional-child scores are different quantities. Do not multiply or treat equal numeric probabilities as equally calibrated.",
+    "high_score_audit": "Flag committed errors with any selected-option probability or confidence >=0.90, labeling stage. Not a calibration estimate.",
+    "scope": "Only D on original30 and D/TOPDOWN on holdout24. At most 102 new HTTP calls. No tuning, extra data, UI or prototype implementation."
+  },
+  "source_sha256": {
+    "followup_jev.py": "3be710ac584de0f6405e03030d6dda2e47666ca80c9923bfaa5fd6ce4248ed6e",
+    "data/followup_holdout24_inputs.csv": "afb71178b1481e629eb39e9d224ce44a908232c49acda8d291aa3945e40b3b3e",
+    "data/followup_holdout24_labels.csv": "ad81a8da0f292ca7fe1566569188177c16390b8f5770c11a5dfb1611d5fd7d17"
+  },
+  "frozen_sha256": {
+    "frozen/D_question.json": "7579c939383111a22c54bc7819096f1d6e9cbaf69b91d9deaee6c0021fbee9eb",
+    "frozen/followup_jev.py": "3be710ac584de0f6405e03030d6dda2e47666ca80c9923bfaa5fd6ce4248ed6e",
+    "frozen/protocol.json": "ac5bc27aa19372613c80871113a10c753376b3d411aa7ccfc316506a5d00ab8a",
+    "frozen/taxonomy.yaml": "f4da610acf2e5a17e206f73cae56c5e39f062c77748bbf74913c955b20094222",
+    "frozen/TOPDOWN_prompts.json": "4f5c1a2b9ffec5bdc5eb94a3febbbd4fc10e98823ccd11dbebd55d5d98796b82",
+    "frozen/data/followup_holdout24_inputs.csv": "afb71178b1481e629eb39e9d224ce44a908232c49acda8d291aa3945e40b3b3e",
+    "frozen/data/followup_holdout24_labels.csv": "ad81a8da0f292ca7fe1566569188177c16390b8f5770c11a5dfb1611d5fd7d17"
+  },
+  "protected_existing_sha256": {
+    "taxonomy.yaml": "f4da610acf2e5a17e206f73cae56c5e39f062c77748bbf74913c955b20094222",
+    "data/lines.csv": "32ddb63ad1d4f7adc321000990943e7abd66dd344ba588d2124aa58ea905de0a",
+    "diagnostic_jev.py": "6c69fd8a57955e723c88524a2bbcd36ba427c4d2d5b54e883fa8b8f1360b2e4d",
+    "pilot_jev.py": "bafac370fe6edde1c58e5333f6a30854fad89ddc7956dd3508ef99b9f0dce627",
+    "test_jev.py": "592c6e1c03edf24d5ae37ba7023efa56d5e7c26d3c8496532ada189aaf91d458",
+    "README.md": "1c44e1abaddad3f2734d16d62116a9746779283d47a770c59d52aac999ecd7cc",
+    ".gitignore": "cbb613517576f43414a31a058a6530a00abdbbc687382bb905bee1c1924018c5",
+    "history/taxonomy-v1/README.md": "d7b1f78af81a27cfb5aa1fe954b3cf7bd259055722ff688f2e9e64ceb4f69110",
+    "history/taxonomy-v1/taxonomy.yaml": "00e1290db601b2ac899cd10b2e9b210fe96bf686c12f70611403707938c685ee",
+    "history/taxonomy-v1/test_jev.py": "483c338cea7c9d31e3fc1d407f2ef57ab99e2b65abfaff566fe6af0a19a7e328",
+    "history/taxonomy-v1/data/lines.csv": "1aae546b61cd784db6419e3c3d68df583d6a014b76b84748ee1f115a0cec2356",
+    "results/taxonomy-v1/first_jev_metadata.json": "15bb79c5f683e2565c9e2a75a48a6f41bac96bb9943a4484e5a1ddc4522a37e9",
+    "results/taxonomy-v1/first_jev_response.json": "32782aa928c6abeed2ea94c5088887d1ebb5af0fa8544ac85d8c30d833adcbc3",
+    "results/taxonomy-v1/manifest.json": "8cfef7781564715903a677b2d49626d99b53528b20854761a30d1c36ca34fea0",
+    "results/taxonomy-v2/diagnostic-six/comparison.json": "6fc58a9c5c536489ab31bf856179bef80f6aef9bf34bc0effa9826c419845ec8",
+    "results/taxonomy-v2/diagnostic-six/comparison.md": "1bd2ea004bce42f83361ccf82e25a9bb2cfe9fc741b9325a98864b676a51d08d",
+    "results/taxonomy-v2/diagnostic-six/manifest.json": "7eae23e954def8d9765647717370a77fc6e062785cc5b170f2324b8966ee4478",
+    "results/taxonomy-v2/diagnostic-six/summary.json": "c91f6475bf3fe441ec36cda7bc56549642eeb1c29de873d39dff05af2034f3d0",
+    "results/taxonomy-v2/pilot-30/collection_summary.json": "cc27feceb3bd4f0e550a02c6fc11036cc19e15bacdb1a6b97e16703caa42c18e",
+    "results/taxonomy-v2/pilot-30/comparison_report.md": "a226e039274559f3679cfaef41d5bdf5d462b64761a4ace685b01fc559773587",
+    "results/taxonomy-v2/pilot-30/derived_parent_probabilities.json": "e98a50359a34b1600b305ad1f6421fe5eed3d96decc760847f894433704fc322",
+    "results/taxonomy-v2/pilot-30/findings.md": "90e88cd83032d348b6d8e732fb478e2131d7a6b0a7f17f9eaf606086fbc99c60",
+    "results/taxonomy-v2/pilot-30/freeze_manifest.json": "add00a252bcbba04f59cc5c341c66541bfcc59b0b171a39c12e07c8588bcafd8",
+    "results/taxonomy-v2/pilot-30/offline_decisions.json": "7355ecc4683fb12336adc3866f90b2bfd9cdda5ff40f2932c6b0dc73eea0650b",
+    "results/taxonomy-v2/pilot-30/raw_choice_audit.json": "3292f54e229e45322bf295d725fddfd7f159047cda2de0142bf14e67a4414a9a",
+    "results/taxonomy-v2/pilot-30/threshold_summary.json": "72d8457da5a9071c908cd1ab80e7bd7df660ab6c5ea2178961d8fff6ac44bf65",
+    "results/taxonomy-v2/pilot-30/usage_summary.json": "eeb6790c83a0522b15323a5a1dcf80c6132fd84ec1b892855c11d02e2e3b7314",
+    "results/taxonomy-v2/pilot-30/calls/01_child.json": "4727ae772578c04df852844105d8a26d2b9a1161f73b6eba590e192bf8122438",
+    "results/taxonomy-v2/pilot-30/calls/01_flat.json": "987b9c4b7e8354c7ef1abea97c1c85fad26ac2372b3f1f5ef204bdc352a53377",
+    "results/taxonomy-v2/pilot-30/calls/01_parent.json": "45344d19b133f892db28fe884f617c3a214b40bcfc51c185dad3071a1f6799bf",
+    "results/taxonomy-v2/pilot-30/calls/02_child.json": "4d673d6944f2c387a2cc3c4e5f1df31a8695f38f06402f4dd7774e4542708428",
+    "results/taxonomy-v2/pilot-30/calls/02_flat.json": "5d30fcf1ce7766c7a57bc300e81a6ce808a443d4b72c77dae1c6e12144accaff",
+    "results/taxonomy-v2/pilot-30/calls/02_parent.json": "3a8339b558a4c199fba443685a6f22967aa99e039b1cc99ed7bcdbb79edcbcc7",
+    "results/taxonomy-v2/pilot-30/calls/03_child.json": "b70193f31ff8e38e9d8885e2b96718c6ece8838726c98251cd4d46d6ac4d64d6",
+    "results/taxonomy-v2/pilot-30/calls/03_flat.json": "8c7b1f11f5b26688ec837983cf2f990650dfb334a7b625afb9fbe3568be5657e",
+    "results/taxonomy-v2/pilot-30/calls/03_parent.json": "c67302534805b9f14ee904d5ce9844fe1294909760da6f3718a9afea62302a34",
+    "results/taxonomy-v2/pilot-30/calls/04_flat.json": "8dd1484bfcd6cd7d3c85f1f389caa6d72b3b1d4a85f501492d7c804a008eefc6",
+    "results/taxonomy-v2/pilot-30/calls/04_parent.json": "5650c90d524d2482372bc742b78a8e49aa0591d65c386b38470f755b930ec6c5",
+    "results/taxonomy-v2/pilot-30/calls/05_child.json": "db128973cf0b25553a9254296bc62223272fbcfcd03eb1a833b792344d6f70f7",
+    "results/taxonomy-v2/pilot-30/calls/05_flat.json": "5d98980de7d862dcc1f86f4698094f472de3bc21b45842cd25f20b63fce41caf",
+    "results/taxonomy-v2/pilot-30/calls/05_parent.json": "93353542bcc72d612d06a55a414a35151f7a29dce65da6d393f593a33358175a",
+    "results/taxonomy-v2/pilot-30/calls/06_child.json": "daf6f0a936cb15a8f848b5655da8ead097a8bfc2e54185c74feb7cafda248d23",
+    "results/taxonomy-v2/pilot-30/calls/06_flat.json": "4b528f2e32904da41a04c90844eef05f8ad2327e23c4eb4f23070bfb82431c74",
+    "results/taxonomy-v2/pilot-30/calls/06_parent.json": "a0bcfc4692b5269d6db24b8940dd2adb048f83dd423eea15001e6e6d3d2e15ec",
+    "results/taxonomy-v2/pilot-30/calls/07_child.json": "50e850e5ae55a4cc0bdb789f21a204f7c10b50949692080f9076b014482abbbd",
+    "results/taxonomy-v2/pilot-30/calls/07_flat.json": "957bd99b6c21ede627ce2261e6922018f927719cd9518af627c96a6388f8335a",
+    "results/taxonomy-v2/pilot-30/calls/07_parent.json": "176fa64c2b7fb0df3b3e9510bc529c5657adf9a4db7063deaac399198945f426",
+    "results/taxonomy-v2/pilot-30/calls/08_flat.json": "e610652a5a41ac525d9cf56ab83748807928c377644f14206ddd79226cd80354",
+    "results/taxonomy-v2/pilot-30/calls/08_parent.json": "8cc42fc380a7ebf09fd55ad8bb252c992ff273f601f767b381ae92eaf6c9ca8c",
+    "results/taxonomy-v2/pilot-30/calls/09_child.json": "9c6e58c97402803db098671040d3b7594cbace28d250340d3f28e1505c05701b",
+    "results/taxonomy-v2/pilot-30/calls/09_flat.json": "fa271cf91764e07413dceadb24c4fc6b6aded082c0d05a236a8b23e3f09879b0",
+    "results/taxonomy-v2/pilot-30/calls/09_parent.json": "1dd4a3b64689926fb5b3eddc9ebfd5a4e050123cc1eb9ca7b3effa34edeb73c7",
+    "results/taxonomy-v2/pilot-30/calls/10_child.json": "a2f72112ee7d905411a22ad5e2e33206d0c6f6e6fd9f8b4326046a6cf43280f0",
+    "results/taxonomy-v2/pilot-30/calls/10_flat.json": "31b932b9a7bb191865cb75777beac47986d2cab4784c9e1f823205ea0c69c2e8",
+    "results/taxonomy-v2/pilot-30/calls/10_parent.json": "89b6fd564bd5134a9f601f3b83a987f278e0ecd034139eb310d6950c048dbda4",
+    "results/taxonomy-v2/pilot-30/calls/11_child.json": "5ab55d97f36363f245f82fd2723f66a96e9dd5d3b926a899a22f92da11d868b5",
+    "results/taxonomy-v2/pilot-30/calls/11_flat.json": "cdb003defadfe9ce56deff11ec25b11b9ffb0b00962a5321c5b7a7ca796f0b7d",
+    "results/taxonomy-v2/pilot-30/calls/11_parent.json": "debf21232f96e721f8f42d3c96dcacf45cedf966a1b3f89ac43280d817a9ca37",
+    "results/taxonomy-v2/pilot-30/calls/12_child.json": "79691d8920fb1ce942851642b4c2c6ac4e30e640db31cb43deab3209a9ba83ab",
+    "results/taxonomy-v2/pilot-30/calls/12_flat.json": "7c3aa7295223135363ba2ac8a493362773568fe4815190361eafd28c6005d080",
+    "results/taxonomy-v2/pilot-30/calls/12_parent.json": "ceecbed50e35f32633c63763d242316c7a0a09d9165950ab30ef41ec499004ee",
+    "results/taxonomy-v2/pilot-30/calls/13_flat.json": "1a472572a2914b5ef1d6eadc3c2adb266db80956953339ce3f6f81fbe9b780b2",
+    "results/taxonomy-v2/pilot-30/calls/13_parent.json": "e06320e819fed052e3a9dcf7b1255708bf8c11c1da3bf404a5325e25ae4a64f6",
+    "results/taxonomy-v2/pilot-30/calls/14_child.json": "af0258b28f98f18b1ac8f33e8537b585a8003e0e726fba942d22407e01be566d",
+    "results/taxonomy-v2/pilot-30/calls/14_flat.json": "b1790f62e1261c94a688f7f8c8f2176d2d8e2b734b45231cc423a300cf7f4e4c",
+    "results/taxonomy-v2/pilot-30/calls/14_parent.json": "c913e1e74adff7e13b702b590a78d625a8e3a7f24733d162debdabe8aee41cdb",
+    "results/taxonomy-v2/pilot-30/calls/15_flat.json": "0a4ec60739c1fb717922ed2bde94d8337a75636c9ea84a2b077906d1e502b4c4",
+    "results/taxonomy-v2/pilot-30/calls/15_parent.json": "8747c4959e750a5ee309053ecebd17f15a2a8a61100def9364e4002bf2f37872",
+    "results/taxonomy-v2/pilot-30/calls/16_child.json": "c404322a46892e5defe59642905bd3e1df9a75a675c42eebf9d68e7f04536d7d",
+    "results/taxonomy-v2/pilot-30/calls/16_flat.json": "82ed3bbbea5122f203c00345c9b8cbe2b19e228adb437d513b0dc31f6911ccd1",
+    "results/taxonomy-v2/pilot-30/calls/16_parent.json": "3ccd6da9976fea1637cfb338b2f61ac9826c27c7f0d082806e8b822d4d013f8b",
+    "results/taxonomy-v2/pilot-30/calls/17_child.json": "e6cb94ded16ccc19fa8a77163f01876d786408df663394788abbd1125440036b",
+    "results/taxonomy-v2/pilot-30/calls/17_flat.json": "9fae538f4f3eee81b12bbdb08b4ff82ca682cb151622caaa9addcd5e7b4fbffd",
+    "results/taxonomy-v2/pilot-30/calls/17_parent.json": "609be4e215253f729f2f2a296fe062ef54885787617aa203960e385560a7278f",
+    "results/taxonomy-v2/pilot-30/calls/18_child.json": "8b88540e834a595697cda39e84179bd2667d3e025292bb78c92b21283901b51f",
+    "results/taxonomy-v2/pilot-30/calls/18_flat.json": "9c057eb047788b562309fe07bd51fd733dab4216150bc01f81859cffef066e49",
+    "results/taxonomy-v2/pilot-30/calls/18_parent.json": "1db4e128f1eb845a31fd3fc0f402fdb0db123206bca41df5753d1d484f80c865",
+    "results/taxonomy-v2/pilot-30/calls/19_flat.json": "83e20a54edf94a4ba465dd0ed11d0565fc26d3e9a8c5f5bdd442de164bc7b7ba",
+    "results/taxonomy-v2/pilot-30/calls/19_parent.json": "12001fb8240aca941d35fd3c964edfedf999117301f02a2fce8c25d43f587751",
+    "results/taxonomy-v2/pilot-30/calls/20_flat.json": "4c4b301f1772ec20543cf8641e8224ef758ae4f76855eff8351b64250ec22cb5",
+    "results/taxonomy-v2/pilot-30/calls/20_parent.json": "21bae7f7b1c02e96a023e1d6caa4dde092fec00edf26223a0fbe7a8f784723f4",
+    "results/taxonomy-v2/pilot-30/calls/21_child.json": "fd6593f9eb4e60957270fc96f8b24f9ecc5599fdcc8f4de14a518c6130af52aa",
+    "results/taxonomy-v2/pilot-30/calls/21_flat.json": "ad196170097a4e2bec95a3d94edae7bbdc09c880974179d4904e5671c8ade678",
+    "results/taxonomy-v2/pilot-30/calls/21_parent.json": "cfb281323c91f7858b108d3dc49ee646b5af0ee383533b87b43999e489c5f4a3",
+    "results/taxonomy-v2/pilot-30/calls/22_flat.json": "e7536d180e4f853ebcfd37dd20d89c77b81754cc9fca1d2820ae07c4cdedb17e",
+    "results/taxonomy-v2/pilot-30/calls/22_parent.json": "5b198001e1f652a74e624ae3a07f8a66a8ba60a9e6b3057653fa7f322189aed4",
+    "results/taxonomy-v2/pilot-30/calls/23_child.json": "1110c3bf8107ff8be3967ed40807c5cb088463ba9723b4fd0734dbf6ebbef9a4",
+    "results/taxonomy-v2/pilot-30/calls/23_flat.json": "db5cd08cedfa1a18bd05b3409ee613f6989c68e6988aac443dbc95aeae51fc71",
+    "results/taxonomy-v2/pilot-30/calls/23_parent.json": "25f4d8877080624e9cab4f417176bd71999cdbdba812cad6b37d034b7fd83ac3",
+    "results/taxonomy-v2/pilot-30/calls/24_child.json": "b784c9bf0f3158acf99f34e498a7ad11728a47e67456f6b1b12e7e1d2786fc75",
+    "results/taxonomy-v2/pilot-30/calls/24_flat.json": "13d42b3f515ed9c36724a6573c7ee71dafc59838cc70cc0c457957e99a58bc37",
+    "results/taxonomy-v2/pilot-30/calls/24_parent.json": "6f291ce05ed891ffbee99683787f9ece87702ee55b466f97a9e6afa59e8beafa",
+    "results/taxonomy-v2/pilot-30/calls/25_child.json": "3689ca9844636b4af33c0710ca7036cffb0596f70290a3bba68fbe29a61b8c77",
+    "results/taxonomy-v2/pilot-30/calls/25_flat.json": "77a864acd06d55129959c557cce168edd496ae921fd54342b15c7a7714473b9c",
+    "results/taxonomy-v2/pilot-30/calls/25_parent.json": "3d1a21003c7f69196d26ff09de841815ff0ada45a904f8fa5a38b9d51ce9ddd1",
+    "results/taxonomy-v2/pilot-30/calls/26_child.json": "0c73f93f974ebb7186ba0377b17fabde702f060a24903ac8db4ec53e7f2ec91a",
+    "results/taxonomy-v2/pilot-30/calls/26_flat.json": "9820c67344b1d33bb94fc24f9f5f35832788515a7935050bf0a26e89eb3876a7",
+    "results/taxonomy-v2/pilot-30/calls/26_parent.json": "38c24b5324dae2fe745631c7a24b86381b356f2dc21701f5d3b5aea1350045e4",
+    "results/taxonomy-v2/pilot-30/calls/27_child.json": "50bd3d643ed09a6016e7b889a2f2fe3c69fdc042bb65584e5275c15f17cae4da",
+    "results/taxonomy-v2/pilot-30/calls/27_flat.json": "4667cdd33bcf757a6079d142f93dfeee277a69214a6bae6ffaf0ca0b43b31845",
+    "results/taxonomy-v2/pilot-30/calls/27_parent.json": "fb1ee1f3034c4501a7e32b81abddf8eaac9b5571760e28632d0624ea7b28435d",
+    "results/taxonomy-v2/pilot-30/calls/28_flat.json": "741e8239e98fff91165810654b4fcdc93849c20b7354717ddff4622995f68efc",
+    "results/taxonomy-v2/pilot-30/calls/28_parent.json": "1d448cdcae00d5a0995571be85fab1354d61fb1185670acdc037c1373d114e4d",
+    "results/taxonomy-v2/pilot-30/calls/29_flat.json": "1d7c655e90ea11652cfc01469b50a0c7e3ffb81a7eb103921615c514ac4277d5",
+    "results/taxonomy-v2/pilot-30/calls/29_parent.json": "359472c853daedbe361363f5939c19af9a6f9c36fe47f19d92e17597dc86e19a",
+    "results/taxonomy-v2/pilot-30/calls/30_child.json": "f5456ea8cbca64df596be148db0f2e3755852118231149c7dd984a15ee7c3e8c",
+    "results/taxonomy-v2/pilot-30/calls/30_flat.json": "cd514382d01e05ca2b355851465015d505257aa5a3180163b1742cf9c8bc7f74",
+    "results/taxonomy-v2/pilot-30/calls/30_parent.json": "69165b1b9bdf3c01bda06c02c452bac50571e8874f06b63ff0cde503d1f24828",
+    "results/taxonomy-v2/pilot-30/frozen/diagnostic_jev.py": "6c69fd8a57955e723c88524a2bbcd36ba427c4d2d5b54e883fa8b8f1360b2e4d",
+    "results/taxonomy-v2/pilot-30/frozen/evaluation_protocol.json": "193ec39de0d4d66ffd6838316672e52088cba95636392af2c6144355d7cd4afe",
+    "results/taxonomy-v2/pilot-30/frozen/pilot_jev.py": "bafac370fe6edde1c58e5333f6a30854fad89ddc7956dd3508ef99b9f0dce627",
+    "results/taxonomy-v2/pilot-30/frozen/prompts.json": "6b0013d45836d7305219f8fb15dd831ec78d07899a5b292c352dd362c8c89dce",
+    "results/taxonomy-v2/pilot-30/frozen/taxonomy.yaml": "f4da610acf2e5a17e206f73cae56c5e39f062c77748bbf74913c955b20094222",
+    "results/taxonomy-v2/pilot-30/frozen/data/lines.csv": "32ddb63ad1d4f7adc321000990943e7abd66dd344ba588d2124aa58ea905de0a",
+    "results/taxonomy-v2/diagnostic-six/calls/01_child.json": "4727ae772578c04df852844105d8a26d2b9a1161f73b6eba590e192bf8122438",
+    "results/taxonomy-v2/diagnostic-six/calls/01_flat.json": "987b9c4b7e8354c7ef1abea97c1c85fad26ac2372b3f1f5ef204bdc352a53377",
+    "results/taxonomy-v2/diagnostic-six/calls/01_parent.json": "45344d19b133f892db28fe884f617c3a214b40bcfc51c185dad3071a1f6799bf",
+    "results/taxonomy-v2/diagnostic-six/calls/02_child.json": "4d673d6944f2c387a2cc3c4e5f1df31a8695f38f06402f4dd7774e4542708428",
+    "results/taxonomy-v2/diagnostic-six/calls/02_flat.json": "5d30fcf1ce7766c7a57bc300e81a6ce808a443d4b72c77dae1c6e12144accaff",
+    "results/taxonomy-v2/diagnostic-six/calls/02_parent.json": "3a8339b558a4c199fba443685a6f22967aa99e039b1cc99ed7bcdbb79edcbcc7",
+    "results/taxonomy-v2/diagnostic-six/calls/03_child.json": "b70193f31ff8e38e9d8885e2b96718c6ece8838726c98251cd4d46d6ac4d64d6",
+    "results/taxonomy-v2/diagnostic-six/calls/03_flat.json": "8c7b1f11f5b26688ec837983cf2f990650dfb334a7b625afb9fbe3568be5657e",
+    "results/taxonomy-v2/diagnostic-six/calls/03_parent.json": "c67302534805b9f14ee904d5ce9844fe1294909760da6f3718a9afea62302a34",
+    "results/taxonomy-v2/diagnostic-six/calls/08_flat.json": "e610652a5a41ac525d9cf56ab83748807928c377644f14206ddd79226cd80354",
+    "results/taxonomy-v2/diagnostic-six/calls/08_parent.json": "8cc42fc380a7ebf09fd55ad8bb252c992ff273f601f767b381ae92eaf6c9ca8c",
+    "results/taxonomy-v2/diagnostic-six/calls/24_child.json": "b784c9bf0f3158acf99f34e498a7ad11728a47e67456f6b1b12e7e1d2786fc75",
+    "results/taxonomy-v2/diagnostic-six/calls/24_flat.json": "13d42b3f515ed9c36724a6573c7ee71dafc59838cc70cc0c457957e99a58bc37",
+    "results/taxonomy-v2/diagnostic-six/calls/24_parent.json": "6f291ce05ed891ffbee99683787f9ece87702ee55b466f97a9e6afa59e8beafa",
+    "results/taxonomy-v2/diagnostic-six/calls/29_flat.json": "1d7c655e90ea11652cfc01469b50a0c7e3ffb81a7eb103921615c514ac4277d5",
+    "results/taxonomy-v2/diagnostic-six/calls/29_parent.json": "359472c853daedbe361363f5939c19af9a6f9c36fe47f19d92e17597dc86e19a"
+  },
+  "reused_original_TOPDOWN": [
+    {
+      "file": "01_child.json",
+      "sha256": "4727ae772578c04df852844105d8a26d2b9a1161f73b6eba590e192bf8122438"
+    },
+    {
+      "file": "01_parent.json",
+      "sha256": "45344d19b133f892db28fe884f617c3a214b40bcfc51c185dad3071a1f6799bf"
+    },
+    {
+      "file": "02_child.json",
+      "sha256": "4d673d6944f2c387a2cc3c4e5f1df31a8695f38f06402f4dd7774e4542708428"
+    },
+    {
+      "file": "02_parent.json",
+      "sha256": "3a8339b558a4c199fba443685a6f22967aa99e039b1cc99ed7bcdbb79edcbcc7"
+    },
+    {
+      "file": "03_child.json",
+      "sha256": "b70193f31ff8e38e9d8885e2b96718c6ece8838726c98251cd4d46d6ac4d64d6"
+    },
+    {
+      "file": "03_parent.json",
+      "sha256": "c67302534805b9f14ee904d5ce9844fe1294909760da6f3718a9afea62302a34"
+    },
+    {
+      "file": "04_parent.json",
+      "sha256": "5650c90d524d2482372bc742b78a8e49aa0591d65c386b38470f755b930ec6c5"
+    },
+    {
+      "file": "05_child.json",
+      "sha256": "db128973cf0b25553a9254296bc62223272fbcfcd03eb1a833b792344d6f70f7"
+    },
+    {
+      "file": "05_parent.json",
+      "sha256": "93353542bcc72d612d06a55a414a35151f7a29dce65da6d393f593a33358175a"
+    },
+    {
+      "file": "06_child.json",
+      "sha256": "daf6f0a936cb15a8f848b5655da8ead097a8bfc2e54185c74feb7cafda248d23"
+    },
+    {
+      "file": "06_parent.json",
+      "sha256": "a0bcfc4692b5269d6db24b8940dd2adb048f83dd423eea15001e6e6d3d2e15ec"
+    },
+    {
+      "file": "07_child.json",
+      "sha256": "50e850e5ae55a4cc0bdb789f21a204f7c10b50949692080f9076b014482abbbd"
+    },
+    {
+      "file": "07_parent.json",
+      "sha256": "176fa64c2b7fb0df3b3e9510bc529c5657adf9a4db7063deaac399198945f426"
+    },
+    {
+      "file": "08_parent.json",
+      "sha256": "8cc42fc380a7ebf09fd55ad8bb252c992ff273f601f767b381ae92eaf6c9ca8c"
+    },
+    {
+      "file": "09_child.json",
+      "sha256": "9c6e58c97402803db098671040d3b7594cbace28d250340d3f28e1505c05701b"
+    },
+    {
+      "file": "09_parent.json",
+      "sha256": "1dd4a3b64689926fb5b3eddc9ebfd5a4e050123cc1eb9ca7b3effa34edeb73c7"
+    },
+    {
+      "file": "10_child.json",
+      "sha256": "a2f72112ee7d905411a22ad5e2e33206d0c6f6e6fd9f8b4326046a6cf43280f0"
+    },
+    {
+      "file": "10_parent.json",
+      "sha256": "89b6fd564bd5134a9f601f3b83a987f278e0ecd034139eb310d6950c048dbda4"
+    },
+    {
+      "file": "11_child.json",
+      "sha256": "5ab55d97f36363f245f82fd2723f66a96e9dd5d3b926a899a22f92da11d868b5"
+    },
+    {
+      "file": "11_parent.json",
+      "sha256": "debf21232f96e721f8f42d3c96dcacf45cedf966a1b3f89ac43280d817a9ca37"
+    },
+    {
+      "file": "12_child.json",
+      "sha256": "79691d8920fb1ce942851642b4c2c6ac4e30e640db31cb43deab3209a9ba83ab"
+    },
+    {
+      "file": "12_parent.json",
+      "sha256": "ceecbed50e35f32633c63763d242316c7a0a09d9165950ab30ef41ec499004ee"
+    },
+    {
+      "file": "13_parent.json",
+      "sha256": "e06320e819fed052e3a9dcf7b1255708bf8c11c1da3bf404a5325e25ae4a64f6"
+    },
+    {
+      "file": "14_child.json",
+      "sha256": "af0258b28f98f18b1ac8f33e8537b585a8003e0e726fba942d22407e01be566d"
+    },
+    {
+      "file": "14_parent.json",
+      "sha256": "c913e1e74adff7e13b702b590a78d625a8e3a7f24733d162debdabe8aee41cdb"
+    },
+    {
+      "file": "15_parent.json",
+      "sha256": "8747c4959e750a5ee309053ecebd17f15a2a8a61100def9364e4002bf2f37872"
+    },
+    {
+      "file": "16_child.json",
+      "sha256": "c404322a46892e5defe59642905bd3e1df9a75a675c42eebf9d68e7f04536d7d"
+    },
+    {
+      "file": "16_parent.json",
+      "sha256": "3ccd6da9976fea1637cfb338b2f61ac9826c27c7f0d082806e8b822d4d013f8b"
+    },
+    {
+      "file": "17_child.json",
+      "sha256": "e6cb94ded16ccc19fa8a77163f01876d786408df663394788abbd1125440036b"
+    },
+    {
+      "file": "17_parent.json",
+      "sha256": "609be4e215253f729f2f2a296fe062ef54885787617aa203960e385560a7278f"
+    },
+    {
+      "file": "18_child.json",
+      "sha256": "8b88540e834a595697cda39e84179bd2667d3e025292bb78c92b21283901b51f"
+    },
+    {
+      "file": "18_parent.json",
+      "sha256": "1db4e128f1eb845a31fd3fc0f402fdb0db123206bca41df5753d1d484f80c865"
+    },
+    {
+      "file": "19_parent.json",
+      "sha256": "12001fb8240aca941d35fd3c964edfedf999117301f02a2fce8c25d43f587751"
+    },
+    {
+      "file": "20_parent.json",
+      "sha256": "21bae7f7b1c02e96a023e1d6caa4dde092fec00edf26223a0fbe7a8f784723f4"
+    },
+    {
+      "file": "21_child.json",
+      "sha256": "fd6593f9eb4e60957270fc96f8b24f9ecc5599fdcc8f4de14a518c6130af52aa"
+    },
+    {
+      "file": "21_parent.json",
+      "sha256": "cfb281323c91f7858b108d3dc49ee646b5af0ee383533b87b43999e489c5f4a3"
+    },
+    {
+      "file": "22_parent.json",
+      "sha256": "5b198001e1f652a74e624ae3a07f8a66a8ba60a9e6b3057653fa7f322189aed4"
+    },
+    {
+      "file": "23_child.json",
+      "sha256": "1110c3bf8107ff8be3967ed40807c5cb088463ba9723b4fd0734dbf6ebbef9a4"
+    },
+    {
+      "file": "23_parent.json",
+      "sha256": "25f4d8877080624e9cab4f417176bd71999cdbdba812cad6b37d034b7fd83ac3"
+    },
+    {
+      "file": "24_child.json",
+      "sha256": "b784c9bf0f3158acf99f34e498a7ad11728a47e67456f6b1b12e7e1d2786fc75"
+    },
+    {
+      "file": "24_parent.json",
+      "sha256": "6f291ce05ed891ffbee99683787f9ece87702ee55b466f97a9e6afa59e8beafa"
+    },
+    {
+      "file": "25_child.json",
+      "sha256": "3689ca9844636b4af33c0710ca7036cffb0596f70290a3bba68fbe29a61b8c77"
+    },
+    {
+      "file": "25_parent.json",
+      "sha256": "3d1a21003c7f69196d26ff09de841815ff0ada45a904f8fa5a38b9d51ce9ddd1"
+    },
+    {
+      "file": "26_child.json",
+      "sha256": "0c73f93f974ebb7186ba0377b17fabde702f060a24903ac8db4ec53e7f2ec91a"
+    },
+    {
+      "file": "26_parent.json",
+      "sha256": "38c24b5324dae2fe745631c7a24b86381b356f2dc21701f5d3b5aea1350045e4"
+    },
+    {
+      "file": "27_child.json",
+      "sha256": "50bd3d643ed09a6016e7b889a2f2fe3c69fdc042bb65584e5275c15f17cae4da"
+    },
+    {
+      "file": "27_parent.json",
+      "sha256": "fb1ee1f3034c4501a7e32b81abddf8eaac9b5571760e28632d0624ea7b28435d"
+    },
+    {
+      "file": "28_parent.json",
+      "sha256": "1d448cdcae00d5a0995571be85fab1354d61fb1185670acdc037c1373d114e4d"
+    },
+    {
+      "file": "29_parent.json",
+      "sha256": "359472c853daedbe361363f5939c19af9a6f9c36fe47f19d92e17597dc86e19a"
+    },
+    {
+      "file": "30_child.json",
+      "sha256": "f5456ea8cbca64df596be148db0f2e3755852118231149c7dd984a15ee7c3e8c"
+    },
+    {
+      "file": "30_parent.json",
+      "sha256": "69165b1b9bdf3c01bda06c02c452bac50571e8874f06b63ff0cde503d1f24828"
+    }
+  ]
+}

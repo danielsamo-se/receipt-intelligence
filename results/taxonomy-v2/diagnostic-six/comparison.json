@@ -1,0 +1,366 @@
+[
+  {
+    "id": "01",
+    "raw_text": "HARIBO SAURE POMMES",
+    "ground_truth": "confectionery_snacks.confectionery",
+    "flat": {
+      "prediction": "confectionery_snacks.confectionery",
+      "scores": {
+        "choice": "confectionery_snacks.confectionery",
+        "selected_probability": 0.97,
+        "confidence": 0.97,
+        "latency_seconds": 0.8671301999129355,
+        "usage": {
+          "input_tokens": 2959,
+          "output_tokens": 423,
+          "cost": 0.000124278,
+          "is_byok": false,
+          "cost_details": {
+            "upstream_inference_cost": 0.000124278,
+            "upstream_inference_prompt_cost": 0.000124278,
+            "upstream_inference_completions_cost": 0
+          }
+        }
+      },
+      "outcome": "correct_leaf"
+    },
+    "topdown": {
+      "prediction": "confectionery_snacks.confectionery",
+      "parent_option": "confectionery_snacks",
+      "child_option": "confectionery_snacks.confectionery",
+      "parent_scores": {
+        "choice": "confectionery_snacks",
+        "selected_probability": 0.99,
+        "confidence": 0.99,
+        "latency_seconds": 0.23111269995570183,
+        "usage": {
+          "input_tokens": 1200,
+          "output_tokens": 136,
+          "cost": 5.04e-05,
+          "is_byok": false,
+          "cost_details": {
+            "upstream_inference_cost": 5.04e-05,
+            "upstream_inference_prompt_cost": 5.04e-05,
+            "upstream_inference_completions_cost": 0
+          }
+        }
+      },
+      "child_scores": {
+        "choice": "confectionery_snacks.confectionery",
+        "selected_probability": 0.88,
+        "confidence": 0.84,
+        "latency_seconds": 0.3939859000965953,
+        "usage": {
+          "input_tokens": 669,
+          "output_tokens": 88,
+          "cost": 2.8098e-05,
+          "is_byok": false,
+          "cost_details": {
+            "upstream_inference_cost": 2.8098e-05,
+            "upstream_inference_prompt_cost": 2.8098e-05,
+            "upstream_inference_completions_cost": 0
+          }
+        }
+      },
+      "outcome": "correct_leaf"
+    }
+  },
+  {
+    "id": "02",
+    "raw_text": "POMMES FRITES TK",
+    "ground_truth": "prepared_food.potato_sides",
+    "flat": {
+      "prediction": "prepared_food.potato_sides",
+      "scores": {
+        "choice": "prepared_food.potato_sides",
+        "selected_probability": 0.99,
+        "confidence": 0.99,
+        "latency_seconds": 0.23255119984969497,
+        "usage": {
+          "input_tokens": 2957,
+          "output_tokens": 420,
+          "cost": 0.000124194,
+          "is_byok": false,
+          "cost_details": {
+            "upstream_inference_cost": 0.000124194,
+            "upstream_inference_prompt_cost": 0.000124194,
+            "upstream_inference_completions_cost": 0
+          }
+        }
+      },
+      "outcome": "correct_leaf"
+    },
+    "topdown": {
+      "prediction": "prepared_food.potato_sides",
+      "parent_option": "prepared_food",
+      "child_option": "prepared_food.potato_sides",
+      "parent_scores": {
+        "choice": "prepared_food",
+        "selected_probability": 0.94,
+        "confidence": 0.93,
+        "latency_seconds": 0.21521669998764992,
+        "usage": {
+          "input_tokens": 1198,
+          "output_tokens": 132,
+          "cost": 5.0316e-05,
+          "is_byok": false,
+          "cost_details": {
+            "upstream_inference_cost": 5.0316e-05,
+            "upstream_inference_prompt_cost": 5.0316e-05,
+            "upstream_inference_completions_cost": 0
+          }
+        }
+      },
+      "child_scores": {
+        "choice": "prepared_food.potato_sides",
+        "selected_probability": 0.93,
+        "confidence": 0.89,
+        "latency_seconds": 0.22955449996516109,
+        "usage": {
+          "input_tokens": 603,
+          "output_tokens": 59,
+          "cost": 2.5326e-05,
+          "is_byok": false,
+          "cost_details": {
+            "upstream_inference_cost": 2.5326e-05,
+            "upstream_inference_prompt_cost": 2.5326e-05,
+            "upstream_inference_completions_cost": 0
+          }
+        }
+      },
+      "outcome": "correct_leaf"
+    }
+  },
+  {
+    "id": "03",
+    "raw_text": "WMF PF 24CM",
+    "ground_truth": "household.kitchenware",
+    "flat": {
+      "prediction": "household.kitchenware",
+      "scores": {
+        "choice": "household.kitchenware",
+        "selected_probability": 0.96,
+        "confidence": 0.96,
+        "latency_seconds": 0.23619069997221231,
+        "usage": {
+          "input_tokens": 2959,
+          "output_tokens": 420,
+          "cost": 0.000124278,
+          "is_byok": false,
+          "cost_details": {
+            "upstream_inference_cost": 0.000124278,
+            "upstream_inference_prompt_cost": 0.000124278,
+            "upstream_inference_completions_cost": 0
+          }
+        }
+      },
+      "outcome": "correct_leaf"
+    },
+    "topdown": {
+      "prediction": "household.kitchenware",
+      "parent_option": "household",
+      "child_option": "household.kitchenware",
+      "parent_scores": {
+        "choice": "household",
+        "selected_probability": 0.69,
+        "confidence": 0.66,
+        "latency_seconds": 0.33166970033198595,
+        "usage": {
+          "input_tokens": 1200,
+          "output_tokens": 133,
+          "cost": 5.04e-05,
+          "is_byok": false,
+          "cost_details": {
+            "upstream_inference_cost": 5.04e-05,
+            "upstream_inference_prompt_cost": 5.04e-05,
+            "upstream_inference_completions_cost": 0
+          }
+        }
+      },
+      "child_scores": {
+        "choice": "household.kitchenware",
+        "selected_probability": 0.84,
+        "confidence": 0.76,
+        "latency_seconds": 0.26551209995523095,
+        "usage": {
+          "input_tokens": 621,
+          "output_tokens": 61,
+          "cost": 2.6082e-05,
+          "is_byok": false,
+          "cost_details": {
+            "upstream_inference_cost": 2.6082e-05,
+            "upstream_inference_prompt_cost": 2.6082e-05,
+            "upstream_inference_completions_cost": 0
+          }
+        }
+      },
+      "outcome": "correct_leaf"
+    }
+  },
+  {
+    "id": "08",
+    "raw_text": "ART 004711",
+    "ground_truth": "INSUFFICIENT_INFORMATION",
+    "flat": {
+      "prediction": "unidentifiable",
+      "scores": {
+        "choice": "unidentifiable",
+        "selected_probability": 0.99,
+        "confidence": 0.99,
+        "latency_seconds": 0.21717300033196807,
+        "usage": {
+          "input_tokens": 2959,
+          "output_tokens": 417,
+          "cost": 0.000124278,
+          "is_byok": false,
+          "cost_details": {
+            "upstream_inference_cost": 0.000124278,
+            "upstream_inference_prompt_cost": 0.000124278,
+            "upstream_inference_completions_cost": 0
+          }
+        }
+      },
+      "outcome": "abstention"
+    },
+    "topdown": {
+      "prediction": "unidentifiable",
+      "parent_option": "unidentifiable",
+      "child_option": null,
+      "parent_scores": {
+        "choice": "unidentifiable",
+        "selected_probability": 1,
+        "confidence": 1,
+        "latency_seconds": 0.26349279982969165,
+        "usage": {
+          "input_tokens": 1200,
+          "output_tokens": 134,
+          "cost": 5.04e-05,
+          "is_byok": false,
+          "cost_details": {
+            "upstream_inference_cost": 5.04e-05,
+            "upstream_inference_prompt_cost": 5.04e-05,
+            "upstream_inference_completions_cost": 0
+          }
+        }
+      },
+      "child_scores": null,
+      "outcome": "abstention"
+    }
+  },
+  {
+    "id": "24",
+    "raw_text": "MOLKEREI ART",
+    "ground_truth": "PARENT_ONLY:dairy_eggs",
+    "flat": {
+      "prediction": "unidentifiable",
+      "scores": {
+        "choice": "unidentifiable",
+        "selected_probability": 0.93,
+        "confidence": 0.93,
+        "latency_seconds": 0.21625469997525215,
+        "usage": {
+          "input_tokens": 2957,
+          "output_tokens": 417,
+          "cost": 0.000124194,
+          "is_byok": false,
+          "cost_details": {
+            "upstream_inference_cost": 0.000124194,
+            "upstream_inference_prompt_cost": 0.000124194,
+            "upstream_inference_completions_cost": 0
+          }
+        }
+      },
+      "outcome": "abstention"
+    },
+    "topdown": {
+      "prediction": "dairy_eggs",
+      "parent_option": "dairy_eggs",
+      "child_option": "unspecified_child",
+      "parent_scores": {
+        "choice": "dairy_eggs",
+        "selected_probability": 0.94,
+        "confidence": 0.93,
+        "latency_seconds": 0.26286369981244206,
+        "usage": {
+          "input_tokens": 1198,
+          "output_tokens": 135,
+          "cost": 5.0316e-05,
+          "is_byok": false,
+          "cost_details": {
+            "upstream_inference_cost": 5.0316e-05,
+            "upstream_inference_prompt_cost": 5.0316e-05,
+            "upstream_inference_completions_cost": 0
+          }
+        }
+      },
+      "child_scores": {
+        "choice": "unspecified_child",
+        "selected_probability": 0.97,
+        "confidence": 0.96,
+        "latency_seconds": 0.24677219986915588,
+        "usage": {
+          "input_tokens": 664,
+          "output_tokens": 87,
+          "cost": 2.7888e-05,
+          "is_byok": false,
+          "cost_details": {
+            "upstream_inference_cost": 2.7888e-05,
+            "upstream_inference_prompt_cost": 2.7888e-05,
+            "upstream_inference_completions_cost": 0
+          }
+        }
+      },
+      "outcome": "correct_parent"
+    }
+  },
+  {
+    "id": "29",
+    "raw_text": "AKTION 1",
+    "ground_truth": "INSUFFICIENT_INFORMATION",
+    "flat": {
+      "prediction": "unidentifiable",
+      "scores": {
+        "choice": "unidentifiable",
+        "selected_probability": 1,
+        "confidence": 1,
+        "latency_seconds": 0.26854490023106337,
+        "usage": {
+          "input_tokens": 2956,
+          "output_tokens": 417,
+          "cost": 0.000124152,
+          "is_byok": false,
+          "cost_details": {
+            "upstream_inference_cost": 0.000124152,
+            "upstream_inference_prompt_cost": 0.000124152,
+            "upstream_inference_completions_cost": 0
+          }
+        }
+      },
+      "outcome": "abstention"
+    },
+    "topdown": {
+      "prediction": "unidentifiable",
+      "parent_option": "unidentifiable",
+      "child_option": null,
+      "parent_scores": {
+        "choice": "unidentifiable",
+        "selected_probability": 0.99,
+        "confidence": 0.99,
+        "latency_seconds": 0.21914790011942387,
+        "usage": {
+          "input_tokens": 1197,
+          "output_tokens": 134,
+          "cost": 5.0274e-05,
+          "is_byok": false,
+          "cost_details": {
+            "upstream_inference_cost": 5.0274e-05,
+            "upstream_inference_prompt_cost": 5.0274e-05,
+            "upstream_inference_completions_cost": 0
+          }
+        }
+      },
+      "child_scores": null,
+      "outcome": "abstention"
+    }
+  }
+]

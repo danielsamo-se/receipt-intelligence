@@ -1,0 +1,70 @@
+{
+  "FLAT": {
+    "requests": 30,
+    "latency_sum_seconds": 9.450534901116043,
+    "latency_median_seconds": 0.2333764999639243,
+    "input_tokens": {
+      "available_sum": 88719,
+      "missing_requests": 0
+    },
+    "output_tokens": {
+      "available_sum": 12580,
+      "missing_requests": 0
+    },
+    "cost": {
+      "available_sum": 0.003726198,
+      "missing_requests": 0
+    }
+  },
+  "TOPDOWN": {
+    "requests": 51,
+    "latency_sum_seconds": 14.686109601520002,
+    "latency_median_seconds": 0.23149290028959513,
+    "input_tokens": {
+      "available_sum": 49562,
+      "missing_requests": 0
+    },
+    "output_tokens": {
+      "available_sum": 5619,
+      "missing_requests": 0
+    },
+    "cost": {
+      "available_sum": 0.002081604,
+      "missing_requests": 0
+    }
+  },
+  "collection": {
+    "new_requests_this_execution": 65,
+    "original_cache_records_reused": 16,
+    "unique_cached_requests": 81,
+    "remaining_ids": [
+      "04",
+      "05",
+      "06",
+      "07",
+      "09",
+      "10",
+      "11",
+      "12",
+      "13",
+      "14",
+      "15",
+      "16",
+      "17",
+      "18",
+      "19",
+      "20",
+      "21",
+      "22",
+      "23",
+      "25",
+      "26",
+      "27",
+      "28",
+      "30"
+    ]
+  },
+  "returned_models": [
+    "typesafe/jev-1.14-20261014"
+  ]
+}

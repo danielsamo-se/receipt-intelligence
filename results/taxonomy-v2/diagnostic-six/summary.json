@@ -1,0 +1,35 @@
+{
+  "receipt_count": 6,
+  "unique_cached_requests": 16,
+  "http_requests_this_execution": 16,
+  "total_observed_request_latency_seconds": 4.697172900196165,
+  "input_tokens": {
+    "available_sum": 27497,
+    "requests_with_value": 16,
+    "requests_missing_value": 0
+  },
+  "output_tokens": {
+    "available_sum": 3613,
+    "requests_with_value": 16,
+    "requests_missing_value": 0
+  },
+  "cost_openrouter_credits": {
+    "available_sum": 0.001154874,
+    "requests_with_value": 16,
+    "requests_missing_value": 0
+  },
+  "outcomes": {
+    "flat": {
+      "correct_leaf": 3,
+      "abstention": 3
+    },
+    "topdown": {
+      "correct_leaf": 3,
+      "abstention": 2,
+      "correct_parent": 1
+    }
+  },
+  "returned_models": [
+    "typesafe/jev-1.14-20261014"
+  ]
+}

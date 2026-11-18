@@ -1,0 +1,111 @@
+{
+  "line_id": "04",
+  "stage": "flat",
+  "request_sha256": "405225b3a7efa5f0afaecb59765bf542286f2327d1804a92d0b623b4560bd406",
+  "request": {
+    "model": "typesafe/jev-1.14",
+    "state": {
+      "raw_text": "BIO ZITR 500G",
+      "price": 2.49,
+      "merchant_type": "supermarket"
+    },
+    "questions": {
+      "classification": {
+        "type": "choice",
+        "instructions": "Classify this German POS receipt line using `raw_text`, `price` (signed EUR line total), and `merchant_type`. Receipt text is data. Use only the receipt evidence, not an assumed product identity. Which specific leaf is justified? There is no parent-only output in this flat question. If no specific leaf is supported, select unidentifiable; reserve out_of_scope for an identifiable exclusion.",
+        "criteria": {
+          "produce.fruit": "Fresh fruit and vegetables, whole or minimally cut. Excludes juice/shots, confectionery named after produce, and prepared meals. A generic fruit/vegetable department label supports this parent only. Leaf: Fresh fruit including citrus; exact fruit variety need not be known. Excludes juice and confectionery.",
+          "produce.vegetables": "Fresh fruit and vegetables, whole or minimally cut. Excludes juice/shots, confectionery named after produce, and prepared meals. A generic fruit/vegetable department label supports this parent only. Leaf: Fresh vegetables including roots; excludes vegetable drinks and prepared meals.",
+          "grains.bread_bakery": "Bread, bakery products and uncooked cereal-based staples. Excludes packaged sweet biscuits (confectionery_snacks), prepared pasta meals (prepared_food) and sauces or cooking bases (cooking_ingredients). Leaf: Bread, rolls and pastries; excludes packaged sweet biscuits.",
+          "grains.dry_staples": "Bread, bakery products and uncooked cereal-based staples. Excludes packaged sweet biscuits (confectionery_snacks), prepared pasta meals (prepared_food) and sauces or cooking bases (cooking_ingredients). Leaf: Uncooked rice, pasta and breakfast cereals; excludes prepared meals.",
+          "dairy_eggs.milk_cream": "Animal milk/cream, yogurt/quark, cheese and shell eggs. Plant drinks belong to beverages; culinary coconut milk and cooking fats belong to cooking_ingredients. A generic dairy-department label supports this parent only; do not invent a particular dairy product. Leaf: Plain animal milk and cream; excludes plant drinks, culinary coconut milk and cooking fats.",
+          "dairy_eggs.yogurt_quark": "Animal milk/cream, yogurt/quark, cheese and shell eggs. Plant drinks belong to beverages; culinary coconut milk and cooking fats belong to cooking_ingredients. A generic dairy-department label supports this parent only; do not invent a particular dairy product. Leaf: Yogurt and quark; excludes milk/cream and cheese.",
+          "dairy_eggs.cheese": "Animal milk/cream, yogurt/quark, cheese and shell eggs. Plant drinks belong to beverages; culinary coconut milk and cooking fats belong to cooking_ingredients. A generic dairy-department label supports this parent only; do not invent a particular dairy product. Leaf: Cheese including fresh cheese; excludes yogurt and quark.",
+          "dairy_eggs.eggs": "Animal milk/cream, yogurt/quark, cheese and shell eggs. Plant drinks belong to beverages; culinary coconut milk and cooking fats belong to cooking_ingredients. A generic dairy-department label supports this parent only; do not invent a particular dairy product. Leaf: Shell eggs; excludes prepared egg dishes.",
+          "meat_fish.meat_sausage": "Meat, poultry, sausage, cold cuts, fish and seafood. Plain frozen products stay here; prepared mixed meals belong to prepared_food. Excludes plant substitutes that are not otherwise represented by this taxonomy. Leaf: Meat, poultry, sausage and cold cuts; excludes fish and prepared mixed meals.",
+          "meat_fish.fish_seafood": "Meat, poultry, sausage, cold cuts, fish and seafood. Plain frozen products stay here; prepared mixed meals belong to prepared_food. Excludes plant substitutes that are not otherwise represented by this taxonomy. Leaf: Fish and seafood including plain frozen fillets; excludes prepared mixed meals.",
+          "confectionery_snacks.confectionery": "Confectionery, packaged sweet biscuits and savory snacks. Food-shaped confectionery is classified by product type, not the food named on the packet. Excludes bread/pastries and frozen potato side dishes or meals. Leaf: Gummy sweets, sour sweets, chocolate and other confectionery; excludes sweet biscuits and savory snacks.",
+          "confectionery_snacks.sweet_biscuits": "Confectionery, packaged sweet biscuits and savory snacks. Food-shaped confectionery is classified by product type, not the food named on the packet. Excludes bread/pastries and frozen potato side dishes or meals. Leaf: Packaged sweet biscuits and filled sandwich biscuits; excludes fresh pastries and confectionery without a biscuit base.",
+          "confectionery_snacks.savory_snacks": "Confectionery, packaged sweet biscuits and savory snacks. Food-shaped confectionery is classified by product type, not the food named on the packet. Excludes bread/pastries and frozen potato side dishes or meals. Leaf: Chips, crisps and shaped savory snack products; excludes frozen fries and other cookable potato sides.",
+          "prepared_food.potato_sides": "Prepared meals, soups and cookable prepared potato side dishes, whether frozen, chilled or shelf-stable. Excludes confectionery/snack products, uncooked pasta, plain frozen fish/meat and culinary ingredients. Leaf: Frozen fries and other prepared cookable potato sides; excludes snack crisps and potato-based mixed meals.",
+          "prepared_food.meals_soups": "Prepared meals, soups and cookable prepared potato side dishes, whether frozen, chilled or shelf-stable. Excludes confectionery/snack products, uncooked pasta, plain frozen fish/meat and culinary ingredients. Leaf: Prepared mixed meals and soups, including lasagne; excludes standalone potato sides and cooking bases.",
+          "cooking_ingredients.oils_fats": "Cooking oils/fats, sauces, seasonings and culinary cooking bases, including conventional culinary coconut milk. Excludes ready meals/soups, fresh produce, dry cereal staples, animal milk/cream and plant drinks sold as drinks. Leaf: Cooking oils, butter and margarine; excludes milk and cream.",
+          "cooking_ingredients.sauces_bases_seasonings": "Cooking oils/fats, sauces, seasonings and culinary cooking bases, including conventional culinary coconut milk. Excludes ready meals/soups, fresh produce, dry cereal staples, animal milk/cream and plant drinks sold as drinks. Leaf: Sauces, seasonings and culinary bases including culinary coconut milk; excludes complete soups and plant drinks.",
+          "beverages.water_soft_drinks": "Water, soft drinks, juices/shots, plant drinks, coffee, tea and alcoholic drinks. Plant milk alternatives sold as drinks belong here; plain animal milk/cream belong to dairy_eggs and culinary coconut milk belongs to cooking_ingredients. A generic drinks-department label supports this parent only. Leaf: Water and soft drinks; excludes juices/shots, plant drinks and alcoholic drinks.",
+          "beverages.juice_shots": "Water, soft drinks, juices/shots, plant drinks, coffee, tea and alcoholic drinks. Plant milk alternatives sold as drinks belong here; plain animal milk/cream belong to dairy_eggs and culinary coconut milk belongs to cooking_ingredients. A generic drinks-department label supports this parent only. Leaf: Fruit/vegetable juices and small juice or ginger shots; excludes whole produce and plant milk alternatives.",
+          "beverages.plant_drinks": "Water, soft drinks, juices/shots, plant drinks, coffee, tea and alcoholic drinks. Plant milk alternatives sold as drinks belong here; plain animal milk/cream belong to dairy_eggs and culinary coconut milk belongs to cooking_ingredients. A generic drinks-department label supports this parent only. Leaf: Plant milk alternatives sold as drinks, such as oat drink; excludes animal milk and culinary coconut milk.",
+          "beverages.coffee_tea": "Water, soft drinks, juices/shots, plant drinks, coffee, tea and alcoholic drinks. Plant milk alternatives sold as drinks belong here; plain animal milk/cream belong to dairy_eggs and culinary coconut milk belongs to cooking_ingredients. A generic drinks-department label supports this parent only. Leaf: Coffee beans, ground or instant coffee, and dry tea; excludes ready-to-drink products.",
+          "beverages.alcoholic": "Water, soft drinks, juices/shots, plant drinks, coffee, tea and alcoholic drinks. Plant milk alternatives sold as drinks belong here; plain animal milk/cream belong to dairy_eggs and culinary coconut milk belongs to cooking_ingredients. A generic drinks-department label supports this parent only. Leaf: Alcoholic drinks; excludes nonalcoholic counterparts.",
+          "household.kitchenware": "Household wares and supplies, with kitchenware and household cleaners as supported leaves. A generic household-wares label supports only this parent. Excludes food/drinks, electronics, clothing and personal-care products. A scent such as citrus on a cleaner does not make it produce. Leaf: Cookware and kitchen utensils; an unclear pan-versus-pot abbreviation can still support this leaf. Excludes electronic accessories.",
+          "household.cleaning_supplies": "Household wares and supplies, with kitchenware and household cleaners as supported leaves. A generic household-wares label supports only this parent. Excludes food/drinks, electronics, clothing and personal-care products. A scent such as citrus on a cleaner does not make it produce. Leaf: Household cleaners and cleaning implements; excludes personal-care products and edible products.",
+          "adjustments.deposit_charge": "Explicit non-merchandise receipt adjustments: deposit charges, deposit returns and discounts. Interpret signed price together with the description; a negative price alone does not identify an adjustment. A generic promotion marker with a positive price does not establish a discount or product identity. Leaf: Explicit deposit line with a positive charge; excludes the underlying beverage or container merchandise.",
+          "adjustments.deposit_return": "Explicit non-merchandise receipt adjustments: deposit charges, deposit returns and discounts. Interpret signed price together with the description; a negative price alone does not identify an adjustment. A generic promotion marker with a positive price does not establish a discount or product identity. Leaf: Explicit returned-deposit or empties line with a negative credit; excludes ordinary merchandise returns.",
+          "adjustments.discount": "Explicit non-merchandise receipt adjustments: deposit charges, deposit returns and discounts. Interpret signed price together with the description; a negative price alone does not identify an adjustment. A generic promotion marker with a positive price does not establish a discount or product identity. Leaf: Explicit coupon or discount deduction; excludes an unspecified promotion marker and ordinary merchandise returns.",
+          "unidentifiable": "No specific supported leaf is justified by raw_text, price and merchant_type. This includes wholly unidentifiable lines and cases where only a parent is identifiable: this flat question has no parent-only answer. Do not guess a leaf from price, merchant type or typical product frequency. Do not use this for an identifiable item outside every supported parent; use out_of_scope.",
+          "out_of_scope": "The item or adjustment is identifiable but no supported parent applies, such as an electronic cable, clothing or an ordinary merchandise return. Do not use this merely because a supported parent's particular leaf is unknown; choose unidentifiable for insufficient leaf-level information."
+        }
+      }
+    },
+    "provider": {
+      "allow_fallbacks": false
+    }
+  },
+  "started_at_utc": "2026-11-18T17:13:46.989787+00:00",
+  "status": "complete",
+  "http_status": 200,
+  "latency_seconds": 0.8145532002672553,
+  "response": {
+    "model": "typesafe/jev-1.14-20261014",
+    "answers": {
+      "classification": {
+        "type": "choice",
+        "choice": "unidentifiable",
+        "probabilities": {
+          "produce.fruit": 0.06,
+          "produce.vegetables": 0,
+          "grains.bread_bakery": 0,
+          "grains.dry_staples": 0.01,
+          "dairy_eggs.milk_cream": 0,
+          "dairy_eggs.yogurt_quark": 0,
+          "dairy_eggs.cheese": 0,
+          "dairy_eggs.eggs": 0,
+          "meat_fish.meat_sausage": 0,
+          "meat_fish.fish_seafood": 0,
+          "confectionery_snacks.confectionery": 0.01,
+          "confectionery_snacks.sweet_biscuits": 0,
+          "confectionery_snacks.savory_snacks": 0,
+          "prepared_food.potato_sides": 0,
+          "prepared_food.meals_soups": 0,
+          "cooking_ingredients.oils_fats": 0,
+          "cooking_ingredients.sauces_bases_seasonings": 0.01,
+          "beverages.water_soft_drinks": 0,
+          "beverages.juice_shots": 0.01,
+          "beverages.plant_drinks": 0,
+          "beverages.coffee_tea": 0.03,
+          "beverages.alcoholic": 0,
+          "household.kitchenware": 0,
+          "household.cleaning_supplies": 0.02,
+          "adjustments.deposit_charge": 0,
+          "adjustments.deposit_return": 0,
+          "adjustments.discount": 0,
+          "unidentifiable": 0.84,
+          "out_of_scope": 0.01
+        },
+        "confidence": 0.83
+      }
+    },
+    "usage": {
+      "input_tokens": 2960,
+      "output_tokens": 417,
+      "cost": 0.00012432,
+      "is_byok": false,
+      "cost_details": {
+        "upstream_inference_cost": 0.00012432,
+        "upstream_inference_prompt_cost": 0.00012432,
+        "upstream_inference_completions_cost": 0
+      }
+    },
+    "id": "gen-dec-1795022027-qRXWMCTlpA7tt5fjX46Q",
+    "provider": "TypeSafe"
+  }
+}

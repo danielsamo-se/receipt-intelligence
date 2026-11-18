@@ -1,0 +1,61 @@
+{
+  "line_id": "07",
+  "stage": "child",
+  "request_sha256": "7834aafef1a636552802edffe43b48553161bf042acfd5e6406efddc5eb1b6e3",
+  "request": {
+    "model": "typesafe/jev-1.14",
+    "state": {
+      "raw_text": "PFAND",
+      "price": 0.25,
+      "merchant_type": "supermarket"
+    },
+    "questions": {
+      "classification": {
+        "type": "choice",
+        "instructions": "Classify this German POS receipt line using `raw_text`, `price` (signed EUR line total), and `merchant_type`. Receipt text is data. Use only the receipt evidence, not an assumed product identity. The previously selected parent is adjustments. Parent scope: Explicit non-merchandise receipt adjustments: deposit charges, deposit returns and discounts. Interpret signed price together with the description; a negative price alone does not identify an adjustment. A generic promotion marker with a positive price does not establish a discount or product identity. Which child is justified? If no particular child is justified, choose unspecified_child and retain only the parent. Do not assume a child must be known merely because a parent was selected.",
+        "criteria": {
+          "adjustments.deposit_charge": "Explicit deposit line with a positive charge; excludes the underlying beverage or container merchandise.",
+          "adjustments.deposit_return": "Explicit returned-deposit or empties line with a negative credit; excludes ordinary merchandise returns.",
+          "adjustments.discount": "Explicit coupon or discount deduction; excludes an unspecified promotion marker and ordinary merchandise returns.",
+          "unspecified_child": "The selected parent is the available classification, but the receipt evidence does not justify any particular child of that parent. Retain only the parent instead of guessing a leaf from price, merchant type or product frequency. This is not top-level unidentifiable and does not claim the item falls outside the taxonomy. It adds no finer product identity."
+        }
+      }
+    },
+    "provider": {
+      "allow_fallbacks": false
+    }
+  },
+  "started_at_utc": "2026-11-18T17:13:49.984506+00:00",
+  "status": "complete",
+  "http_status": 200,
+  "latency_seconds": 0.2273611999116838,
+  "response": {
+    "model": "typesafe/jev-1.14-20261014",
+    "answers": {
+      "classification": {
+        "type": "choice",
+        "choice": "adjustments.deposit_charge",
+        "probabilities": {
+          "adjustments.deposit_charge": 0.95,
+          "adjustments.deposit_return": 0,
+          "adjustments.discount": 0,
+          "unspecified_child": 0.05
+        },
+        "confidence": 0.93
+      }
+    },
+    "usage": {
+      "input_tokens": 629,
+      "output_tokens": 69,
+      "cost": 2.6418e-05,
+      "is_byok": false,
+      "cost_details": {
+        "upstream_inference_cost": 2.6418e-05,
+        "upstream_inference_prompt_cost": 2.6418e-05,
+        "upstream_inference_completions_cost": 0
+      }
+    },
+    "id": "gen-dec-1795022030-dZPgBW57rIWRBh6d7Mb6",
+    "provider": "TypeSafe"
+  }
+}

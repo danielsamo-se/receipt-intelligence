@@ -1,0 +1,31 @@
+id,raw_text,price,merchant_type,ground_truth_label,review_note
+01,HARIBO SAURE POMMES,1.19,supermarket,confectionery_snacks.confectionery,Confectionery despite “Pommes.”
+02,POMMES FRITES TK,2.29,supermarket,prepared_food.potato_sides,Frozen prepared potato product.
+03,WMF PF 24CM,29.99,supermarket,household.kitchenware,Cookware supported; exact pan/pot identity unnecessary.
+04,BIO ZITR 500G,2.49,supermarket,produce.fruit,Citrus fruit supported; exact variety uncertain.
+05,COCA COLA,1.29,supermarket,beverages.water_soft_drinks,Soft drink; size and variant unspecified.
+06,LEERGUT,-0.25,supermarket,adjustments.deposit_return,Description and negative amount support deposit credit.
+07,PFAND,0.25,supermarket,adjustments.deposit_charge,Description and positive amount support deposit charge.
+08,ART 004711,3.49,supermarket,INSUFFICIENT_INFORMATION,Opaque article number; no category evidence.
+09,GEMUESE LASAGNE TK,2.79,supermarket,prepared_food.meals_soups,Prepared vegetable lasagne; not fresh produce. Exact recipe and brand are unspecified.
+10,INGWER SHOT 60ML,1.49,supermarket,beverages.juice_shots,"Prepared drink, despite ingredient name."
+11,"H-MILCH 1,5% 1L",0.99,supermarket,dairy_eggs.milk_cream,Standard milk abbreviation.
+12,HAFER DRINK NAT,1.49,supermarket,beverages.plant_drinks,Plant drink; exact formulation unspecified.
+13,GRIECH JOG NAT,1.79,supermarket,dairy_eggs.yogurt_quark,Yogurt abbreviation; no brand inference.
+14,GOUDA JUN 48%,2.49,supermarket,dairy_eggs.cheese,Cheese explicitly identifiable.
+15,POM-BAER ORIGINAL,1.79,supermarket,confectionery_snacks.savory_snacks,Branded shaped savory snack; not frozen fries. No precise SKU or pack size inferred.
+16,PUTENBRUST AUFS,1.99,supermarket,meat_fish.meat_sausage,Turkey cold cuts indicated by “Aufs.”
+17,LACHSFILET TK,4.99,supermarket,meat_fish.fish_seafood,Frozen salmon fillet.
+18,SEMMEL 4ST,1.40,bakery,grains.bread_bakery,Regional term for bread rolls.
+19,USB-C KABEL 1M,4.99,supermarket,OUT_OF_SCOPE,Identifiable electronic cable; electronics have no supported parent. Not an insufficient-information case.
+20,PRINZEN ROLLE,1.99,supermarket,confectionery_snacks.sweet_biscuits,Sweet biscuits despite non-descriptive product name.
+21,KOKOSMILCH 400ML,1.79,supermarket,cooking_ingredients.sauces_bases_seasonings,Conventional culinary reading of coconut milk; exact product unknown. Review if merchant article data instead identifies a drinking product.
+22,WC REIN ZITR,1.29,drugstore,household.cleaning_supplies,"Toilet cleaner; “Zitr” describes scent, not fruit merchandise."
+23,COUPON 10%,-0.80,supermarket,adjustments.discount,Actual monetary deduction shown in price.
+24,MOLKEREI ART,1.49,supermarket,PARENT_ONLY:dairy_eggs,"Dairy indicated; milk, yogurt, or cheese unresolved."
+25,OBST/GEMUESE,2.99,supermarket,PARENT_ONLY:produce,Produce indicated; fruit versus vegetables unresolved.
+26,GETRAENKE,1.99,supermarket,PARENT_ONLY:beverages,Beverage department only; no defensible leaf.
+27,HAUSHALTSWARE,3.99,supermarket,PARENT_ONLY:household,Household department indicated; leaf unresolved.
+28,DIVERSES,2.00,drugstore,INSUFFICIENT_INFORMATION,Merchant type cannot identify the purchased item.
+29,AKTION 1,1.99,supermarket,INSUFFICIENT_INFORMATION,Promotion marker gives no product category. Positive amount does not establish a discount.
+30,ESPRESSO BOHN 250G,3.99,supermarket,beverages.coffee_tea,"Coffee beans, rather than a prepared espresso drink."

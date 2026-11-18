@@ -1,0 +1,25 @@
+id,ground_truth_label,review_note
+H01,produce.fruit,Explicit fresh berries; do not infer cultivar or brand.
+H02,produce.vegetables,"Fresh mixed soup vegetables, not a prepared soup or seasoning powder."
+H03,grains.dry_staples,Breakfast muesli cereal; exact composition unspecified.
+H04,dairy_eggs.yogurt_quark,Quark is identifiable; the herb mixture and exact SKU are not.
+H05,dairy_eggs.milk_cream,Schmand is soured dairy cream; not yogurt or cheese.
+H06,meat_fish.meat_sausage,Cured pork neck; label does not establish an exact cut weight or brand.
+H07,meat_fish.fish_seafood,"Conventional abbreviation for tuna in its own juice; plain fish, not a mixed ready meal."
+H08,confectionery_snacks.confectionery,Licorice confectionery; the snail-shaped name does not mean seafood.
+H09,confectionery_snacks.savory_snacks,Packaged savory snack sticks; not a bread roll or cookable side dish.
+H10,prepared_food.meals_soups,Finished canned lentil stew; ingredients beyond lentils are not asserted.
+H11,cooking_ingredients.oils_fats,Explicit cooking oil.
+H12,cooking_ingredients.sauces_bases_seasonings,Concentrated tomato cooking base; not fresh produce or a complete soup.
+H13,beverages.water_soft_drinks,Mineral water abbreviation; no brand inferred.
+H14,household.cleaning_supplies,Dishwasher cleaning tablets; exact formulation unspecified.
+H15,adjustments.discount,Explicit volume-promotion deduction. No purchase quantities beyond the printed offer are inferred.
+H16,PARENT_ONLY:prepared_food,"Prepared potato dish is identifiable. The text does not establish a standalone potato side versus a potato-based mixed meal, so neither child is asserted."
+H17,PARENT_ONLY:confectionery_snacks,"A mixed snacking box is identifiable; confectionery, biscuits or a mixture are not resolved."
+H18,PARENT_ONLY:beverages,Ready-to-drink coffee beverage. coffee_tea excludes ready-to-drink products; formulation and a defensible finer beverage leaf are not established.
+H19,PARENT_ONLY:household,Table decoration supports household wares. Exact item is unknown and neither kitchenware nor cleaning supplies is justified; the broad parent is supported.
+H20,INSUFFICIENT_INFORMATION,No contents or department given; a food or nonfood category cannot be established.
+H21,INSUFFICIENT_INFORMATION,Manual price-entry descriptor gives no item identity. Price and merchant alone do not justify a category.
+H22,INSUFFICIENT_INFORMATION,References an unavailable item tag; no product category or known exclusion is established.
+H23,OUT_OF_SCOPE,Personal-care product is identifiable and explicitly excluded from household; no supported parent applies.
+H24,OUT_OF_SCOPE,Clothing is identifiable and outside all supported parents.

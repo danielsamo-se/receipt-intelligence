@@ -1,0 +1,20 @@
+{
+  "thresholds": [
+    0.5,
+    0.7,
+    0.85,
+    0.95,
+    0.99
+  ],
+  "comparison": "probability >= threshold",
+  "A": "Force argmax of 27 raw FLAT leaf probabilities; ignore specials; never renormalize; ties use frozen taxonomy order. Not a separately prompted forced-leaf model.",
+  "B": "Respect FLAT selected option. unidentifiable abstains; out_of_scope rejects only above threshold; selected leaf commits only above threshold.",
+  "C1": "Sum raw FLAT leaf probabilities per parent, preserving special-option mass. Choose argmax among parent sums and specials. For a qualifying parent return its highest-probability leaf if that raw leaf probability also qualifies, otherwise the parent. unidentifiable abstains; out_of_scope is separate rejection. No renormalization.",
+  "C2": "Respect TOPDOWN parent choice. unidentifiable abstains; out_of_scope rejects only above threshold. A parent below threshold abstains. Otherwise unspecified_child retains parent; selected child qualifies on its conditional probability or falls back to parent. No joint probability is inferred.",
+  "specials": "unidentifiable is abstention; out_of_scope is separate scope rejection; unspecified_child retains a committed parent, including an erroneous parent on insufficient-information cases.",
+  "metrics": "Correct leaves and parents separate. Matching-parent child on parent-only truth is overclaim. All taxonomy commitments on insufficient or out-of-scope truth are errors. Scope rejection correctness separate; abstentions never count as correct classification.",
+  "coverage": "Taxonomy parent/leaf commitments divided by 30, including errors and overclaims. Scope rejections excluded and reported separately.",
+  "accuracy": "(correct_leaf + correct_parent) / taxonomy commitments; does not imply equal specificity. Error rate includes wrong taxonomy decisions and overclaims. Undefined for zero denominator.",
+  "score_audit": "Raw-choice errors with any returned selected probability or confidence >=0.90 are flagged with score type. Conditional child confidence alone is not joint evidence. Forced-policy A errors are not labeled confident model mistakes.",
+  "tuning": "Thresholds and policies frozen before the 24 remaining lines; no best-threshold selection or prompt changes."
+}

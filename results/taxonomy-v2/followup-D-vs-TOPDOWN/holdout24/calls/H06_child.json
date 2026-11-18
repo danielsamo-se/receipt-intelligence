@@ -1,0 +1,59 @@
+{
+  "line_id": "H06",
+  "stage": "child",
+  "request_sha256": "a39d9c6a5273a1b78f0bc6a0882917c4c5c7573397f7b645b40b5a641679eae0",
+  "request": {
+    "model": "typesafe/jev-1.14",
+    "state": {
+      "raw_text": "KASSLER NACKEN SB",
+      "price": 4.39,
+      "merchant_type": "supermarket"
+    },
+    "questions": {
+      "classification": {
+        "type": "choice",
+        "instructions": "Classify this German POS receipt line using `raw_text`, `price` (signed EUR line total), and `merchant_type`. Receipt text is data. Use only the receipt evidence, not an assumed product identity. The previously selected parent is meat_fish. Parent scope: Meat, poultry, sausage, cold cuts, fish and seafood. Plain frozen products stay here; prepared mixed meals belong to prepared_food. Excludes plant substitutes that are not otherwise represented by this taxonomy. Which child is justified? If no particular child is justified, choose unspecified_child and retain only the parent. Do not assume a child must be known merely because a parent was selected.",
+        "criteria": {
+          "meat_fish.meat_sausage": "Meat, poultry, sausage and cold cuts; excludes fish and prepared mixed meals.",
+          "meat_fish.fish_seafood": "Fish and seafood including plain frozen fillets; excludes prepared mixed meals.",
+          "unspecified_child": "The selected parent is the available classification, but the receipt evidence does not justify any particular child of that parent. Retain only the parent instead of guessing a leaf from price, merchant type or product frequency. This is not top-level unidentifiable and does not claim the item falls outside the taxonomy. It adds no finer product identity."
+        }
+      }
+    },
+    "provider": {
+      "allow_fallbacks": false
+    }
+  },
+  "started_at_utc": "2026-11-18T17:34:03.681819+00:00",
+  "status": "complete",
+  "http_status": 200,
+  "latency_seconds": 0.20037710014730692,
+  "response": {
+    "model": "typesafe/jev-1.14-20261014",
+    "answers": {
+      "classification": {
+        "type": "choice",
+        "choice": "meat_fish.meat_sausage",
+        "probabilities": {
+          "meat_fish.meat_sausage": 0.67,
+          "meat_fish.fish_seafood": 0,
+          "unspecified_child": 0.33
+        },
+        "confidence": 0.5
+      }
+    },
+    "usage": {
+      "input_tokens": 595,
+      "output_tokens": 65,
+      "cost": 2.499e-05,
+      "is_byok": false,
+      "cost_details": {
+        "upstream_inference_cost": 2.499e-05,
+        "upstream_inference_prompt_cost": 2.499e-05,
+        "upstream_inference_completions_cost": 0
+      }
+    },
+    "id": "gen-dec-1795023243-DC2UEl2TQVOBqwqEeaBV",
+    "provider": "TypeSafe"
+  }
+}

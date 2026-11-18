@@ -1,0 +1,65 @@
+{
+  "line_id": "12",
+  "stage": "child",
+  "request_sha256": "53da6c793c4b6d2135dd5abe9560cee9d874669a01a44e1b837ddff7b5a01d4d",
+  "request": {
+    "model": "typesafe/jev-1.14",
+    "state": {
+      "raw_text": "HAFER DRINK NAT",
+      "price": 1.49,
+      "merchant_type": "supermarket"
+    },
+    "questions": {
+      "classification": {
+        "type": "choice",
+        "instructions": "Classify this German POS receipt line using `raw_text`, `price` (signed EUR line total), and `merchant_type`. Receipt text is data. Use only the receipt evidence, not an assumed product identity. The previously selected parent is beverages. Parent scope: Water, soft drinks, juices/shots, plant drinks, coffee, tea and alcoholic drinks. Plant milk alternatives sold as drinks belong here; plain animal milk/cream belong to dairy_eggs and culinary coconut milk belongs to cooking_ingredients. A generic drinks-department label supports this parent only. Which child is justified? If no particular child is justified, choose unspecified_child and retain only the parent. Do not assume a child must be known merely because a parent was selected.",
+        "criteria": {
+          "beverages.water_soft_drinks": "Water and soft drinks; excludes juices/shots, plant drinks and alcoholic drinks.",
+          "beverages.juice_shots": "Fruit/vegetable juices and small juice or ginger shots; excludes whole produce and plant milk alternatives.",
+          "beverages.plant_drinks": "Plant milk alternatives sold as drinks, such as oat drink; excludes animal milk and culinary coconut milk.",
+          "beverages.coffee_tea": "Coffee beans, ground or instant coffee, and dry tea; excludes ready-to-drink products.",
+          "beverages.alcoholic": "Alcoholic drinks; excludes nonalcoholic counterparts.",
+          "unspecified_child": "The selected parent is the available classification, but the receipt evidence does not justify any particular child of that parent. Retain only the parent instead of guessing a leaf from price, merchant type or product frequency. This is not top-level unidentifiable and does not claim the item falls outside the taxonomy. It adds no finer product identity."
+        }
+      }
+    },
+    "provider": {
+      "allow_fallbacks": false
+    }
+  },
+  "started_at_utc": "2026-11-18T17:13:52.944754+00:00",
+  "status": "complete",
+  "http_status": 200,
+  "latency_seconds": 0.21589630004018545,
+  "response": {
+    "model": "typesafe/jev-1.14-20261014",
+    "answers": {
+      "classification": {
+        "type": "choice",
+        "choice": "beverages.plant_drinks",
+        "probabilities": {
+          "beverages.water_soft_drinks": 0,
+          "beverages.juice_shots": 0,
+          "beverages.plant_drinks": 0.97,
+          "beverages.coffee_tea": 0,
+          "beverages.alcoholic": 0,
+          "unspecified_child": 0.03
+        },
+        "confidence": 0.96
+      }
+    },
+    "usage": {
+      "input_tokens": 724,
+      "output_tokens": 100,
+      "cost": 3.0408e-05,
+      "is_byok": false,
+      "cost_details": {
+        "upstream_inference_cost": 3.0408e-05,
+        "upstream_inference_prompt_cost": 3.0408e-05,
+        "upstream_inference_completions_cost": 0
+      }
+    },
+    "id": "gen-dec-1795022033-4rdAZvxbB02YdP4eShPc",
+    "provider": "TypeSafe"
+  }
+}

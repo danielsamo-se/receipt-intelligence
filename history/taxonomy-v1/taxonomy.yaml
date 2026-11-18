@@ -1,0 +1,59 @@
+# Proposed taxonomy from the original Codex Step 1 response (8 parents, 21 leaves).
+# Each product leaf belongs to one parent. Refrigeration/freezing alone does not change category.
+parents:
+  produce:
+    description: Fresh fruit and vegetables.
+    leaves:
+      fruit: Fresh fruit.
+      vegetables: Fresh vegetables.
+  grains:
+    description: Bread, bakery products, and dry cereal-based staples.
+    leaves:
+      bread_bakery: Bread, rolls, and pastries.
+      dry_staples: Uncooked rice, pasta, and breakfast cereals.
+  dairy_eggs:
+    description: Dairy products and eggs.
+    leaves:
+      milk_cream: Animal milk and cream.
+      yogurt_quark: Yogurt and quark.
+      cheese: Cheese.
+      eggs: Shell eggs.
+  meat_fish:
+    description: Meat, poultry, fish, and seafood.
+    leaves:
+      meat_sausage: Meat, poultry, sausage, and cold cuts.
+      fish_seafood: Fish and seafood.
+  pantry:
+    description: Packaged grocery products, snacks, cooking ingredients, and prepared foods.
+    leaves:
+      sweets_snacks: Confectionery, sweet biscuits, and savory snacks.
+      cooking_ingredients: Oils, spices, sauces, and culinary coconut milk.
+      prepared_food: Ready meals, soups, and prepared potato products.
+  beverages:
+    description: Drinks, coffee, and tea.
+    leaves:
+      nonalcoholic: Water, juice, soft drinks, shots, and plant drinks.
+      coffee_tea: Coffee beans, ground coffee, and dry tea.
+      alcoholic: Alcoholic drinks.
+  household:
+    description: Household items and supplies.
+    leaves:
+      kitchenware: Cookware and kitchen utensils.
+      cleaning_supplies: Household cleaners and cleaning implements.
+  adjustments:
+    description: Non-merchandise receipt adjustment lines.
+    leaves:
+      deposit_charge: Deposit charged.
+      deposit_return: Deposit credited.
+      discount: Coupon or discount deduction.
+
+special_labels:
+  insufficient_information: INSUFFICIENT_INFORMATION
+  parent_only: PARENT_ONLY
+
+boundary_rules:
+  - Dairy substitutes sold as drinks belong to beverages.nonalcoholic; culinary coconut milk belongs to pantry.cooking_ingredients.
+  - Plain frozen fish belongs to meat_fish.fish_seafood; frozen fries belong to pantry.prepared_food.
+  - Packaged sweet biscuits belong to pantry.sweets_snacks; bread and pastries belong to grains.bread_bakery.
+  - Explicit deposit and discount lines are adjustments; a negative price alone does not establish an adjustment type.
+  - This is a deliberately bounded taxonomy; unidentifiable or unsupported items do not receive an invented miscellaneous leaf.

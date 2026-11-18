@@ -1,4 +1,5 @@
 import json
+import os
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException
@@ -24,7 +25,7 @@ class UndoBody(BaseModel):
 
 def create_app(db_path: Path | None = None) -> FastAPI:
     catalog = Catalog()
-    store = Store(db_path or PROJECT / "app/.local/demo.sqlite3")
+    store = Store(db_path or PROJECT / os.environ.get("RECEIPT_DB_PATH", "app/.local/demo.sqlite3"))
     service = ReceiptService(store,catalog)
     application = FastAPI(title="Receipt Intelligence", version="0.1.0")
     application.state.service = service

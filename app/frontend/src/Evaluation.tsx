@@ -1,0 +1,22 @@
+import { useEffect, useState } from 'react'
+import { Beaker, ExternalLink, LoaderCircle } from 'lucide-react'
+import { api, percent } from './api'
+import type { EvaluationData, EvaluationMetric } from './types'
+
+export function Evaluation({ onInspect }: { onInspect: (id: string) => void }) {
+  const [data,setData] = useState<EvaluationData | null>(null)
+  const [error,setError] = useState('')
+  useEffect(() => { const c=new AbortController(); api<EvaluationData>('/api/evaluation',{signal:c.signal}).then(setData).catch(e => { if(!c.signal.aborted) setError(e.message) }); return () => c.abort() },[])
+  if(error) return <div className="error">{error}</div>
+  if(!data) return <div className="loading"><LoaderCircle className="spin"/>Loading experiment evidence…</div>
+  const names: Record<string,string>={A:'Forced leaf baseline',B:'FLAT with abstention',C1:'Aggregated FLAT hierarchy',C2:'TOPDOWN hierarchy'}
+  const rows = (values: EvaluationMetric[]) => values.map((r,index) => <tr key={index}><td>{names[r.method || ''] || r.method}</td><td>{r.correct_leaf}</td><td>{r.correct_parent}</td><td>{r.incorrect_category+r.overclaim}</td><td>{r.abstention}</td><td>{percent(r.taxonomy_coverage)}</td></tr>)
+  return <div className="evaluation-view">
+    <div className="page-heading"><div><div className="eyebrow">Technical evidence</div><h1>What the experiments tell us</h1><p>Real cached model behavior. Small, deliberately limited synthetic samples.</p></div><span className="tag"><Beaker size={15}/>No new model calls</span></div>
+    <div className="evidence-note">{data.notice} Abstentions are not successes. Parent decisions are less specific than leaf decisions.</div>
+    <section className="panel evidence-panel"><h2>Original 30-line pilot</h2><p className="muted">Probability threshold 0.85 for B, C1 and C2; A always forces a leaf. These are absolute counts.</p><div className="table-scroll"><table><thead><tr><th>Policy</th><th>Correct leaf</th><th>Correct parent</th><th>Errors</th><th>Abstentions</th><th>Coverage</th></tr></thead><tbody>{rows(data.pilot)}</tbody></table></div><p className="small muted">Simple aggregation did not improve this pilot’s decisions over FLAT abstention. TOPDOWN could retain parent information through a separate parent question and explicit unspecified_child.</p></section>
+    <section className="panel evidence-panel"><h2>A fairer comparison: parents in one question</h2><p className="muted">D can select any of 27 leaves, 10 parents or two special options. These follow-up results use raw selected choices, without fitted thresholds.</p><div className="table-scroll"><table><thead><tr><th>Sample</th><th>Method</th><th>Correct leaf</th><th>Correct parent</th><th>Category errors</th><th>Wrong scope</th><th>Abstentions</th></tr></thead><tbody>{Object.entries(data.followup).flatMap(([sample,value])=>Object.entries(value.methods).map(([method,r])=><tr key={sample+method}><td>{sample==='original30'?'Original 30':'Additional 24'}</td><td>{method}</td><td>{r.correct_leaf}</td><td>{r.correct_parent}</td><td>{r.incorrect_category+r.overclaim}</td><td>{r.incorrect_scope_rejection}</td><td>{r.abstention}</td></tr>))}</tbody></table></div><p className="small muted">TOPDOWN was more conservative in the additional synthetic set. D sometimes returned more leaf detail and fewer round trips. Neither is established as universally superior.</p></section>
+    <section className="panel evidence-panel"><h2>Silent errors in the forced baseline</h2><p className="muted">A few actual examples, checked against the frozen proposed labels.</p><div className="evidence-examples">{data.forced_examples.slice(0,4).map(e=><button key={e.id} onClick={()=>onInspect(`pilot:${e.id}`)}><strong>{e.raw_text}</strong><span>{e.prediction} · leaf probability {percent(e.score)}</span><span className="small muted">Proposed label: {e.ground_truth}</span><span className="inspect-link">Inspect decision <ExternalLink size={13}/></span></button>)}</div></section>
+    <section className="panel evidence-panel"><h2>Architecture, with deliberate limits</h2><p>Structured backend outcomes select from a typed React component registry. This is schema-driven adaptive UI, not model-generated UI or executable model output.</p><ul className="limitations">{data.limitations.map(l=><li key={l}>{l}</li>)}</ul><details><summary>Evidence source files</summary>{data.sources.map(s=><code className="source-file" key={s}>{s}</code>)}</details></section>
+  </div>
+}

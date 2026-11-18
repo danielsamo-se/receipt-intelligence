@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import sqlite3
+import uuid
 from contextlib import contextmanager
 from datetime import datetime, timezone
 from pathlib import Path
@@ -33,12 +34,23 @@ class Store:
                     event_id INTEGER NOT NULL, node_id TEXT NOT NULL,
                     PRIMARY KEY (merchant_id, line_id)
                 );
+                CREATE TABLE IF NOT EXISTS replay_sessions (
+                    id TEXT PRIMARY KEY, merchant_id TEXT NOT NULL, policy TEXT NOT NULL,
+                    status TEXT NOT NULL, generation INTEGER NOT NULL,
+                    sequence_json TEXT NOT NULL, created_at TEXT NOT NULL
+                );
+                CREATE TABLE IF NOT EXISTS replay_members (
+                    session_id TEXT NOT NULL REFERENCES replay_sessions(id), line_id TEXT NOT NULL,
+                    sequence_index INTEGER NOT NULL, processed_at TEXT NOT NULL,
+                    PRIMARY KEY (session_id,line_id)
+                );
             """)
 
     @contextmanager
     def connection(self):
         db = sqlite3.connect(self.path, timeout=10)
         db.row_factory = sqlite3.Row
+        db.execute("PRAGMA foreign_keys=ON")
         try:
             yield db
             db.commit()
@@ -106,3 +118,71 @@ class Store:
                 entry["original_model_decision"] = json.loads(entry.pop("model_json"))
                 result.append(entry)
             return result
+
+    @staticmethod
+    def _replay(db, session_id: str, merchant_id: str) -> dict:
+        row = db.execute("SELECT * FROM replay_sessions WHERE id=? AND merchant_id=?", (session_id,merchant_id)).fetchone()
+        if row is None:
+            raise KeyError("Replay session not found")
+        data = dict(row)
+        data["sequence"] = json.loads(data.pop("sequence_json"))
+        data["line_ids"] = [r[0] for r in db.execute("SELECT line_id FROM replay_members WHERE session_id=? ORDER BY sequence_index", (session_id,))]
+        data["processed_count"] = len(data["line_ids"])
+        data["total_count"] = len(data["sequence"])
+        return data
+
+    def replay(self, session_id: str, merchant_id: str) -> dict:
+        with self.connection() as db:
+            db.execute("BEGIN")
+            return self._replay(db,session_id,merchant_id)
+
+    def report_context(self, merchant_id: str, session_id: str) -> tuple[int,dict,dict]:
+        with self.connection() as db:
+            db.execute("BEGIN")
+            revision = db.execute("SELECT value FROM metadata WHERE key='revision'").fetchone()[0]
+            active = db.execute("""SELECT a.*,e.note,e.created_at,e.policy FROM active_overrides a
+                JOIN correction_events e ON e.id=a.event_id WHERE a.merchant_id=?""",(merchant_id,)).fetchall()
+            return revision,{r["line_id"]:dict(r) for r in active},self._replay(db,session_id,merchant_id)
+
+    def create_replay(self, merchant_id: str, policy: str, sequence: list[str]) -> dict:
+        if len(set(sequence)) != len(sequence):
+            raise ValueError("Replay sequence must have unique receipt-line IDs.")
+        session_id = uuid.uuid4().hex
+        with self.connection() as db:
+            db.execute("INSERT INTO replay_sessions VALUES (?,?,?,?,?,?,?)", (session_id,merchant_id,policy,"running",1,json.dumps(sequence),now()))
+            self.bump(db)
+        return self.replay(session_id,merchant_id)
+
+    def add_replay_member(self, session_id: str, merchant_id: str, line_id: str, generation: int) -> bool:
+        with self.connection() as db:
+            db.execute("BEGIN IMMEDIATE")
+            session = self._replay(db,session_id,merchant_id)
+            if session["generation"] != generation or session["status"] != "running":
+                return False
+            if line_id not in session["sequence"]:
+                raise ValueError("Receipt line is not part of this replay sequence.")
+            result = db.execute("INSERT OR IGNORE INTO replay_members VALUES (?,?,?,?)", (session_id,line_id,session["sequence"].index(line_id),now()))
+            if result.rowcount:
+                self.bump(db)
+            return bool(result.rowcount)
+
+    def reset_replay(self, session_id: str, merchant_id: str, policy: str) -> dict:
+        with self.connection() as db:
+            db.execute("BEGIN IMMEDIATE")
+            self._replay(db,session_id,merchant_id)
+            db.execute("DELETE FROM replay_members WHERE session_id=?",(session_id,))
+            db.execute("UPDATE replay_sessions SET generation=generation+1,status='running',policy=? WHERE id=?",(policy,session_id))
+            self.bump(db)
+        return self.replay(session_id,merchant_id)
+
+    def replay_status(self, session_id: str, merchant_id: str, generation: int, status: str):
+        with self.connection() as db:
+            result = db.execute("UPDATE replay_sessions SET status=? WHERE id=? AND merchant_id=? AND generation=?",(status,session_id,merchant_id,generation))
+            if result.rowcount:
+                self.bump(db)
+
+    def interrupt_replays(self):
+        with self.connection() as db:
+            result = db.execute("UPDATE replay_sessions SET status='interrupted' WHERE status='running'")
+            if result.rowcount:
+                self.bump(db)

@@ -115,12 +115,19 @@ class ReceiptService:
                 "correction_count":sum(s["outcome"]=="override" for s in summaries),
                 "safe_threshold":SAFE_THRESHOLD}
 
-    def report(self, merchant_id: str, policy: Policy, dataset: str = "pilot", member_ids: set[str] | None = None) -> dict:
+    def report(self, merchant_id: str, policy: Policy, dataset: str = "pilot", member_ids: set[str] | None = None,
+               replay_id: str | None = None) -> dict:
         self.merchant(merchant_id)
-        revision, active = self.store.snapshot(merchant_id)
+        session = None
+        if replay_id:
+            revision,active,session = self.store.report_context(merchant_id,replay_id)
+            member_ids = set(session["line_ids"])
+        else:
+            revision, active = self.store.snapshot(merchant_id)
         report = self.build_report(merchant_id,policy,dataset,active,revision,member_ids)
         other_policy = "SAFE" if policy == "FORCED" else "FORCED"
         other = self.build_report(merchant_id,other_policy,dataset,active,revision,member_ids)
         report["comparison"] = {"other_policy":other_policy,"totals":other["totals"],
                                 "changed_line_count":sum((a["node_id"],a["outcome"]) != (b["node_id"],b["outcome"]) for a,b in zip(report["lines"],other["lines"]))}
+        report["replay"] = session
         return report

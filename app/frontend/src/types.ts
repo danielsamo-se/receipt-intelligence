@@ -39,6 +39,11 @@ export interface Report {
   categories: Category[]; review_queue: LineSummary[]; lines: LineSummary[]; line_count: number;
   correction_count: number; safe_threshold: number;
   comparison: { other_policy: Policy; totals: Totals; changed_line_count: number }
+  replay: ReplaySession | null
+}
+export interface ReplaySession {
+  id: string; merchant_id: string; policy: Policy; status: 'running' | 'complete' | 'interrupted' | 'stopped';
+  generation: number; line_ids: string[]; processed_count: number; total_count: number; sequence: string[]
 }
 export interface Bootstrap {
   merchant_id: string; merchant_name: string; notice: string; period_label: string; taxonomy_version: string;

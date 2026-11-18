@@ -2,6 +2,8 @@
 
 Reliable category analytics from imperfect POS descriptions, with visible uncertainty and auditable merchant corrections. A local B2B product prototype for the anybill Tech & AI Product Internship case study.
 
+**Merchant Product Memory is implemented.** Open **Process a new POS description** below the analytics to check a confirmed merchant SKU, verify a suggested product, or inspect a misleading near-match. See [Product Memory](PRODUCT_MEMORY.md) for the exact demo, safety rules, local embedding setup, evaluation and limitations. The existing dashboard, corrections and receipt replay remain available.
+
 **Synthetic demonstration data — not actual anybill merchant data.** Nordmarkt Demo is a fictional merchant. The 54 source examples are not a real transaction history or independent merchant ground truth.
 
 ## Start the application
@@ -105,6 +107,7 @@ Unresolved includes explicit abstention, below-threshold decisions, outside-scop
 - `engine.py`: reusable typed policy decisions, probabilities, provenance and deterministic rule explanations. No model client or API-key access.
 - `storage.py`: SQLite append-only correction events, active merchant/line pointers, revision counters, replay sessions and unique memberships.
 - `service.py`: override precedence, exact-cent aggregation, review priorities and policy comparisons.
+- `product_memory.py`, `memory_store.py`, `embeddings.py`: merchant/POS-scoped catalog knowledge, confirmed aliases, hybrid candidate retrieval and local-only ONNX embeddings. Product memory precedes the unchanged cached model policies; exact-line corrections retain highest priority.
 - `api.py`: FastAPI REST, WebSocket notifications and optional serving of the built React app.
 - `replay.py`: small in-process event broker and controlled cached-example replay worker.
 - `frontend/src/decisionRegistry.tsx`: exhaustive typed outcome-to-component mapping.
@@ -144,7 +147,7 @@ The browser test uses installed Microsoft Edge in a fresh headless context; if E
 - Local single-worker demo, one fictional merchant; merchant-scoped keys are not a production multi-tenant security system.
 - Synthetic occurrences and proposed labels cannot establish production accuracy, calibration or statistical significance. Neither TOPDOWN nor D is claimed universally superior.
 - SAFE 0.85 is a visible exploratory setting. A parent decision and an abstention are never relabeled as verified leaf successes.
-- No generalized product identity mapping, fuzzy correction propagation or quantity/record-type editing. Merchant feedback is operational, not automatically new evaluation ground truth.
+- Product reuse requires a confirmed merchant/POS identifier or exact scoped alias. Semantic similarity only produces suggestions. No fuzzy correction propagation or quantity/record-type editing. Merchant feedback is operational, not automatically new evaluation ground truth.
 - Replay is a simulation with existing cached responses, not production POS traffic. WebSocket notifications are in-process and not a durable distributed event log; SQLite remains authoritative for visible session membership and audit history.
 - Node/dependency downloads are setup-only. After preparation, built-app operation, corrections, analytics and replay work without internet or `.env` credentials.
 
@@ -158,3 +161,12 @@ The browser test uses installed Microsoft Edge in a fresh headless context; if E
 - Read-only provenance/secret verification passed: 140 frozen hash checks, 144 response caches, tracked/built credential scans and Git ignore rules.
 - The backend test run emits one upstream Starlette TestClient deprecation warning for its HTTPX compatibility bridge. All tests pass; it does not affect the serving runtime.
 - Test servers used isolated ignored SQLite files. The default merchant demo database was not populated with browser-test corrections. No Jev requests or new experiments were performed, and no Git remote was pushed.
+
+### Product Memory extension verification
+
+- 42 backend tests passed after adding merchant isolation, alias persistence, reject/reverse audit history, precedence, false-positive guards and exact agreement with the existing 54-line policy outcomes before any new merchant confirmations.
+- TypeScript/Vite production build passed.
+- The Product Memory browser flow passed against an isolated server: untrusted suggestion → independent-check checkbox → confirmation → page reload → new receipt reuses the alias → reverse → reject → undo rejection. Both SAFE and FORCED reuse the same confirmed mapping.
+- Known merchant SKU reuse and contradictory identifier/alias blocking passed in the actual UI. The weekly report remains at 54 lines with identical totals after one-off inputs. Mobile width and browser error checks passed.
+- The original complete browser regression passed again, including persistent exact-line correction/undo, six actual WebSocket events, reset without duplicate counting and REST-only replay fallback.
+- The separate 24-case development check recorded 6 initially confirmed mappings and 6 additional aliases reused after scripted oracle confirmation, with zero incorrect committed identities on this small constructed set. Only six inputs have real Jev caches; unavailable model-only results remain explicit. See Product Memory documentation for the full comparison and caveats.

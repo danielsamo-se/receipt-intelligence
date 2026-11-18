@@ -13,6 +13,8 @@ export function Inspector({ lineId, merchantId, policy, nodes, onClose, onChange
   const [error, setError] = useState('')
   const [message, setMessage] = useState('')
   const [busy, setBusy] = useState(false)
+  const busyRef = useRef(busy)
+  busyRef.current = busy
   const drawer = useRef<HTMLElement>(null)
   const endpoint = `/api/merchants/${merchantId}/lines/${encodeURIComponent(lineId)}`
   const names = Object.fromEntries(nodes.map(n => [n.id, n.label]))
@@ -32,7 +34,7 @@ export function Inspector({ lineId, merchantId, policy, nodes, onClose, onChange
     document.body.style.overflow = 'hidden'
     drawer.current?.querySelector<HTMLButtonElement>('button')?.focus()
     const handle = (event: KeyboardEvent) => {
-      if (event.key === 'Escape' && !busy) onClose()
+      if (event.key === 'Escape' && !busyRef.current) onClose()
       if (event.key !== 'Tab') return
       const controls = drawer.current?.querySelectorAll<HTMLElement>('button:not(:disabled), select, input, textarea, summary, [href]')
       if (!controls?.length) return
@@ -42,7 +44,7 @@ export function Inspector({ lineId, merchantId, policy, nodes, onClose, onChange
     }
     document.addEventListener('keydown', handle)
     return () => { document.removeEventListener('keydown', handle); document.body.style.overflow = oldOverflow; previous?.focus() }
-  }, [onClose, busy])
+  }, [onClose])
 
   async function mutate(action: 'corrections' | 'undo') {
     if (action === 'corrections' && !selected) return

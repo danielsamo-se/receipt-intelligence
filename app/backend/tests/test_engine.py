@@ -1,4 +1,5 @@
 import pytest
+import json
 from fastapi.testclient import TestClient
 
 from receipt_intelligence.api import create_app
@@ -50,6 +51,16 @@ def test_safe_parent_gate_abstention_scope_and_leaf(engine):
     assert engine.resolve("pilot:08", "m", "SAFE").node_id is None
     assert engine.resolve("pilot:19", "m", "SAFE").outcome == "out_of_scope"
     assert engine.resolve("pilot:01", "m", "SAFE").node_id == "confectionery_snacks.confectionery"
+
+
+def test_product_policies_match_every_frozen_pilot_decision(engine,catalog):
+    path=catalog.root/'results/taxonomy-v2/pilot-30/offline_decisions.json'
+    expected=json.loads(path.read_text(encoding='utf-8'))
+    for row in expected:
+        if row['method']=='A' or (row['method']=='C2' and row['threshold']==.85):
+            d=engine.resolve('pilot:'+row['id'],'m','FORCED' if row['method']=='A' else 'SAFE')
+            actual='out_of_scope' if d.outcome=='out_of_scope' else d.node_id
+            assert actual==row['prediction'],row['id']
 
 
 def test_uncollected_and_missing_caches_are_unavailable(engine, catalog, monkeypatch, tmp_path):

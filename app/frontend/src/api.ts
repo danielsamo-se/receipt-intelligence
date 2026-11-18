@@ -7,5 +7,5 @@ export async function api<T>(path: string, init?: RequestInit): Promise<T> {
   return response.json() as Promise<T>
 }
 export const money = (cents: number) => new Intl.NumberFormat('en-IE', { style: 'currency', currency: 'EUR' }).format(cents / 100)
-export const percent = (value: number) => new Intl.NumberFormat('en', { style: 'percent', maximumFractionDigits: 0 }).format(value)
+export const percent = (value: number) => new Intl.NumberFormat('en', { style: 'percent', maximumFractionDigits: 1 }).format(value)
 export const stamp = (value: string) => new Intl.DateTimeFormat('en-GB', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(value))

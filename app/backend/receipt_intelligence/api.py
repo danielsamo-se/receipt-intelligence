@@ -52,10 +52,12 @@ def create_app(db_path: Path | None = None, replay_interval: float = 1.0) -> Fas
 
     @application.get("/api/bootstrap")
     def bootstrap():
+        pilot_count = sum(line.dataset=="pilot" for line in catalog.lines.values())
+        holdout_count = sum(line.dataset=="holdout" for line in catalog.lines.values())
         return {"merchant_id":MERCHANT_ID,"merchant_name":service.assumptions["merchant_name"],"notice":NOTICE,
                 "period_label":service.assumptions["period_label"],"taxonomy_version":catalog.taxonomy["version"],
                 "nodes":list(catalog.nodes.values()),"line_count":len(catalog.lines),
-                "scopes":[{"value":"pilot","label":"Initial examples · 30"},{"value":"holdout","label":"Additional examples · 24"},{"value":"all","label":"All examples · 54"}]}
+                "scopes":[{"value":"pilot","label":f"Initial examples · {pilot_count}"},{"value":"holdout","label":f"Additional examples · {holdout_count}"},{"value":"all","label":f"All examples · {len(catalog.lines)}"}]}
 
     @application.get("/api/taxonomy")
     def taxonomy():

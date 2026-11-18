@@ -1,4 +1,4 @@
-export type Policy = 'FORCED' | 'SAFE'
+export type Policy = 'FORCED' | 'SAFE' | 'ONE_SHOT' | 'TWO_STAGE'
 export type Outcome = 'leaf' | 'parent_only' | 'unidentifiable' | 'out_of_scope' | 'override'
 export type Scope = 'pilot' | 'holdout' | 'all'
 export interface TaxonomyNode {
@@ -39,7 +39,9 @@ export interface Report {
   mode: 'weekly' | 'replay'; totals: Totals; unresolved_breakdown: Record<string, number>;
   categories: Category[]; review_queue: LineSummary[]; lines: LineSummary[]; line_count: number;
   correction_count: number; safe_threshold: number;
-  comparison: { other_policy: Policy; totals: Totals; changed_line_count: number }
+  comparison: { other_policy: Policy; totals: Totals; changed_line_count: number; threshold:number|null;
+    cohort: {requested_count:number;matched_count:number;excluded_count:number;excluded_sales_value_cents:number} | null }
+  review_policy: {policy:Policy;label:string;criteria:string}
   replay: ReplaySession | null
 }
 export interface ReplaySession {
@@ -91,4 +93,17 @@ export interface EvaluationData {
   followup: Record<string, { dataset_size: number; methods: Record<string, EvaluationMetric> }>;
   forced_examples: { id: string; raw_text: string; ground_truth: string; prediction: string; score: number; outcome: string }[];
   sources: string[]; limitations: string[]
+  matched_comparison: MatchedComparison
+}
+
+export interface MatchedMetric {
+  label:string;denominator:number;correct_leaf:number;correct_parent:number;incorrect_category:number;overclaim:number;
+  abstention:number;correct_scope_rejection:number;incorrect_scope_rejection:number;taxonomy_commitments:number;
+  taxonomy_coverage:number|null;classification_accuracy:number|null;median_receipt_latency_seconds:number|null;
+  requests:number;latency_missing_receipts:number;
+  usage:Record<string,{available_sum:number;missing_requests:number}>
+}
+export interface MatchedComparison {
+  policy:string;differences:string[];limitations:string[];sources:string[];
+  samples:Record<string,{cohort:{requested_count:number;matched_count:number;excluded_count:number};methods:Record<string,MatchedMetric>}>
 }

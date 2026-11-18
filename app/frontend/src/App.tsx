@@ -5,9 +5,10 @@ import { DecisionStatus } from './decisionRegistry'
 import { Evaluation } from './Evaluation'
 import { Inspector } from './Inspector'
 import { MemoryInput } from './MemoryInput'
+import { policyLabel } from './policies'
 import type { Bootstrap, LineSummary, Policy, ReplaySession, Report, Scope } from './types'
 
-const initialPolicy = (): Policy => localStorage.getItem('receipt-policy') === 'SAFE' ? 'SAFE' : 'FORCED'
+const initialPolicy = (): Policy => ['SAFE','TWO_STAGE'].includes(localStorage.getItem('receipt-policy') || '') ? 'TWO_STAGE' : 'ONE_SHOT'
 const initialScope = (): Scope => { const value=localStorage.getItem('receipt-scope'); return value==='all'||value==='holdout'?value:'pilot' }
 
 export default function App() {
@@ -17,6 +18,7 @@ export default function App() {
   const [dataset,setDataset]=useState<Scope>(initialScope)
   const [view,setView]=useState<'analytics'|'evaluation'>('analytics')
   const [selectedLine,setSelectedLine]=useState<string|null>(null)
+  const [inspectionPolicy,setInspectionPolicy]=useState<Policy|null>(null)
   const [search,setSearch]=useState('')
   const [showAll,setShowAll]=useState(false)
   const [loading,setLoading]=useState(true)
@@ -28,7 +30,8 @@ export default function App() {
   const replayRef=useRef(replayId)
   replayRef.current=replayId
   const requestSequence=useRef(0)
-  const closeInspector=useCallback(()=>setSelectedLine(null),[])
+  const closeInspector=useCallback(()=>{setSelectedLine(null);setInspectionPolicy(null)},[])
+  const openInspector=(id:string)=>{setInspectionPolicy(null);setSelectedLine(id)}
 
   useEffect(()=>{const c=new AbortController();api<Bootstrap>('/api/bootstrap',{signal:c.signal}).then(setBootstrap).catch(e=>{if(!c.signal.aborted){setError(e.message);setLoading(false)}});return()=>c.abort()},[])
   useEffect(()=>{localStorage.setItem('receipt-policy',policy)},[policy])
@@ -108,12 +111,12 @@ export default function App() {
   const latestReplayLine=replay?.line_ids.length?report?.lines.find(line=>line.line_id===replay.line_ids[replay.line_ids.length-1]):undefined
 
   function queueExplanation(line:LineSummary){
-    if(line.availability!=='complete')return 'No matching cache available for this policy.'
+    if(line.outcome==='override')return line.product_memory?.status==='known_mapping'?'Confirmed merchant product mapping.':'Merchant correction for this exact receipt line.'
+    if(line.availability!=='complete')return 'Needs verification · offline demo evidence unavailable.'
     if(line.outcome==='parent_only')return `${line.node_label} supported · specific child not assigned.`
     if(line.outcome==='unidentifiable')return 'No category retained by this policy.'
     if(line.outcome==='out_of_scope')return 'Identifiable item outside the supported taxonomy.'
-    if(line.outcome==='override')return 'Merchant correction for this exact receipt line.'
-    return line.review_required?'Forced leaf assignment with weak or conflicting evidence.':line.node_label||'Specific category assigned.'
+    return line.review_required?'Review required by the selected policy.':line.node_label||'Specific category assigned.'
   }
 
   return <div className="app-shell">
@@ -127,19 +130,18 @@ export default function App() {
       <header className="topbar"><div className="breadcrumb">Merchant workspace<span>/</span>{view==='analytics'?'Category Analytics':'Evaluation evidence'}</div><div className="merchant"><span className="merchant-avatar"><Building2 size={18}/></span><div><strong>{bootstrap?.merchant_name||'Demo merchant'}</strong><span>Local demonstration</span></div></div></header>
       <main>
         <div className="synthetic-banner"><Info size={16}/><span>{bootstrap?.notice||'Synthetic demonstration data — not actual anybill merchant data.'}</span></div>
-        {view==='evaluation'?<Evaluation onInspect={id=>{setView('analytics');setDataset('pilot');setPolicy('FORCED');setSelectedLine(id)}}/>:<>
+        {view==='evaluation'?<Evaluation onInspect={id=>{setInspectionPolicy('FORCED');setSelectedLine(id)}}/>:<>
           <div className="page-heading"><div><h1>Category Analytics</h1><p>Category reporting from imperfect POS data, with uncertainty visible.</p></div><div className="period-select"><span>Source examples</span><select aria-label="Source examples" value={dataset} disabled={Boolean(replayId)} onChange={e=>setDataset(e.target.value as Scope)}>{(bootstrap?.scopes||[{value:'pilot',label:'Loading source examples…'}]).map(s=><option key={s.value} value={s.value}>{s.label}</option>)}</select></div></div>
-          <div className="policy-bar"><div className="policy-controls"><span className="control-label">Classification policy</span><div className="segmented" aria-label="Classification policy"><button data-testid="policy-forced" aria-pressed={policy==='FORCED'} disabled={replayRunning} className={policy==='FORCED'?'selected':''} onClick={()=>setPolicy('FORCED')}><Beaker size={15}/>FORCED</button><button data-testid="policy-safe" aria-pressed={policy==='SAFE'} disabled={replayRunning} className={policy==='SAFE'?'selected':''} onClick={()=>setPolicy('SAFE')}><ShieldCheck size={15}/>SAFE</button></div><span className="policy-description">{policy==='FORCED'?'Comparison baseline · always picks a leaf':report?`Review-aware · ${percent(report.safe_threshold)} per-stage threshold`:'Review-aware policy'}</span></div><span className="refresh-status" role="status">{error?<><CircleHelp size={14}/>Report unavailable</>:loading?<><LoaderCircle className="spin" size={14}/>Updating</>:<><Check size={14}/>Report reconciled</>}</span></div>
+          <div className="policy-bar"><div className="policy-controls"><span className="control-label">Classification method</span><div className="segmented" aria-label="Classification method"><button data-testid="policy-one-shot" aria-pressed={policy==='ONE_SHOT'} disabled={replayRunning} className={policy==='ONE_SHOT'?'selected':''} onClick={()=>setPolicy('ONE_SHOT')}><Layers3 size={15}/>One-shot Hierarchical</button><button data-testid="policy-two-stage" aria-pressed={policy==='TWO_STAGE'} disabled={replayRunning} className={policy==='TWO_STAGE'?'selected':''} onClick={()=>setPolicy('TWO_STAGE')}><ShieldCheck size={15}/>Two-stage Hierarchical</button></div><span className="policy-description">Frozen choices - no score threshold</span></div><span className="refresh-status" role="status">{error?<><CircleHelp size={14}/>Report unavailable</>:loading?<><LoaderCircle className="spin" size={14}/>Updating</>:<><Check size={14}/>Report reconciled</>}</span></div>
           {error&&<div className="error" role="alert">{error}. {report?'Showing the last loaded report.':'Start the local FastAPI backend to load this workspace.'}<button className="text-button" onClick={()=>void refresh().catch(()=>{})}>Retry</button></div>}
-          {policy==='FORCED'&&<div className="baseline-note"><Beaker size={16}/><span>FORCED is a comparison baseline. It assigns specific categories even when the cached model abstains.</span></div>}
-          {policy==='FORCED'&&dataset!=='pilot'&&<div className="baseline-note">The forced FLAT baseline exists only for the initial 30 examples. Additional examples remain unavailable in this mode; no substitute model result is invented.</div>}
+          <div className="method-context" data-testid="method-context">{report?.comparison.cohort&&<><strong>{report.comparison.cohort.matched_count} / {report.comparison.cohort.requested_count} matched cached inputs</strong><span>Both methods support parents and abstention. Operational analytics include current merchant feedback; accuracy is evaluated separately.</span>{report.comparison.cohort.excluded_count>0&&<span className="match-warning">{report.comparison.cohort.excluded_count} inputs excluded from both sides: paired predictions unavailable. {money(report.comparison.cohort.excluded_sales_value_cents)} modeled sales excluded; not counted as abstentions or errors.</span>}</>}</div>
           <section className="kpi-grid" aria-label="Synthetic sales value by classification specificity">
             {[{title:'Specific category',key:'leaf_value_cents',count:leafCount,color:'leaf',Icon:Check,sub:'Leaf-level category assigned'},{title:'Parent category only',key:'parent_value_cents',count:parentCount,color:'parent',Icon:Layers3,sub:'Useful information, less specific'},{title:'Unresolved / outside scope',key:'unresolved_value_cents',count:unresolvedCount,color:'unresolved',Icon:CircleHelp,sub:'Not included in category totals'}].map(({title,key,count,color,Icon,sub})=>{
               const value=totals?totals[key as keyof typeof totals]:0
               return <article key={key} className={`kpi kpi-${color}`}><div className="kpi-label"><span>{title}</span><Icon size={17}/></div><strong className="kpi-value" data-testid={key}>{report?money(value):'—'}</strong><div className="kpi-detail"><strong>{total?percent(value/total):'0%'}</strong><span>· {count} {count===1?'line':'lines'}</span></div><p>{sub}</p></article>
             })}
           </section>
-          <div className="policy-impact" data-testid="policy-impact">{report&&<><span className="impact-label">Compared with {report.comparison.other_policy}</span><span>{money(Math.abs(extraLeaf))} {extraLeaf>=0?'more':'less'} assigned to specific categories</span><span className="impact-divider">·</span><span>{report.comparison.changed_line_count} different decisions</span></>}</div>
+          <div className="policy-impact" data-testid="policy-impact">{report&&<><span className="impact-label">Compared with {policyLabel[report.comparison.other_policy]}</span><span>{money(Math.abs(extraLeaf))} {extraLeaf>=0?'more':'less'} assigned to specific categories</span><span className="impact-divider">·</span><span>{report.comparison.changed_line_count} different decisions</span></>}</div>
           <div className="main-grid">
             <section className="panel chart-panel" aria-label="Category sales visualization"><div className="panel-heading"><div><h2>Where the value lands</h2><p>{report?.period_label||bootstrap?.period_label||'Illustrative week'}</p></div><div className="chart-actions">{!replayId?<><span className="tag">{report?.line_count||0} patterns</span><button className="replay-button" disabled={!report||replayBusy} onClick={()=>void replayAction('start')}><Play size={14}/>Demo Replay</button></>:<><button className="replay-button" disabled={replayBusy} onClick={()=>void replayAction('reset')}><RotateCcw size={14}/>Reset replay</button><button className="replay-button" disabled={replayBusy} onClick={()=>void replayAction('weekly')}>Weekly snapshot</button></>}</div></div>
               <div className="replay-caption"><Radio size={13}/><span>Simulated POS replay — cached real Jev classifications</span><span className={`socket-state ${connection}`} data-testid="socket-state">{connection==='connected'?'WebSocket connected':connection==='connecting'?'Connecting':'REST fallback'}</span></div>
@@ -152,17 +154,17 @@ export default function App() {
               <div className="chart-footer"><span>Share of modeled sales value</span><strong>{report?money(total):'—'} total</strong></div>
               <div className="adjustment-note"><Info size={15}/><span>Deposits and discounts: <strong>{money(totals?.adjustment_value_cents||0)}</strong> net, excluded from product-category sales.</span></div>
             </section>
-            <section className="panel queue-panel"><div className="panel-heading"><div><h2>Review queue <span className="count-badge" data-testid="review-count">{report?.review_queue.length||0}</span></h2><p>Prioritized by modeled sales impact</p></div></div><div className="queue-search"><Search size={16}/><input aria-label="Find a receipt line" placeholder="Find a receipt line…" value={search} onChange={e=>setSearch(e.target.value)}/></div>
-              <div className="queue-list">{visible.map(line=><button className="queue-item" data-testid={`review-row-${line.line_id}`} key={line.line_id} onClick={()=>setSelectedLine(line.line_id)}><div className="queue-item-top"><strong>{line.raw_text}</strong><strong>{money(line.value_cents)}</strong></div><p>{queueExplanation(line)}</p><DecisionStatus decision={line}/></button>)}{!loading&&visible.length===0&&<div className="queue-empty"><Check size={24}/><strong>{search?'No matching descriptions':'No lines require review in this view'}</strong><span>AI category assignments remain reviewable.</span></div>}</div>
+            <section className="panel queue-panel"><div className="panel-heading"><div><h2>Review queue <span className="count-badge" data-testid="review-count">{report?.review_queue.length||0}</span></h2><p>{report?.review_policy.label || policyLabel[policy]} - parent-only &amp; verification</p></div></div><p className="queue-policy-note">Ranked by synthetic sales impact. Scope rejections are separate from review; confirmed mappings are excluded. This queue does not detect every model error.</p><div className="queue-search"><Search size={16}/><input aria-label="Find a receipt line" placeholder="Find a receipt line…" value={search} onChange={e=>setSearch(e.target.value)}/></div>
+              <div className="queue-list">{visible.map(line=><button className="queue-item" data-testid={`review-row-${line.line_id}`} key={line.line_id} onClick={()=>openInspector(line.line_id)}><div className="queue-item-top"><strong>{line.raw_text}</strong><strong>{money(line.value_cents)}</strong></div><p>{queueExplanation(line)}</p><span className="queue-assumption">{line.quantity} synthetic {report?.mode==='replay'?'occurrence':'weekly occurrences'} x {money(line.price_cents)}</span><DecisionStatus decision={line}/></button>)}{!loading&&visible.length===0&&<div className="queue-empty"><Check size={24}/><strong>{search?'No matching descriptions':'No lines require review in this view'}</strong><span>AI category assignments remain reviewable.</span></div>}</div>
               {!search&&candidates.length>3&&<button className="queue-expand" onClick={()=>setShowAll(!showAll)}>{showAll?'Show highest-impact lines':`View all ${candidates.length} review items`}<ChevronDown size={15}/></button>}
             </section>
           </div>
           <div className="data-footer"><span><Database size={14}/>Real cached Jev 1.14 assessments</span><span>{report?.correction_count||0} lines using merchant knowledge</span><span>Net modeled receipt value: <strong>{money(totals?.net_receipt_value_cents||0)}</strong></span></div>
-          {bootstrap&&<MemoryInput merchantId={bootstrap.merchant_id} policy={policy} onInspect={setSelectedLine}/>}
-          <details className="panel all-lines"><summary><FileText size={17}/>Inspect all {report?.line_count||0} receipt lines<span>Includes adjustments and scope rejections</span></summary><div className="table-scroll"><table><thead><tr><th>POS description</th><th>Occurrences</th><th>Value</th><th>Outcome</th><th>Category</th></tr></thead><tbody>{report?.lines.map(line=><tr key={line.line_id}><td><button className="line-link" onClick={()=>setSelectedLine(line.line_id)}>{line.raw_text}</button><span className="row-meta">{line.line_id} · {line.record_type==='sale'?'Modeled sale':line.record_type.replaceAll('_',' ')}</span></td><td>{line.quantity}</td><td>{money(line.value_cents)}</td><td><DecisionStatus decision={line}/></td><td>{line.node_label||'—'}</td></tr>)}</tbody></table></div></details>
+          {bootstrap&&<MemoryInput merchantId={bootstrap.merchant_id} policy={policy} onInspect={openInspector}/>}
+          <details className="panel all-lines"><summary><FileText size={17}/>Inspect all {report?.line_count||0} receipt lines<span>Includes adjustments and scope rejections</span></summary><div className="table-scroll"><table><thead><tr><th>POS description</th><th>Occurrences</th><th>Value</th><th>Outcome</th><th>Category</th></tr></thead><tbody>{report?.lines.map(line=><tr key={line.line_id}><td><button className="line-link" onClick={()=>openInspector(line.line_id)}>{line.raw_text}</button><span className="row-meta">{line.line_id} · {line.record_type==='sale'?'Modeled sale':line.record_type.replaceAll('_',' ')}</span></td><td>{line.quantity}</td><td>{money(line.value_cents)}</td><td><DecisionStatus decision={line}/></td><td>{line.node_label||'—'}</td></tr>)}</tbody></table></div></details>
         </>}
       </main>
     </div>
-    {selectedLine&&bootstrap&&<Inspector lineId={selectedLine} merchantId={bootstrap.merchant_id} policy={policy} nodes={bootstrap.nodes} onClose={closeInspector} onChanged={async()=>{await refresh()}}/>}
+    {selectedLine&&bootstrap&&<Inspector lineId={selectedLine} merchantId={bootstrap.merchant_id} policy={inspectionPolicy || policy} nodes={bootstrap.nodes} onClose={closeInspector} onChanged={async()=>{await refresh()}}/>}
   </div>
 }

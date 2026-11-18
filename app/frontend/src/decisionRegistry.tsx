@@ -7,7 +7,7 @@ type Props = { decision: StatusDecision }
 
 const Leaf = () => <span className="status status-leaf"><Check size={14} aria-hidden="true" />Specific category</span>
 const Parent = () => <span className="status status-parent"><Layers3 size={14} aria-hidden="true" />Parent only</span>
-const Unresolved = ({ decision }: Props) => <span className="status status-unresolved"><CircleHelp size={14} aria-hidden="true" />{decision.availability === 'complete' ? 'Needs review' : 'Cache unavailable'}</span>
+const Unresolved = ({ decision }: Props) => <span className="status status-unresolved"><CircleHelp size={14} aria-hidden="true" />{decision.availability === 'complete' ? 'Needs review' : 'Needs verification'}</span>
 const Outside = () => <span className="status status-scope"><Ban size={14} aria-hidden="true" />Outside scope</span>
 const Corrected = ({decision}: Props) => <span className="status status-override"><PencilLine size={14} aria-hidden="true" />{decision.product_memory?.status==='known_mapping'?'Product memory':'Merchant-corrected'}</span>
 

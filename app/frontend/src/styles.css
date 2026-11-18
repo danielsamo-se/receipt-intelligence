@@ -39,3 +39,14 @@
 .memory-evidence-summary { display:flex; gap:18px; flex-wrap:wrap; font-size:13px; }
 @media(max-width:900px) { .memory-input-form { grid-template-columns:minmax(180px,2fr) 100px; } }
 @media(max-width:520px) { .memory-entry > summary { flex-wrap:wrap; } .memory-entry > summary > span { margin-left:0; width:100%; } .memory-input-form { grid-template-columns:1fr; } .memory-suggestions > summary { flex-wrap:wrap; } .match-scores { flex-wrap:wrap; gap:7px; } }
+.method-context { display:flex; flex-wrap:wrap; gap:5px 14px; color:#667788; font-size:12px; margin:-2px 0 18px; line-height:1.6; }
+.method-context strong { color:#405568; font-weight:600; }
+.queue-policy-note { margin:0 18px 12px; font-size:11px; line-height:1.6; color:#6a7887; }
+.queue-assumption { display:block; color:#758190; font-size:11px; margin:0 0 8px; }
+.decision-summary { background:#f4f8fa; border:1px solid #dce5e9; border-radius:9px; padding:16px; margin-bottom:18px; }
+.decision-summary h3 { margin:10px 0 5px; font-size:19px; }
+.decision-summary p { font-size:13px; color:#596c7e; line-height:1.6; margin:5px 0; }
+.decision-summary > span:last-child { font-size:11px; color:#627b8b; }
+.matched-evidence > summary { cursor:pointer; font-size:13px; font-weight:600; }
+.policy-bar { flex-wrap:wrap; }
+@media(max-width:640px) { .policy-controls { min-width:0; width:100%; } .segmented { width:100%; } .segmented button { flex:1; white-space:normal; font-size:11px; padding:8px; } }

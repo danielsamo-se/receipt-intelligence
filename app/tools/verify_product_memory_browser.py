@@ -23,7 +23,7 @@ with sync_playwright() as pw:
     page.goto(args.url,wait_until="networkidle")
     page.get_by_test_id("leaf_value_cents").wait_for()
     base=args.url+"/api/merchants/nordmarkt-demo"
-    before=page.request.get(base+"/report?policy=SAFE&dataset=all").json()
+    before=page.request.get(base+"/report?policy=TWO_STAGE&dataset=all").json()
     page.locator(".memory-entry > summary").click()
     page.get_by_role("button",name="Process description",exact=True).click()
     dialog=page.get_by_role("dialog",name="ERDBEER JOGHURT NM 150 G")
@@ -32,6 +32,9 @@ with sync_playwright() as pw:
     assert candidate.get_by_role("button",name="Confirm product").is_disabled()
     assert "Semantic cosine" in candidate.inner_text()
     assert dialog.get_by_text("No trusted mapping",exact=True).is_visible()
+    dialog.get_by_test_id("decision-summary").get_by_text("Needs verification",exact=True).first.wait_for()
+    dialog.get_by_text("Offline evidence availability",exact=True).click()
+    dialog.get_by_text("No cached Jev response available in offline demo. No live model call was made.",exact=True).wait_for()
     candidate.get_by_role("checkbox").check()
     candidate.get_by_role("button",name="Confirm product").click()
     dialog.get_by_test_id("known-product").wait_for()
@@ -47,7 +50,7 @@ with sync_playwright() as pw:
     dialog.get_by_test_id("known-product").wait_for()
     repeated_id=dialog.locator(".receipt-input + p").inner_text().split(" · ")[0]
     assert first_id!=repeated_id
-    for policy in ("SAFE","FORCED"):
+    for policy in ("ONE_SHOT","TWO_STAGE"):
         decision=page.request.get(base+f"/lines/{repeated_id}?policy={policy}").json()["decision"]
         assert decision["node_id"]=="dairy_eggs.yogurt_quark"
         assert decision["product_memory"]["match"]["method"]=="confirmed_alias"
@@ -81,7 +84,7 @@ with sync_playwright() as pw:
     dialog.get_by_test_id("known-product").wait_for()
     assert "Confirmed product identifier" in dialog.get_by_test_id("known-product").inner_text()
     dialog.get_by_role("button",name="Close decision inspector").click()
-    after=page.request.get(base+"/report?policy=SAFE&dataset=all").json()
+    after=page.request.get(base+"/report?policy=TWO_STAGE&dataset=all").json()
     assert before["totals"]==after["totals"] and before["line_count"]==after["line_count"]==54
     page.get_by_role("button",name="Evaluation evidence",exact=True).click()
     page.get_by_role("heading",name="Merchant Product Memory",exact=True).wait_for()

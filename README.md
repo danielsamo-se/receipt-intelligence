@@ -104,7 +104,13 @@ The quality sprint passed **49 backend tests**, TypeScript/Vite production build
 .\.venv\Scripts\python.exe -B -m pytest app/backend/tests -q -p no:cacheprovider --basetemp=app/.artifacts/submission-tests-01
 ```
 
-Runtime databases, downloaded models, dependencies and test artifacts are ignored. The [original experiment README](docs/archive/jev-experiment-readme.md) is preserved byte-for-byte. Frozen evidence and its real timestamps remain unchanged; the legacy integrity checker still expects that README at the root and flags this intentional landing-page replacement. See the [provenance note](docs/PROVENANCE.md) for the exact hash and verification boundary.
+Runtime databases, downloaded models, dependencies and test artifacts are ignored. The [original experiment README](docs/archive/jev-experiment-readme.md) is preserved byte-for-byte. The integrity verifier checks that archive against the manifest's unchanged original README hash, along with all other recorded artifacts:
+
+```powershell
+.\.venv\Scripts\python.exe -B app/tools/verify_integrity.py
+```
+
+Frozen evidence and its real timestamps remain unchanged. See the [provenance note](docs/PROVENANCE.md) for the exact hash and explicit archival path mapping.
 
 ## Further reading
 

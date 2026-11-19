@@ -101,4 +101,4 @@ powershell -NoProfile -ExecutionPolicy Bypass -File app/start-backend.ps1 -Port 
 
 Use a fresh test directory/database for independent runs. Browser confirmation is reversed before completion. There is no catalog administration UI, live model fallback, distributed index, authentication, new analytics panel or automatic fuzzy correction propagation.
 
-Documentation submission note: the original root README is now archived byte-for-byte. The unchanged legacy integrity command above flags the new landing page's README hash; all frozen experiment evidence remains intact. See [documentation provenance](../docs/PROVENANCE.md).
+Documentation submission note: the original root README is archived byte-for-byte. The integrity command above validates that archived document against the unchanged historical hash, while every other evidence lookup remains unchanged. See [documentation provenance](../docs/PROVENANCE.md).

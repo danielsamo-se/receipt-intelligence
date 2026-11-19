@@ -8,16 +8,16 @@ The root README now introduces the finished Receipt Intelligence product. Its pr
 
 That is the root README originally committed in `03c3b82`. The archived document's file references are relative to the repository root, as they were originally written. It describes an earlier experiment stage, not the current application.
 
-The unchanged frozen follow-up manifest, `results/taxonomy-v2/followup-D-vs-TOPDOWN/manifest.json`, records this hash under `protected_existing_sha256["README.md"]`. Consequently, the unchanged legacy command:
+The unchanged frozen follow-up manifest, `results/taxonomy-v2/followup-D-vs-TOPDOWN/manifest.json`, records this hash under `protected_existing_sha256["README.md"]`. The verifier explicitly maps **only that historical entry** to the archive. Run:
 
 ```powershell
 .\.venv\Scripts\python.exe -B app/tools/verify_integrity.py
 ```
 
-now reports **`Frozen artifact changed: README.md`** for the intentionally replaced landing page. This exception is explicit: no manifest or verification code was changed to hide it. Before replacement, the command passed all 140 hashes, 144 response records, credential scans and ignore checks.
+The command checks all 140 provenance hashes, 144 response records, credential scans and ignore rules. Its output identifies the archive path used for the original README. No recorded hash was updated, skipped or accepted on failure; an altered/missing archive still fails verification, and every other artifact uses its original path.
 
-The documentation submission separately verifies the archived README against the original hash and Git blob, and every other manifest hash against its unchanged original path. All 140 recorded content hashes still match their preserved artifacts when that single archival relocation is accounted for. All 144 follow-up responses, reports, credential scans and exclusions remain verified. Historical request timestamps and existing commit author/committer dates are unchanged.
+The documentation submission originally exposed a failure because the legacy verifier looked for the old README at the root. The pre-push audit fixes that lookup rather than modifying historical evidence. The archived README is also verified against its original Git blob. Historical request timestamps and existing commit author/committer dates remain unchanged.
 
 The dashboard image in [assets/dashboard.png](assets/dashboard.png) is an unedited copy of the screenshot captured by the final quality-sprint browser checks. It shows the real local application with synthetic sales assumptions, not actual merchant data or live POS events.
 
-This documentation-only change does not modify application code, datasets, taxonomy, responses, prompts, scoring protocols, manifests or existing history. Updating the legacy verifier to understand the archived README would be a separate code change; it is deliberately outside this submission's scope.
+The README submission itself changed only documentation and a screenshot. The subsequent pre-push audit adds the narrow verifier lookup adjustment and updates these notes. Neither change modifies application behavior, datasets, taxonomy, responses, prompts, scoring protocols, manifests or existing history.

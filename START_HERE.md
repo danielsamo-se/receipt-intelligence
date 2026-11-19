@@ -1,6 +1,6 @@
 # Receipt Intelligence
 
-Start with the **[project overview](README.md)** or the **[application guide](app/README.md)**. The original experiment README is preserved byte-for-byte in **[the documentation archive](docs/archive/jev-experiment-readme.md)**; taxonomy, data, caches, timestamps and manifests remain unchanged. See the **[provenance note](docs/PROVENANCE.md)** for the legacy README hash-check exception.
+Start with the **[project overview](README.md)** or the **[application guide](app/README.md)**. The original experiment README is preserved byte-for-byte in **[the documentation archive](docs/archive/jev-experiment-readme.md)**; taxonomy, data, caches, timestamps and manifests remain unchanged. See the **[provenance note](docs/PROVENANCE.md)** for the verifier's explicit archived-README path mapping.
 
 From this project directory, use two PowerShell terminals:
 

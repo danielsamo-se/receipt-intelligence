@@ -11,7 +11,12 @@ manifest=json.loads((folder/'manifest.json').read_text(encoding='utf-8'))
 verified=0
 for field,base in [('source_sha256',ROOT),('frozen_sha256',folder),('protected_existing_sha256',ROOT)]:
     for name,expected in manifest[field].items():
-        assert hashlib.sha256((base/name).read_bytes()).hexdigest()==expected,'Frozen artifact changed: '+name
+        artifact=base/name
+        # The product landing page replaced only this historical document.
+        # Preserve the manifest's original hash; validate its byte-identical archive.
+        if field=='protected_existing_sha256' and name=='README.md':
+            artifact=ROOT/'docs/archive/jev-experiment-readme.md'
+        assert hashlib.sha256(artifact.read_bytes()).hexdigest()==expected,'Frozen artifact changed: '+name
         verified+=1
 records=list(folder.glob('*/calls/*.json'))
 assert len(records)==144
@@ -36,5 +41,6 @@ for name in ('.env','.venv/pyvenv.cfg','app/frontend/node_modules/react/package.
              'app/.local/demo.sqlite3','app/.tools/node-path.txt','app/.artifacts/test.tmp','app/demo-credentials.json'):
     assert subprocess.run(git+['check-ignore','-q','--',name],cwd=ROOT).returncode==0,'Ignore rule missing: '+name
 print(json.dumps({'result':'PASS','frozen_hash_checks':verified,'cached_responses':len(records),
+                  'archived_original_readme':'docs/archive/jev-experiment-readme.md',
                   'tracked_secret_scan':'PASS','built_frontend_secret_scan':'PASS','ignore_rules':'PASS',
                   'api_calls':0,'files_modified':0},indent=2))

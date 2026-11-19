@@ -61,7 +61,7 @@ No pooled headline accuracy is used. The 54 examples are synthetic and not indep
 Stop your existing Receipt Intelligence backend with Ctrl+C in its terminal. From PowerShell:
 
 ```powershell
-Set-Location 'C:\Users\danie\Downloads\jev-experiment-step1'
+# Run from the repository root.
 powershell -NoProfile -ExecutionPolicy Bypass -File .\app\build-frontend.ps1
 powershell -NoProfile -ExecutionPolicy Bypass -File .\app\start-backend.ps1
 ```
@@ -86,3 +86,5 @@ Actual browser checks passed for both primary methods, 30/30 and 24/24 cohorts, 
 Integrity/credential verification checks all **144 follow-up cached responses**, **140 frozen provenance hashes**, tracked sources and the built frontend. No secret is printed. Local test servers are stopped after verification; existing user servers are not stopped automatically.
 
 A CPTO can reasonably challenge the synthetic labels and class balance, lack of independently validated merchant data, raw leaf errors that evade state-based review, absent live-cache fallback, incomplete identifier/variant conflict rules, merchant attestation quality, and local single-worker/single-demo-merchant deployment. The Product Memory comparison has only six existing Jev-cache inputs and scripted oracle confirmations. These remain explicit limits, not reasons to fabricate performance or broaden this sprint.
+
+The subsequent documentation-only submission replaces the landing README and preserves its original bytes in the documentation archive. The historical verifier still expects the original at the root, so its README hash failure is documented separately in [documentation provenance](../docs/PROVENANCE.md); manifests, cached evidence and the quality-sprint results above remain unchanged.

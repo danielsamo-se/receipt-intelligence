@@ -14,15 +14,15 @@ This prototype demonstrates an extension to existing POS normalization and revie
 
 ## Start the application
 
-Run from `C:\Users\danie\Downloads\jev-experiment-step1` in two PowerShell terminals:
+Run from the cloned repository root in two PowerShell terminals:
 
 ```powershell
-Set-Location 'C:\Users\danie\Downloads\jev-experiment-step1'
+# Run from the repository root.
 powershell -NoProfile -ExecutionPolicy Bypass -File .\app\start-backend.ps1
 ```
 
 ```powershell
-Set-Location 'C:\Users\danie\Downloads\jev-experiment-step1'
+# Run from the repository root.
 powershell -NoProfile -ExecutionPolicy Bypass -File .\app\start-frontend.ps1
 ```
 
@@ -41,7 +41,7 @@ The prepared workspace includes Python dependencies, frontend dependencies, and 
 
 ### Fresh dependency setup
 
-Python 3.11+ and a current Node.js LTS release are required for development; this workspace was tested with Python 3.13.3 and Node 26.13.1. Install dependencies once while online:
+The pinned dependencies require Python 3.12+; use Node.js 22.12+ for the locked frontend. This workspace was tested with Python 3.13.3 and Node 26.13.1. Install dependencies once while online:
 
 ```powershell
 py -3 -m venv .venv  # only if .venv does not already exist
@@ -160,7 +160,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\app\start-backend.ps1 -Dat
 
 The browser test uses installed Microsoft Edge in a fresh headless context. It executes One-shot → Two-stage → inspect → persistent correction → reload → undo, checks six actual WebSocket frames, resets without double counting, tests a blocked-socket REST fallback and a 390px viewport. It also verifies 30/30 and 24/24 paired inputs, and that the naive baseline is inspectable only from technical evaluation without changing the merchant method. Product Memory has its own confirm → reuse → reverse browser check. Public-internet browser requests are blocked. Screenshots are saved under ignored `app/.artifacts/screenshots/`. No test runs a Jev request.
 
-`verify_integrity.py` checks the frozen follow-up and prior-artifact hashes, the 144 response caches, both experiment reports, tracked/built files for secrets and all required Git exclusions. The original root README and `.gitignore` remain unchanged to preserve their provenance hashes; product-only exclusions live in `app/.gitignore`.
+`verify_integrity.py` checks the frozen follow-up and prior-artifact hashes, the 144 response caches, both experiment reports, tracked/built files for secrets and all required Git exclusions. After the documentation submission, the unchanged legacy command flags the intentional new root README: its byte-identical predecessor is now archived. See the [provenance note](../docs/PROVENANCE.md) for the preserved original hash and separate evidence verification. The original `.gitignore` and all frozen evidence remain unchanged; product-only exclusions live in `app/.gitignore`.
 
 ## Deliberate limits
 

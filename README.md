@@ -1,108 +1,113 @@
-# Jev receipt classification: taxonomy and dataset v2.0
+# Receipt Intelligence
 
-Status: taxonomy v2 approved by the user for the fixed six-line diagnostic. That diagnostic is complete: 16 successful API requests for IDs 01, 02, 03, 08, 24 and 29 only. The original single successful call remains isolated under v1.0.
+**Category analytics from imperfect POS descriptions, with visible uncertainty and auditable merchant knowledge.**
 
-## Current files
+A local B2B prototype for an anybill Tech & AI Product Internship case study. It connects real cached Jev classifications to a merchant-facing review workflow, persistent Product Memory and explainable reporting.
 
-- taxonomy.yaml: 10 retail parents (9 merchandise, 1 receipt-adjustment), 27 leaves, 2 top-level decision-only options, and a separate unspecified_child child option. Approval is recorded as review_status: approved.
-- data/lines.csv: exactly 30 synthetic, manually reviewable lines: 22 leaf-supported, 4 parent-only, 3 insufficient-information, 1 identifiable out-of-scope.
-- test_jev.py: retained single-receipt tester; not invoked by the diagnostic.
-- diagnostic_jev.py: fixed six-line FLAT/TOPDOWN diagnostic, with exact-request caching, no automatic retries, no thresholds and no arbitrary receipt selection.
-- results/taxonomy-v2/diagnostic-six/: all 16 request/response cache records, an input/protocol manifest, comparison.json, comparison.md and summary.json.
+**Synthetic demonstration data only. No real anybill merchant data, production POS integration or connection to anybill infrastructure was used.**
 
-All essential category boundaries are in the parent/leaf descriptions in taxonomy.yaml. The tester sends the full parent descriptions, including exclusions, rather than a separate notes list. Ground-truth labels and review notes never belong in model input; use only raw_text, price (signed EUR line total), and merchant_type.
+## The problem
 
-## What changed
+Purchase Intelligence depends on consistent product information, but POS descriptions can be abbreviated, incomplete or misleading. `HARIBO SAURE POMMES` is confectionery; `POMMES FRITES TK` is a prepared potato product. `MOLKEREI ART` supports a dairy parent without identifying a particular product.
 
-The former pantry parent was split into confectionery_snacks, prepared_food and cooking_ingredients. Parent-level output now distinguishes snack purchases, meals/side dishes and cooking ingredients. HARIBO SAURE POMMES and POMMES FRITES TK therefore have different parents.
+Forcing every line into a precise category can hide errors in sales reports. This prototype retains useful parent-level information, exposes abstention and lets merchants correct decisions or reuse confirmed product knowledge. It demonstrates an extension to normalization and review workflows, not a replacement for production infrastructure.
 
-Three merchandise parents have at least three potentially confusable leaves: confectionery_snacks (3), dairy_eggs (4), and beverages (5). Each also has at least three represented leaves in this sample. The adjustment parent has three separately defined leaves as well.
+## Dashboard
 
-Rows 09, 15 and 19 replace easy examples with vegetable lasagne, a savory snack and an electronic cable. WMF PF 24CM now uses supermarket context. All four parent-only rows (24-27) and all three insufficient-information rows (08, 28, 29) are preserved unchanged.
+![Receipt Intelligence dashboard with hierarchical method comparison, three synthetic sales metrics, a category chart and a policy-specific review queue](docs/assets/dashboard.png)
 
-## Decision-only options and ground truth
+Captured from the verified local application in Two-stage Hierarchical mode. All amounts derive from stored synthetic occurrence assumptions; category assignment is not a claim of verified model accuracy.
 
-The two top-level options are not taxonomy parents or leaves and do not count as product classifications. Their descriptions explicitly distinguish parent-level versus leaf-level uncertainty:
+## Key functionality
 
-- unidentifiable: explicit abstention. At TOPDOWN parent level, no parent is justified. In FLAT, no specific leaf is justified; this includes parent-only evidence because FLAT has no parent-only output. These stage-specific descriptions are saved with each actual request. Do not assume Jev will choose the option reliably.
-- out_of_scope: an identifiable item or adjustment with no supported parent. This is a scope rejection, not an abstention or a successful product classification. USB-C KABEL 1M is the single labeled example; its electronic identity is known, unlike ART 004711.
+- **One-shot vs Two-stage Hierarchical:** replay frozen experiment D and TOPDOWN decisions over the same paired inputs.
+- **Explicit uncertainty:** distinguish specific leaves, parent-only classifications, abstention, outside-scope routing and unavailable offline evidence.
+- **Merchant Product Memory:** reuse guarded, merchant/POS-scoped identifiers and exact confirmed aliases.
+- **Hybrid retrieval:** lexical matching and local multilingual embeddings suggest catalog candidates; similarity never establishes identity automatically.
+- **Review and audit:** inspect cached distributions and hashes, confirm/reject suggested products, reverse alias mappings, or apply/undo exact-line category corrections.
+- **Operational analytics:** one category visualization, three specificity metrics and a selected-method review queue ranked by synthetic sales impact. Deposits and discounts stay separate from product-category revenue.
+- **Controlled replay:** real WebSocket notifications deliver simulated receipt events backed by cached classifications; REST remains authoritative and provides a fallback.
 
-TOPDOWN child questions have a separate unspecified_child option. It retains the selected parent without asserting a child; it is not top-level unidentifiable and is not an overall abstention. On parent-only ground truth it can produce a correct parent decision; on insufficient-information ground truth the retained parent is still unsupported. Child calls run only after an actual parent is selected.
+## Architecture and decision cascade
 
-CSV ground-truth encoding:
+React + TypeScript + Vite communicate with FastAPI through REST and WebSockets. SQLite stores merchant feedback, product aliases and replay state. The frozen experiment files remain immutable evidence.
 
-- parent.leaf: that leaf is supported; its parent is also supported. This does not assert an exact SKU.
-- PARENT_ONLY:parent: the parent is supported; no particular child is justified.
-- INSUFFICIENT_INFORMATION: no category or known exclusion is justified.
-- OUT_OF_SCOPE: identifiable item outside every supported parent.
+For each receipt line:
 
-## Evaluation rules for the later approved experiment
+1. Apply an active **merchant correction for that exact receipt line**.
+2. Otherwise reuse an applicable **confirmed merchant/POS identifier or exact alias**, subject to conflict checks.
+3. Otherwise retrieve **untrusted catalog suggestions** and use the selected cached Jev method when an identical input exists. Without a cache, show **Needs verification**; no live model call is made.
 
-Keep the following outcomes separate; do not award partial leaf credit:
+The Inspector exposes **Receipt input → Product Memory → Jev assessment → Policy → Final outcome**. Confirmations persist across reloads and retain provenance and reversal history. Retrieved candidates are not sent to Jev; this is product retrieval and mapping reuse, not RAG.
 
-| Ground truth | Decision | Outcome |
-| --- | --- | --- |
-| Known leaf | Exact leaf | correct_leaf: correct specific classification |
-| Known leaf | Its parent | correct_parent: correct, less specific classification |
-| Known leaf | Another leaf or parent | wrong_category |
-| Parent only | Exact supported parent | correct_parent |
-| Parent only | A child of that parent | overclaim, even if plausible; never correct_leaf |
-| Parent only | A category outside that parent | wrong_category |
-| Insufficient information | Any taxonomy parent or leaf, including adjustments | wrong_category |
-| Insufficient information | out_of_scope | wrong_scope_rejection: unjustified assertion of known exclusion |
-| Out of scope | out_of_scope | correct_scope_rejection; never a correct product classification |
-| Out of scope | Any taxonomy parent or leaf | wrong_category |
-| Any supported case | out_of_scope | wrong_scope_rejection |
-| Any case | unidentifiable or threshold-based abstention | abstention; never a correct product classification |
+## Frozen experimental findings
 
-Report these quantities independently, with explicit denominators:
+The evidence comprises **30 original and 24 additional synthetic German receipt lines**, taxonomy v2 with **10 parents and 27 leaves**, and real cached `typesafe/jev-1.14` responses collected through OpenRouter. The application makes no new Jev requests.
 
-- Counts: correct_leaf, correct_parent, wrong_category, overclaim, correct_scope_rejection, wrong_scope_rejection, and abstention. Split merchandise and receipt adjustments where relevant. Distinguish explicit unidentifiable from threshold-based abstention.
-- Taxonomy automation coverage: number of committed taxonomy parent/leaf decisions divided by all 30 lines. Include erroneous commits and overclaims in coverage. Exclude both decision-only options. Report scope-rejection coverage separately rather than hiding it in product automation.
-- Classification accuracy: (correct_leaf + correct_parent) / all committed taxonomy parent/leaf decisions. Overclaims and wrong-category decisions stay in the denominator and are not correct. The classification error rate is (wrong_category + overclaim) / that same denominator.
-- Scope routing: report correct and wrong scope rejections separately. A separate overall non-abstaining decision error rate is (wrong_category + overclaim + wrong_scope_rejection) / (taxonomy commitments + scope rejections). Label this distinctly from classification accuracy.
-- Specificity: report numbers of leaf and parent commitments, correct leaf and correct parent decisions, and overclaims. Leaf-commit share is leaf commitments / all taxonomy commitments; it is not accuracy. Include wrong and overclaim leaf commitments in this specificity measure rather than making a system appear less specific by dropping its mistakes.
-- Insufficient-information safety check: report false taxonomy commitments out of the 3 insufficient-information lines, and unjustified out_of_scope selections separately. An abstention on one of these lines is appropriate behavior, but is still not a correct product classification.
-- If a denominator is zero, report the metric as undefined rather than zero or 100%.
+Both primary methods retain the frozen follow-up's **raw selected choices without thresholds**. D chooses among 27 leaves, 10 parent-only actions and two special options in one question. TOPDOWN first selects a parent, then a conditional child or `unspecified_child`. Wording, prompt lengths and score meanings differ; this is not a controlled topology-only comparison.
 
-No threshold sweep, model calibration claim, or performance estimate is justified by this data preparation. Confidence is not assumed to be the probability of correctness on receipts.
+| Matched synthetic set | Method | Correct leaf | Correct parent | Category errors¹ | Abstentions | Scope correct / wrong | Category coverage |
+|---|---|---:|---:|---:|---:|---:|---:|
+| Original 30/30 | One-shot D | 19 | 4 | 1 | 5 | 1 / 0 | 24/30 |
+| Original 30/30 | Two-stage TOPDOWN | 17 | 4 | 0 | 8 | 1 / 0 | 21/30 |
+| Additional 24/24 | One-shot D | 12 | 1 | 2 | 6 | 2 / 1 | 15/24 |
+| Additional 24/24 | Two-stage TOPDOWN | 11 | 3 | 1 | 7 | 2 / 0 | 15/24 |
 
-## History and version separation
+¹ Includes overclaiming a specific child on a parent-only label. Scope errors are separate. Abstention is not a classification success; correct parents are not correct leaves. Category counts include receipt adjustments, whose value is excluded from product sales analytics. Unavailable pairs are excluded from both methods, never scored as errors or abstentions.
 
-Original artifacts are retained without byte changes:
+D was faster and TOPDOWN cheaper in the recorded runs, but original TOPDOWN timing is historical and D uses a longer prompt. Neither method is established as universally superior. Model scores are not calibrated correctness probabilities. The old **Naive Forced Baseline** and **SAFE 0.85 heuristic** are preserved in technical evaluation, not offered as merchant operating modes.
 
-- history/taxonomy-v1/taxonomy.yaml
-- history/taxonomy-v1/data/lines.csv
-- history/taxonomy-v1/README.md
-- history/taxonomy-v1/test_jev.py
-- results/taxonomy-v1/first_jev_response.json
-- results/taxonomy-v1/first_jev_metadata.json
+See the [frozen findings](results/taxonomy-v2/followup-D-vs-TOPDOWN/findings.md) and [methodology, costs and limitations](app/PRODUCT_QUALITY.md). Operational merchant feedback does not alter these evaluation results.
 
-results/taxonomy-v1/manifest.json assigns the original call to taxonomy/dataset v1.0 retrospectively, records artifact SHA256 hashes, and marks it historical-only and excluded from revised-taxonomy results. The original metadata's stored request and input hashes remain unchanged. There is no current unversioned result to reuse. The six-line v2 diagnostic is stored separately under results/taxonomy-v2/diagnostic-six/ with version fields and input hashes; it does not reuse v1 probabilities.
+## Install and run
 
-The user approved taxonomy v2 and this six-line diagnostic. The status has been updated accordingly; this does not authorize other experiments. History snapshots are provenance, not instructions to run an old script.
+Requirements: **Python 3.12+** for the pinned dependencies and **Node.js 22.12+** with npm. The prepared workspace was verified with Python 3.13.3 and Node 26.13.1. Run these PowerShell commands from the repository root; create the virtual environment only on first setup:
 
-## Remaining ambiguity and pilot limits
+```powershell
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r app/backend/requirements-dev.txt
+Push-Location app/frontend
+npm ci
+Pop-Location
+```
 
-- BIO ZITR 500G supports fruit, but not a particular citrus species or exact product.
-- WMF PF 24CM supports kitchenware without resolving pan versus pot; supermarket context cannot resolve that abbreviation.
-- KOKOSMILCH 400ML uses the conventional culinary interpretation. The label remains proposed: merchant article evidence identifying a drinking product would move it to beverages.plant_drinks. The item text alone cannot establish brand, package or formulation.
-- A household-wares department label supports household without identifying kitchenware versus cleaning supplies; unsupported finer detail must remain unknown.
-- Five leaves have no leaf-labeled example: produce.vegetables, grains.dry_staples, dairy_eggs.eggs, cooking_ingredients.oils_fats and beverages.alcoholic. They keep the taxonomy meaningful without expanding this 30-line pilot; their performance cannot be assessed here.
-- One out-of-scope example can check technical behavior, not estimate reliable open-set detection. Likewise, 30 lines cannot establish calibration or production accuracy.
+Prepare the optional local semantic encoder once, while online (approximately 135 MB, pinned files and SHA-256 checks):
 
-The requested six-line diagnostic is complete. Stop here; no additional receipt calls, UI or full A/B/C threshold evaluation is authorized by this diagnostic run.
+```powershell
+.\.venv\Scripts\python.exe -B app/tools/prepare_embeddings.py
+```
 
-## Observed six-line diagnostic
+Without those files, the UI explicitly falls back to lexical-only suggestions. The actual cached Jev responses do not require credentials. Never commit `.env`.
 
-Both methods returned correct leaves for 01, 02 and 03, and abstained on insufficient-information rows 08 and 29. For parent-only row 24, FLAT abstained while TOPDOWN selected dairy_eggs followed by unspecified_child, retaining a correct parent decision. There were no overclaims or unsupported decisions in these six cases. Abstentions are not counted as correct product classifications.
+Build and start the single-process offline demo:
 
-FLAT used 6 requests; TOPDOWN used 6 parent and 4 child requests, skipping child calls after unidentifiable. All 16 returned HTTP 200 from typesafe/jev-1.14-20261014. Every request returned a full distribution over its actual options and a confidence value. The cache preserves all returned response fields, including usage and cost, and measured request latency. No missing probabilities or confidence values were inferred.
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File app/build-frontend.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File app/start-backend.ps1
+```
 
-TOPDOWN child probabilities are separately returned conditional scores for the selected parent. No joint probability was derived, and these scores are not assumed comparable to FLAT probabilities. This run uses raw choices without confidence/probability thresholds.
+Open **http://127.0.0.1:8000**; API docs are at **http://127.0.0.1:8000/docs**. Stop with Ctrl+C. For frontend development, start `app/start-frontend.ps1` in another terminal and open port **5173**. Dependency/model preparation needs internet; the prepared demo runs offline.
 
-Reported costs: FLAT 0.000745374 OpenRouter credits; TOPDOWN 0.0004095; total 0.001154874. Input/output tokens: 27,497/3,613 total. Sum of measured request latencies: 4.697 seconds (FLAT 2.038; TOPDOWN 2.659), excluding local setup and report generation. These are observations from a single small run, not reliable cost, latency, calibration or accuracy estimates.
+## Synthetic data and limitations
 
-## Frozen 30-line pilot extension
+The 54 descriptions and proposed labels are assistant-authored synthetic development examples checked into the repository, not sampled merchant transactions or independent human-validated ground truth. Ambiguous lines retain parent-only or insufficient-information labels. No data-generation model calls are needed to run the application.
 
-The user subsequently authorized the remaining 24 lines and an offline A/B/C1/C2 comparison. That extension is complete. Taxonomy, descriptions, existing prompts, dataset and decision policies were frozen before those calls and verified unchanged. See results/taxonomy-v2/pilot-30/findings.md for the concise report, comparison_report.md for all threshold tables, and freeze_manifest.json for hashes and protocol provenance. The earlier six-line diagnostic artifacts and v1 results remain unchanged. No additional calls are authorized by this completed run.
+Weekly quantities are a separate stored ledger generated with seed **20261118**, without evaluation labels; all money uses integer cents. [The generator](app/tools/create_sales_assumptions.py) refuses to overwrite an existing ledger. The fictional merchant catalog and Product Memory review scenarios are separate synthetic demonstrations. Their earlier evaluation uses scripted oracle confirmations and historical SAFE at 0.85; it is not observed merchant acceptance, new Jev inference or measured production savings.
+
+This small exploratory sample establishes neither production accuracy nor calibration or statistical significance. Raw leaf mistakes can escape the state-based review queue. Identity conflict rules are incomplete, merchant attestations can be wrong, and the application is a local single-worker prototype without authentication or live POS integration.
+
+## Tests and verification
+
+The quality sprint passed **49 backend tests**, TypeScript/Vite production build and both browser workflows: corrections/persistence/undo, Product Memory confirm/reuse/reverse, WebSocket replay, deduplication and REST fallback. Use a fresh project-local test directory:
+
+```powershell
+.\.venv\Scripts\python.exe -B -m pytest app/backend/tests -q -p no:cacheprovider --basetemp=app/.artifacts/submission-tests-01
+```
+
+Runtime databases, downloaded models, dependencies and test artifacts are ignored. The [original experiment README](docs/archive/jev-experiment-readme.md) is preserved byte-for-byte. Frozen evidence and its real timestamps remain unchanged; the legacy integrity checker still expects that README at the root and flags this intentional landing-page replacement. See the [provenance note](docs/PROVENANCE.md) for the exact hash and verification boundary.
+
+## Further reading
+
+- [Application setup, architecture and verification](app/README.md)
+- [Product Memory, embeddings and synthetic evaluation](app/PRODUCT_MEMORY.md)
+- [Method safeguards, actual results and the 2–3 minute demo](app/PRODUCT_QUALITY.md)

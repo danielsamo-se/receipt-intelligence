@@ -1,6 +1,6 @@
 # Receipt Intelligence
 
-The merchant-facing prototype is in **[app/](app/README.md)**. The original experiment README, taxonomy, data, caches and provenance are preserved unchanged.
+Start with the **[project overview](README.md)** or the **[application guide](app/README.md)**. The original experiment README is preserved byte-for-byte in **[the documentation archive](docs/archive/jev-experiment-readme.md)**; taxonomy, data, caches, timestamps and manifests remain unchanged. See the **[provenance note](docs/PROVENANCE.md)** for the legacy README hash-check exception.
 
 From this project directory, use two PowerShell terminals:
 

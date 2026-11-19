@@ -52,7 +52,7 @@ Lexical retrieval combines character trigrams and token overlap. Ranking uses fi
 Runtime never downloads models or calls Hugging Face. If local embedding assets are missing, the Inspector explicitly reports lexical-only retrieval and the cached model/review fallback remains available. For a fresh machine, install the pinned runtime dependencies, then explicitly download and verify approximately 135 MB once:
 
 ```powershell
-Set-Location 'C:\Users\danie\Downloads\jev-experiment-step1'
+# Run from the repository root.
 .\.venv\Scripts\python.exe -m pip install -r app/backend/requirements-dev.txt
 .\.venv\Scripts\python.exe -B app/tools/prepare_embeddings.py
 ```
@@ -100,3 +100,5 @@ powershell -NoProfile -ExecutionPolicy Bypass -File app/start-backend.ps1 -Port 
 ```
 
 Use a fresh test directory/database for independent runs. Browser confirmation is reversed before completion. There is no catalog administration UI, live model fallback, distributed index, authentication, new analytics panel or automatic fuzzy correction propagation.
+
+Documentation submission note: the original root README is now archived byte-for-byte. The unchanged legacy integrity command above flags the new landing page's README hash; all frozen experiment evidence remains intact. See [documentation provenance](../docs/PROVENANCE.md).
